@@ -1,431 +1,435 @@
 import tkinter as tk
-from tkinter import ttk, scrolledtext, filedialog, messagebox
+from tkinter import ttk, scrolledtext, messagebox, filedialog
 import serial
 import serial.tools.list_ports
-import threading
-import time
 from datetime import datetime
 import os
+import json
 
 
-class ArduinoSerialGUI:
+class PumpMonitorGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Arduino Pump Monitor")
-        self.root.geometry("1000x850")
+        self.root.geometry("1000x900")
 
-        self.serial_port = None
+        self.serial_connection = None
         self.is_connected = False
-        self.reading_thread = None
 
-        # Trigger counter
-        self.trigger_count = 0
-        self.trigger_count_var = tk.StringVar(value="0")
+        # Pump constants
+        self.MM_PER_STEP = 0.04
+        self.ML_PER_MM = 0.20
+        self.UL_PER_STEP = self.MM_PER_STEP * self.ML_PER_MM * 1000  # Convert to µL
+        self.MAX_TRAVEL_MM = 40.0
 
-        # Pump statistics and parameters
+        # State file path
+        self.state_dir = os.path.join(os.path.expanduser("~"), "PumpMonitorLogs")
+        os.makedirs(self.state_dir, exist_ok=True)
+        self.state_file = os.path.join(self.state_dir, "pump_state.json")
+
+        # Statistics tracking
+        self.total_triggers = 0
         self.pump_stats = {
             1: {
                 "triggers": 0,
                 "total_units": 0,
-                "desired_unit_size": tk.StringVar(value="10.0"),  # ul
-                "delivered_unit_size": tk.StringVar(value="0.0"),  # ul (calculated)
-                "total_delivered": tk.StringVar(value="0.0")  # ul
+                "desired_unit_size": tk.StringVar(value="10.0"),
+                "delivered_unit_size": tk.StringVar(value="0.0"),
+                "total_delivered": tk.StringVar(value="0.0"),
+                "position_mm": 0.0,  # Current plunger position
+                "direction": 1  # 1 = forward (0->40), -1 = reverse (40->0)
             },
             2: {
                 "triggers": 0,
                 "total_units": 0,
                 "desired_unit_size": tk.StringVar(value="10.0"),
                 "delivered_unit_size": tk.StringVar(value="0.0"),
-                "total_delivered": tk.StringVar(value="0.0")
+                "total_delivered": tk.StringVar(value="0.0"),
+                "position_mm": 0.0,
+                "direction": 1
             },
             3: {
                 "triggers": 0,
                 "total_units": 0,
                 "desired_unit_size": tk.StringVar(value="10.0"),
                 "delivered_unit_size": tk.StringVar(value="0.0"),
-                "total_delivered": tk.StringVar(value="0.0")
+                "total_delivered": tk.StringVar(value="0.0"),
+                "position_mm": 0.0,
+                "direction": 1
             }
         }
 
-        # Current decoded values
-        self.current_magnitude = tk.StringVar(value="--")
-        self.current_pump = tk.StringVar(value="None")
-        self.current_binary = tk.StringVar(value="----")
+        self.pump_colors = {1: "#4444FF", 2: "#44AA44", 3: "#AA44AA"}
 
-        # Auto-save directory
-        self.log_directory = os.path.join(os.path.expanduser("~"), "PumpMonitorLogs")
-        os.makedirs(self.log_directory, exist_ok=True)
+        # Load state before creating widgets
+        self.load_state()
 
         self.create_widgets()
-        self.refresh_ports()
+        self.update_all_pump_calculations()
+        self.update_all_position_displays()
+
+    def load_state(self):
+        """Load pump positions and directions from state file"""
+        if os.path.exists(self.state_file):
+            try:
+                with open(self.state_file, 'r') as f:
+                    state = json.load(f)
+
+                for pump_num in [1, 2, 3]:
+                    pump_key = str(pump_num)
+                    if pump_key in state:
+                        self.pump_stats[pump_num]["position_mm"] = state[pump_key].get("position_mm", 0.0)
+                        self.pump_stats[pump_num]["direction"] = state[pump_key].get("direction", 1)
+
+                        # Load desired unit size if available
+                        if "desired_unit_size" in state[pump_key]:
+                            self.pump_stats[pump_num]["desired_unit_size"].set(
+                                str(state[pump_key]["desired_unit_size"]))
+
+                print(f"State loaded from {self.state_file}")
+            except Exception as e:
+                print(f"Error loading state file: {e}")
+                # Continue with default values
+        else:
+            print(f"No state file found, using defaults")
+
+    def save_state(self):
+        """Save pump positions and directions to state file"""
+        try:
+            state = {}
+            for pump_num in [1, 2, 3]:
+                stats = self.pump_stats[pump_num]
+                state[str(pump_num)] = {
+                    "position_mm": stats["position_mm"],
+                    "direction": stats["direction"],
+                    "desired_unit_size": stats["desired_unit_size"].get()
+                }
+
+            with open(self.state_file, 'w') as f:
+                json.dump(state, f, indent=2)
+
+            print(f"State saved to {self.state_file}")
+        except Exception as e:
+            print(f"Error saving state file: {e}")
+
+    def update_all_position_displays(self):
+        """Update all position displays from current state"""
+        for pump_num in [1, 2, 3]:
+            stats = self.pump_stats[pump_num]
+            if "position_label" in stats:  # Check if widgets exist
+                stats["position_label"].config(text=f"{stats['position_mm']:.2f}")
+                direction_text = "→" if stats["direction"] == 1 else "←"
+                stats["direction_label"].config(text=direction_text)
+                progress_percent = (stats["position_mm"] / self.MAX_TRAVEL_MM) * 100
+                stats["position_bar"]["value"] = progress_percent
+
+    def calculate_discrete_volume(self, desired_ul):
+        """Calculate smallest discrete volume >= desired volume"""
+        try:
+            desired = float(desired_ul)
+            if desired <= 0:
+                return 0.0
+
+            # Calculate minimum number of steps needed
+            steps_needed = desired / self.UL_PER_STEP
+            steps_actual = int(steps_needed) if steps_needed == int(steps_needed) else int(steps_needed) + 1
+
+            # Calculate actual delivered volume
+            delivered = steps_actual * self.UL_PER_STEP
+            return round(delivered, 3)
+        except ValueError:
+            return 0.0
+
+    def update_plunger_position(self, pump_num, units):
+        """Update plunger position based on delivered units"""
+        stats = self.pump_stats[pump_num]
+
+        # Calculate distance traveled for this trigger
+        delivered_ul = float(stats["delivered_unit_size"].get())
+        distance_mm = (delivered_ul / 1000) / self.ML_PER_MM  # Convert µL to mm
+
+        # Update position based on direction
+        new_position = stats["position_mm"] + (distance_mm * stats["direction"])
+
+        # Check if we need to reverse direction
+        if new_position >= self.MAX_TRAVEL_MM:
+            stats["direction"] = -1
+            new_position = self.MAX_TRAVEL_MM - (new_position - self.MAX_TRAVEL_MM)
+            self.log_message(f"Pump {pump_num} reversed direction at {self.MAX_TRAVEL_MM} mm (now moving backward)",
+                             f"pump{pump_num}")
+        elif new_position <= 0:
+            stats["direction"] = 1
+            new_position = abs(new_position)
+            self.log_message(f"Pump {pump_num} reversed direction at 0 mm (now moving forward)", f"pump{pump_num}")
+
+        stats["position_mm"] = new_position
+
+        # Update display
+        stats["position_label"].config(text=f"{new_position:.2f}")
+        direction_text = "→" if stats["direction"] == 1 else "←"
+        stats["direction_label"].config(text=direction_text)
+
+        # Update progress bar
+        progress_percent = (new_position / self.MAX_TRAVEL_MM) * 100
+        stats["position_bar"]["value"] = progress_percent
+
+        # Save state after position update
+        self.save_state()
+
+    def reset_plunger_position(self, pump_num):
+        """Reset plunger to home position"""
+        stats = self.pump_stats[pump_num]
+        stats["position_mm"] = 0.0
+        stats["direction"] = 1
+        stats["position_label"].config(text="0.00")
+        stats["direction_label"].config(text="→")
+        stats["position_bar"]["value"] = 0
+        self.log_message(f"Pump {pump_num} plunger reset to home position", f"pump{pump_num}")
+        self.save_state()
+
+    def update_pump_calculation(self, pump_num):
+        """Update delivered and total for a specific pump"""
+        stats = self.pump_stats[pump_num]
+        desired_str = stats["desired_unit_size"].get()
+
+        delivered = self.calculate_discrete_volume(desired_str)
+        stats["delivered_unit_size"].set(f"{delivered:.3f}")
+
+        total = delivered * stats["total_units"]
+        stats["total_delivered"].set(f"{total:.3f}")
+
+        # Save state when desired unit size changes
+        self.save_state()
+
+    def update_all_pump_calculations(self):
+        """Update all pump calculations"""
+        for pump_num in [1, 2, 3]:
+            self.update_pump_calculation(pump_num)
+
+    def on_desired_change(self, pump_num, event=None):
+        """Called when desired unit size changes"""
+        self.update_pump_calculation(pump_num)
+        return True
 
     def create_widgets(self):
         # Connection Frame
-        conn_frame = ttk.LabelFrame(self.root, text="Connection", padding=10)
+        conn_frame = tk.LabelFrame(self.root, text="Connection", padx=10, pady=10)
         conn_frame.pack(fill="x", padx=10, pady=5)
 
-        # Port selection
-        ttk.Label(conn_frame, text="Port:").grid(row=0, column=0, padx=5)
-        self.port_combo = ttk.Combobox(conn_frame, width=15, state="readonly")
+        tk.Label(conn_frame, text="Port:").grid(row=0, column=0, sticky="w")
+        self.port_combo = ttk.Combobox(conn_frame, width=15)
         self.port_combo.grid(row=0, column=1, padx=5)
+        self.refresh_ports()
 
-        # Baud rate
-        ttk.Label(conn_frame, text="Baud Rate:").grid(row=0, column=2, padx=5)
-        self.baud_combo = ttk.Combobox(conn_frame, width=10, state="readonly")
-        self.baud_combo['values'] = (9600, 19200, 38400, 57600, 115200)
-        self.baud_combo.current(0)
-        self.baud_combo.grid(row=0, column=3, padx=5)
+        tk.Button(conn_frame, text="Refresh", command=self.refresh_ports).grid(row=0, column=2, padx=5)
 
-        # Buttons
-        self.refresh_btn = ttk.Button(conn_frame, text="Refresh", command=self.refresh_ports)
-        self.refresh_btn.grid(row=0, column=4, padx=5)
+        tk.Label(conn_frame, text="Baud:").grid(row=0, column=3, padx=(20, 0))
+        self.baud_combo = ttk.Combobox(conn_frame, width=10, values=["9600", "115200"])
+        self.baud_combo.set("9600")
+        self.baud_combo.grid(row=0, column=4, padx=5)
 
-        self.connect_btn = ttk.Button(conn_frame, text="Connect", command=self.toggle_connection)
-        self.connect_btn.grid(row=0, column=5, padx=5)
+        self.connect_btn = tk.Button(conn_frame, text="Connect", command=self.toggle_connection, bg="lightgreen")
+        self.connect_btn.grid(row=0, column=5, padx=10)
 
-        # Status label
-        self.status_label = ttk.Label(conn_frame, text="Disconnected", foreground="red")
-        self.status_label.grid(row=0, column=6, padx=10)
+        # Status Frame
+        status_frame = tk.LabelFrame(self.root, text="Current Status", padx=10, pady=10)
+        status_frame.pack(fill="x", padx=10, pady=5)
 
-        # Decoded Information Frame
-        decoded_frame = ttk.LabelFrame(self.root, text="Current Pump Command", padding=15)
-        decoded_frame.pack(fill="x", padx=10, pady=10)
+        tk.Label(status_frame, text="Binary Code:").grid(row=0, column=0, sticky="w")
+        self.binary_label = tk.Label(status_frame, text="- - - - - - -", font=("Courier", 14), fg="blue")
+        self.binary_label.grid(row=0, column=1, padx=10, sticky="w")
 
-        # Magnitude display
-        mag_container = ttk.Frame(decoded_frame)
-        mag_container.pack(side="left", padx=30, expand=True)
+        tk.Label(status_frame, text="Magnitude:").grid(row=1, column=0, sticky="w")
+        self.magnitude_label = tk.Label(status_frame, text="--", font=("Arial", 14, "bold"))
+        self.magnitude_label.grid(row=1, column=1, padx=10, sticky="w")
 
-        ttk.Label(mag_container, text="Magnitude:",
-                  font=("Arial", 12, "bold")).pack()
-        magnitude_label = tk.Label(mag_container,
-                                   textvariable=self.current_magnitude,
-                                   font=("Arial", 36, "bold"),
-                                   fg="blue",
-                                   width=4,
-                                   relief="sunken",
-                                   borderwidth=3)
-        magnitude_label.pack()
-        ttk.Label(mag_container, text="units",
-                  font=("Arial", 10)).pack()
+        tk.Label(status_frame, text="Active Pump:").grid(row=2, column=0, sticky="w")
+        self.pump_label = tk.Label(status_frame, text="--", font=("Arial", 14, "bold"))
+        self.pump_label.grid(row=2, column=1, padx=10, sticky="w")
 
-        # Binary display
-        binary_container = ttk.Frame(decoded_frame)
-        binary_container.pack(side="left", padx=30, expand=True)
+        # Trigger indicator
+        self.trigger_led = tk.Label(status_frame, text="●", font=("Arial", 24), fg="red")
+        self.trigger_led.grid(row=0, column=2, rowspan=3, padx=20)
 
-        ttk.Label(binary_container, text="Binary Code:",
-                  font=("Arial", 12, "bold")).pack()
-        binary_label = tk.Label(binary_container,
-                                textvariable=self.current_binary,
-                                font=("Courier", 24, "bold"),
-                                fg="navy",
-                                relief="sunken",
-                                borderwidth=3)
-        binary_label.pack()
-        ttk.Label(binary_container, text="(Pins 2-5)",
-                  font=("Arial", 10)).pack()
+        # Total triggers
+        tk.Label(status_frame, text="Total Triggers:").grid(row=0, column=3, sticky="w", padx=(20, 0))
+        self.total_trigger_label = tk.Label(status_frame, text="0", font=("Arial", 14, "bold"))
+        self.total_trigger_label.grid(row=0, column=4, padx=5, sticky="w")
+        tk.Button(status_frame, text="Reset Stats", command=self.reset_fluid_stats).grid(row=0, column=5, padx=5)
 
-        # Pump display
-        pump_container = ttk.Frame(decoded_frame)
-        pump_container.pack(side="left", padx=30, expand=True)
+        # Pump Statistics Frame (Table Format)
+        stats_frame = tk.LabelFrame(self.root, text="Pump Statistics", padx=10, pady=10)
+        stats_frame.pack(fill="both", expand=True, padx=10, pady=5)
 
-        ttk.Label(pump_container, text="Active Pump:",
-                  font=("Arial", 12, "bold")).pack()
-        self.pump_label = tk.Label(pump_container,
-                                   textvariable=self.current_pump,
-                                   font=("Arial", 36, "bold"),
-                                   fg="green",
-                                   width=8,
-                                   relief="sunken",
-                                   borderwidth=3)
-        self.pump_label.pack()
+        # Headers
+        headers = ["Pump", "Triggers", "Total Units", "Avg Units", "Desired Unit (µL)", "Delivered Unit (µL)",
+                   "Total Delivered (µL)"]
+        for col, header in enumerate(headers):
+            tk.Label(stats_frame, text=header, font=("Arial", 10, "bold")).grid(row=0, column=col, padx=5, pady=5,
+                                                                                sticky="w")
 
-        # Pump Statistics Frame - EXPANDED
-        stats_frame = ttk.LabelFrame(self.root, text="Pump Statistics & Parameters", padding=20)
-        stats_frame.pack(fill="both", expand=True, padx=10, pady=10)
+        # Pump rows
+        for pump_num in [1, 2, 3]:
+            row = pump_num
+            color = self.pump_colors[pump_num]
+            stats = self.pump_stats[pump_num]
 
-        # Create statistics display for each pump
-        self.pump_stat_labels = {}
+            # Pump number
+            tk.Label(stats_frame, text=f"Pump {pump_num}", fg=color, font=("Arial", 10, "bold")).grid(row=row, column=0,
+                                                                                                      padx=5, pady=2,
+                                                                                                      sticky="w")
 
-        # Header row
-        header_frame = ttk.Frame(stats_frame)
-        header_frame.pack(fill="x", pady=(0, 10))
+            # Triggers
+            label = tk.Label(stats_frame, text="0", font=("Arial", 10))
+            label.grid(row=row, column=1, padx=5, pady=2, sticky="w")
+            stats["triggers_label"] = label
 
-        ttk.Label(header_frame, text="", width=20).grid(row=0, column=0)
-        ttk.Label(header_frame, text="Pump 1", font=("Arial", 14, "bold"),
-                  foreground="blue", width=15).grid(row=0, column=1, padx=10)
-        ttk.Label(header_frame, text="Pump 2", font=("Arial", 14, "bold"),
-                  foreground="green", width=15).grid(row=0, column=2, padx=10)
-        ttk.Label(header_frame, text="Pump 3", font=("Arial", 14, "bold"),
-                  foreground="purple", width=15).grid(row=0, column=3, padx=10)
+            # Total units
+            label = tk.Label(stats_frame, text="0", font=("Arial", 10))
+            label.grid(row=row, column=2, padx=5, pady=2, sticky="w")
+            stats["total_units_label"] = label
 
-        # Separator
-        ttk.Separator(stats_frame, orient='horizontal').pack(fill='x', pady=5)
+            # Average units
+            label = tk.Label(stats_frame, text="0.00", font=("Arial", 10))
+            label.grid(row=row, column=3, padx=5, pady=2, sticky="w")
+            stats["avg_units_label"] = label
 
-        # Desired unit size row (EDITABLE)
-        desired_frame = ttk.Frame(stats_frame)
-        desired_frame.pack(fill="x", pady=5)
+            # Desired unit size (editable)
+            entry = tk.Entry(stats_frame, textvariable=stats["desired_unit_size"], width=12)
+            entry.grid(row=row, column=4, padx=5, pady=2, sticky="w")
+            entry.bind("<Return>", lambda e, p=pump_num: self.on_desired_change(p))
+            entry.bind("<FocusOut>", lambda e, p=pump_num: self.on_desired_change(p))
 
-        ttk.Label(desired_frame, text="Desired Unit Size (µL):",
-                  font=("Arial", 11, "bold"), width=20).grid(row=0, column=0, sticky="w")
+            # Delivered unit size (calculated)
+            label = tk.Label(stats_frame, textvariable=stats["delivered_unit_size"], font=("Arial", 10))
+            label.grid(row=row, column=5, padx=5, pady=2, sticky="w")
+
+            # Total delivered (calculated)
+            label = tk.Label(stats_frame, textvariable=stats["total_delivered"], font=("Arial", 10))
+            label.grid(row=row, column=6, padx=5, pady=2, sticky="w")
+
+        # Plunger Position Frame
+        position_frame = tk.LabelFrame(self.root, text="Plunger Positions", padx=10, pady=10)
+        position_frame.pack(fill="x", padx=10, pady=5)
 
         for pump_num in [1, 2, 3]:
-            entry_frame = ttk.Frame(desired_frame)
-            entry_frame.grid(row=0, column=pump_num, padx=10)
+            color = self.pump_colors[pump_num]
+            stats = self.pump_stats[pump_num]
 
-            desired_entry = ttk.Entry(entry_frame,
-                                      textvariable=self.pump_stats[pump_num]["desired_unit_size"],
-                                      font=("Arial", 12),
-                                      width=12,
-                                      justify="center")
-            desired_entry.pack()
+            # Create frame for each pump
+            pump_frame = tk.Frame(position_frame)
+            pump_frame.pack(fill="x", pady=5)
 
-            # Bind to update calculations when changed
-            desired_entry.bind('<Return>', lambda e, p=pump_num: self.update_calculations(p))
-            desired_entry.bind('<FocusOut>', lambda e, p=pump_num: self.update_calculations(p))
+            # Pump label
+            tk.Label(pump_frame, text=f"Pump {pump_num}:", fg=color, font=("Arial", 10, "bold"), width=8).pack(
+                side="left", padx=5)
 
-        # Delivered unit size row (CALCULATED)
-        delivered_frame = ttk.Frame(stats_frame)
-        delivered_frame.pack(fill="x", pady=5)
+            # Direction indicator
+            direction_label = tk.Label(pump_frame, text="→", font=("Arial", 14), fg=color)
+            direction_label.pack(side="left", padx=5)
+            stats["direction_label"] = direction_label
 
-        ttk.Label(delivered_frame, text="Delivered Unit Size (µL):",
-                  font=("Arial", 11, "bold"), width=20).grid(row=0, column=0, sticky="w")
+            # Position value
+            position_label = tk.Label(pump_frame, text="0.00", font=("Arial", 11, "bold"))
+            position_label.pack(side="left", padx=2)
+            stats["position_label"] = position_label
 
-        for pump_num in [1, 2, 3]:
-            delivered_label = tk.Label(delivered_frame,
-                                       textvariable=self.pump_stats[pump_num]["delivered_unit_size"],
-                                       font=("Arial", 12),
-                                       fg=self.get_pump_color(pump_num),
-                                       width=12,
-                                       relief="sunken",
-                                       borderwidth=1)
-            delivered_label.grid(row=0, column=pump_num, padx=10)
+            tk.Label(pump_frame, text="mm", font=("Arial", 10)).pack(side="left", padx=2)
 
-        # Total amount delivered row (CALCULATED)
-        total_delivered_frame = ttk.Frame(stats_frame)
-        total_delivered_frame.pack(fill="x", pady=5)
+            # Progress bar
+            position_bar = ttk.Progressbar(pump_frame, length=300, mode='determinate', maximum=100)
+            position_bar.pack(side="left", padx=10)
+            stats["position_bar"] = position_bar
 
-        ttk.Label(total_delivered_frame, text="Total Delivered (µL):",
-                  font=("Arial", 11, "bold"), width=20).grid(row=0, column=0, sticky="w")
+            # Range label
+            tk.Label(pump_frame, text=f"(0-{self.MAX_TRAVEL_MM} mm)", font=("Arial", 9)).pack(side="left", padx=5)
 
-        for pump_num in [1, 2, 3]:
-            total_label = tk.Label(total_delivered_frame,
-                                   textvariable=self.pump_stats[pump_num]["total_delivered"],
-                                   font=("Arial", 12, "bold"),
-                                   fg=self.get_pump_color(pump_num),
-                                   width=12,
-                                   relief="sunken",
-                                   borderwidth=2)
-            total_label.grid(row=0, column=pump_num, padx=10)
+            # Reset button
+            tk.Button(pump_frame, text="Reset Position",
+                      command=lambda p=pump_num: self.reset_plunger_position(p)).pack(side="left", padx=5)
 
-        # Separator
-        ttk.Separator(stats_frame, orient='horizontal').pack(fill='x', pady=10)
-
-        # Triggers row
-        triggers_frame = ttk.Frame(stats_frame)
-        triggers_frame.pack(fill="x", pady=5)
-
-        ttk.Label(triggers_frame, text="Triggers:", font=("Arial", 11, "bold"),
-                  width=20).grid(row=0, column=0, sticky="w")
-
-        for pump_num in [1, 2, 3]:
-            trigger_label = tk.Label(triggers_frame, text="0",
-                                     font=("Arial", 14, "bold"),
-                                     fg=self.get_pump_color(pump_num),
-                                     width=12,
-                                     relief="sunken",
-                                     borderwidth=2)
-            trigger_label.grid(row=0, column=pump_num, padx=10)
-
-            if pump_num not in self.pump_stat_labels:
-                self.pump_stat_labels[pump_num] = {}
-            self.pump_stat_labels[pump_num]["triggers"] = trigger_label
-
-        # Total units row
-        units_frame = ttk.Frame(stats_frame)
-        units_frame.pack(fill="x", pady=5)
-
-        ttk.Label(units_frame, text="Total Units:", font=("Arial", 11, "bold"),
-                  width=20).grid(row=0, column=0, sticky="w")
-
-        for pump_num in [1, 2, 3]:
-            units_label = tk.Label(units_frame, text="0",
-                                   font=("Arial", 14, "bold"),
-                                   fg=self.get_pump_color(pump_num),
-                                   width=12,
-                                   relief="sunken",
-                                   borderwidth=2)
-            units_label.grid(row=0, column=pump_num, padx=10)
-            self.pump_stat_labels[pump_num]["units"] = units_label
-
-        # Average units per trigger row
-        avg_frame = ttk.Frame(stats_frame)
-        avg_frame.pack(fill="x", pady=5)
-
-        ttk.Label(avg_frame, text="Avg Units/Trigger:", font=("Arial", 11, "bold"),
-                  width=20).grid(row=0, column=0, sticky="w")
-
-        for pump_num in [1, 2, 3]:
-            avg_label = tk.Label(avg_frame, text="0.0",
-                                 font=("Arial", 12),
-                                 fg=self.get_pump_color(pump_num),
-                                 width=12,
-                                 relief="sunken",
-                                 borderwidth=1)
-            avg_label.grid(row=0, column=pump_num, padx=10)
-            self.pump_stat_labels[pump_num]["average"] = avg_label
-
-        # Reset statistics button
-        button_frame = ttk.Frame(stats_frame)
-        button_frame.pack(pady=15)
-
-        reset_stats_btn = ttk.Button(button_frame, text="Reset All Statistics",
-                                     command=self.reset_all_stats)
-        reset_stats_btn.pack(side="left", padx=5)
-
-        ttk.Button(button_frame, text="Export Statistics to CSV",
-                   command=self.export_stats_csv).pack(side="left", padx=5)
-
-        # Trigger Status and Counter Frame
-        trigger_status_frame = ttk.Frame(self.root)
-        trigger_status_frame.pack(fill="x", padx=10, pady=5)
-
-        # Trigger LED Indicator Frame (left side)
-        trigger_frame = ttk.LabelFrame(trigger_status_frame, text="Trigger Status (Pin 9)", padding=10)
-        trigger_frame.pack(side="left", fill="both", expand=True, padx=(0, 5))
-
-        # LED indicator container
-        led_container = ttk.Frame(trigger_frame)
-        led_container.pack()
-
-        ttk.Label(led_container, text="Trigger LED:",
-                  font=("Arial", 10)).pack(side="left", padx=(0, 10))
-
-        # LED indicator (circular canvas)
-        self.led_canvas = tk.Canvas(led_container, width=40, height=40,
-                                    highlightthickness=0, bg='white')
-        self.led_canvas.pack(side="left")
-
-        # Draw LED circle
-        self.led_indicator = self.led_canvas.create_oval(5, 5, 35, 35,
-                                                         fill="red",
-                                                         outline="darkred",
-                                                         width=2)
-
-        # Trigger Counter Frame (right side)
-        counter_frame = ttk.LabelFrame(trigger_status_frame, text="Total Trigger Counter", padding=10)
-        counter_frame.pack(side="right", fill="both", expand=True, padx=(5, 0))
-
-        # Counter display
-        counter_display_frame = ttk.Frame(counter_frame)
-        counter_display_frame.pack(fill="x", pady=(0, 5))
-
-        ttk.Label(counter_display_frame, text="Total Triggers:",
-                  font=("Arial", 10)).pack(side="left", padx=(0, 10))
-
-        counter_label = tk.Label(counter_display_frame,
-                                 textvariable=self.trigger_count_var,
-                                 font=("Arial", 16, "bold"),
-                                 fg="blue",
-                                 width=8,
-                                 relief="sunken",
-                                 borderwidth=2)
-        counter_label.pack(side="left")
-
-        # Reset button
-        self.reset_btn = ttk.Button(counter_frame, text="Reset Counter",
-                                    command=self.reset_counter)
-        self.reset_btn.pack()
-
-        # Pump Activity Log Frame
-        log_frame = ttk.LabelFrame(self.root, text="Pump Activity Log", padding=10)
+        # Activity Log Frame
+        log_frame = tk.LabelFrame(self.root, text="Activity Log", padx=10, pady=10)
         log_frame.pack(fill="both", expand=True, padx=10, pady=5)
 
-        # Text area with scrollbar for activity log
-        self.log_area = scrolledtext.ScrolledText(
-            log_frame,
-            wrap=tk.WORD,
-            width=90,
-            height=10,
-            font=("Consolas", 9)
-        )
-        self.log_area.pack(fill="both", expand=True)
+        self.log_text = scrolledtext.ScrolledText(log_frame, height=10, state="disabled")
+        self.log_text.pack(fill="both", expand=True)
 
-        # Log control buttons
-        log_control_frame = ttk.Frame(log_frame)
-        log_control_frame.pack(fill="x", pady=(5, 0))
+        # Configure tags for colors
+        self.log_text.tag_config("pump1", foreground=self.pump_colors[1])
+        self.log_text.tag_config("pump2", foreground=self.pump_colors[2])
+        self.log_text.tag_config("pump3", foreground=self.pump_colors[3])
+        self.log_text.tag_config("error", foreground="red")
 
-        self.clear_log_btn = ttk.Button(log_control_frame, text="Clear Log",
-                                        command=self.clear_log)
-        self.clear_log_btn.pack(side="left", padx=5)
+        # Control Buttons
+        btn_frame = tk.Frame(self.root)
+        btn_frame.pack(fill="x", padx=10, pady=5)
 
-        self.save_log_btn = ttk.Button(log_control_frame, text="Save Log to File",
-                                       command=self.save_log)
-        self.save_log_btn.pack(side="left", padx=5)
+        tk.Button(btn_frame, text="Save Log", command=self.save_log).pack(side="left", padx=5)
+        tk.Button(btn_frame, text="Export Stats CSV", command=self.export_stats).pack(side="left", padx=5)
+        tk.Button(btn_frame, text="Clear Log", command=self.clear_log).pack(side="left", padx=5)
 
-        # Show log directory
-        log_dir_label = ttk.Label(log_control_frame,
-                                  text=f"Auto-save location: {self.log_directory}",
-                                  font=("Arial", 8),
-                                  foreground="gray")
-        log_dir_label.pack(side="left", padx=10)
+    def refresh_ports(self):
+        ports = [port.device for port in serial.tools.list_ports.comports()]
+        self.port_combo['values'] = ports
+        if ports:
+            self.port_combo.current(0)
 
-        self.autoscroll_log_var = tk.BooleanVar(value=True)
-        ttk.Checkbutton(log_control_frame, text="Auto-scroll",
-                        variable=self.autoscroll_log_var).pack(side="right", padx=5)
+    def toggle_connection(self):
+        if not self.is_connected:
+            try:
+                port = self.port_combo.get()
+                baud = int(self.baud_combo.get())
+                self.serial_connection = serial.Serial(port, baud, timeout=1)
+                self.is_connected = True
+                self.connect_btn.config(text="Disconnect", bg="lightcoral")
+                self.log_message(f"Connected to {port} at {baud} baud")
+                self.read_serial()
+            except Exception as e:
+                messagebox.showerror("Connection Error", str(e))
+        else:
+            if self.serial_connection:
+                self.serial_connection.close()
+            self.is_connected = False
+            self.connect_btn.config(text="Connect", bg="lightgreen")
+            self.log_message("Disconnected")
 
-    def update_calculations(self, pump_num):
-        """Update delivered unit size and total delivered when desired size changes"""
-        try:
-            desired = float(self.pump_stats[pump_num]["desired_unit_size"].get())
+    def read_serial(self):
+        if self.is_connected and self.serial_connection and self.serial_connection.in_waiting:
+            try:
+                line = self.serial_connection.readline().decode('utf-8').strip()
+                if line:
+                    self.process_data(line)
+            except Exception as e:
+                self.log_message(f"Error reading serial: {e}", "error")
 
-            # For now, delivered = desired (placeholder)
-            # In the future, this would be calculated from actual calibration data
-            delivered = desired
+        if self.is_connected:
+            self.root.after(50, self.read_serial)
 
-            triggers = self.pump_stats[pump_num]["triggers"]
-            total_units = self.pump_stats[pump_num]["total_units"]
+    def process_data(self, data):
+        # Expecting format like "1010101" (7 bits)
+        # Silently ignore invalid data (like dashes or other noise)
+        if len(data) == 7 and all(c in '01' for c in data):
+            self.decode_pins(data)
+        # else: silently ignore invalid/noise data
 
-            # Update delivered unit size
-            self.pump_stats[pump_num]["delivered_unit_size"].set(f"{delivered:.2f}")
+    def decode_pins(self, pin_data):
+        # Format: Pin8 Pin7 Pin6 Pin5 Pin4 Pin3 Pin2
+        # Index:  [0]  [1]  [2]  [3]  [4]  [5]  [6]
 
-            # Update total delivered (total_units * delivered_unit_size)
-            total_delivered = total_units * delivered
-            self.pump_stats[pump_num]["total_delivered"].set(f"{total_delivered:.2f}")
+        # Update binary display
+        formatted = ' '.join(pin_data)
+        self.binary_label.config(text=formatted)
 
-        except ValueError:
-            # Invalid input, reset to default
-            self.pump_stats[pump_num]["desired_unit_size"].set("10.0")
-            self.update_calculations(pump_num)
-
-    def get_pump_color(self, pump_num):
-        """Return color for pump number"""
-        colors = {1: "blue", 2: "green", 3: "purple"}
-        return colors.get(pump_num, "black")
-
-    def decode_pump_data(self, pin_data):
-        """Decode the 7-bit pin data into magnitude and pump number
-
-        Pin mapping from your table:
-        - String format: Pin8 Pin7 Pin6 Pin5 Pin4 Pin3 Pin2
-        - Indices:       [0]   [1]   [2]  [3]  [4]  [5]  [6]
-
-        Magnitude: Pins 2-5 (indices 6,5,4,3) - need to reverse for LSB->MSB
-        Pump: Pins 6-7 (indices 2,1)
-        """
-        if len(pin_data) != 7:
-            return None, None
-
-        # Pins 2-5 are at indices 6,5,4,3 (rightmost 4 bits)
-        # Pin 2 is LSB (index 6), Pin 5 is MSB (index 3)
-        # Reverse them to get proper binary: Pin5 Pin4 Pin3 Pin2
+        # Decode magnitude (pins 2-5, indices 6,5,4,3)
         magnitude_bits = pin_data[6] + pin_data[5] + pin_data[4] + pin_data[3]
-        magnitude_value = int(magnitude_bits, 2) + 1  # 0-15 maps to 1-16
+        magnitude_value = int(magnitude_bits, 2) + 1  # 0-15 → 1-16
+        self.magnitude_label.config(text=str(magnitude_value))
 
-        # Pins 6-7 (indices 2,1) encode pump selection
+        # Decode pump (pins 6-7, indices 2,1)
         pin6 = pin_data[2]
         pin7 = pin_data[1]
 
-        # Determine pump number
         if pin6 == '1' and pin7 == '0':
             pump_num = 1
         elif pin6 == '0' and pin7 == '1':
@@ -433,315 +437,156 @@ class ArduinoSerialGUI:
         elif pin6 == '1' and pin7 == '1':
             pump_num = 3
         else:
-            pump_num = None  # Invalid
+            pump_num = None
 
-        return magnitude_value, pump_num
-
-    def update_pump_stats(self, pump_num, magnitude):
-        """Update statistics for a specific pump"""
-        if pump_num in self.pump_stats:
-            self.pump_stats[pump_num]["triggers"] += 1
-            self.pump_stats[pump_num]["total_units"] += magnitude
-
-            # Update display
-            self.pump_stat_labels[pump_num]["triggers"].config(
-                text=str(self.pump_stats[pump_num]["triggers"]))
-            self.pump_stat_labels[pump_num]["units"].config(
-                text=str(self.pump_stats[pump_num]["total_units"]))
-
-            # Calculate and update average
-            triggers = self.pump_stats[pump_num]["triggers"]
-            total = self.pump_stats[pump_num]["total_units"]
-            avg = total / triggers if triggers > 0 else 0
-            self.pump_stat_labels[pump_num]["average"].config(
-                text=f"{avg:.2f}")
-
-            # Update total delivered
-            self.update_calculations(pump_num)
-
-    def log_pump_activity(self, pump_num, magnitude, pin_data):
-        """Log pump activity with timestamp"""
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-        if pump_num is None:
-            log_entry = f"[{timestamp}] INVALID - No pump selected (Pins: {pin_data})\n"
-            color_tag = "invalid"
+        if pump_num:
+            color = self.pump_colors[pump_num]
+            self.pump_label.config(text=f"Pump {pump_num}", fg=color)
+            self.flash_trigger()
+            self.update_statistics(pump_num, magnitude_value)
+            self.log_message(f"Pump {pump_num} triggered - {magnitude_value} units", f"pump{pump_num}")
         else:
-            desired = float(self.pump_stats[pump_num]["desired_unit_size"].get())
-            delivered_per_unit = float(self.pump_stats[pump_num]["delivered_unit_size"].get())
-            total_delivered = magnitude * delivered_per_unit
+            # Invalid pump state - log it since this is an actual decode issue
+            self.pump_label.config(text="Invalid", fg="red")
+            self.log_message(f"Invalid pump state (Pin6={pin6}, Pin7={pin7})", "error")
 
-            # Show the magnitude bits in proper order for the log
-            mag_bits = pin_data[6] + pin_data[5] + pin_data[4] + pin_data[3]
+    def flash_trigger(self):
+        self.trigger_led.config(fg="green")
+        self.root.after(200, lambda: self.trigger_led.config(fg="red"))
 
-            log_entry = f"[{timestamp}] Pump {pump_num} - {magnitude} units - {total_delivered:.2f} µL (Binary: {mag_bits})\n"
-            color_tag = f"pump{pump_num}"
+    def update_statistics(self, pump_num, units):
+        stats = self.pump_stats[pump_num]
+        stats["triggers"] += 1
+        stats["total_units"] += units
 
-        # Configure tags for colors
-        self.log_area.tag_config("pump1", foreground="blue")
-        self.log_area.tag_config("pump2", foreground="green")
-        self.log_area.tag_config("pump3", foreground="purple")
-        self.log_area.tag_config("invalid", foreground="red")
+        self.total_triggers += 1
+        self.total_trigger_label.config(text=str(self.total_triggers))
 
-        # Insert with color tag
-        self.log_area.insert(tk.END, log_entry, color_tag)
+        # Update labels
+        stats["triggers_label"].config(text=str(stats["triggers"]))
+        stats["total_units_label"].config(text=str(stats["total_units"]))
 
-        if self.autoscroll_log_var.get():
-            self.log_area.see(tk.END)
+        avg = stats["total_units"] / stats["triggers"] if stats["triggers"] > 0 else 0
+        stats["avg_units_label"].config(text=f"{avg:.2f}")
 
-    def reset_all_stats(self):
-        """Reset all pump statistics"""
-        for pump_num in [1, 2, 3]:
-            self.pump_stats[pump_num]["triggers"] = 0
-            self.pump_stats[pump_num]["total_units"] = 0
-            self.pump_stat_labels[pump_num]["triggers"].config(text="0")
-            self.pump_stat_labels[pump_num]["units"].config(text="0")
-            self.pump_stat_labels[pump_num]["average"].config(text="0.0")
-            self.update_calculations(pump_num)
+        # Update volume calculations
+        self.update_pump_calculation(pump_num)
 
-        self.log_area.insert(tk.END, f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Statistics reset\n")
+        # Update plunger position
+        self.update_plunger_position(pump_num, units)
 
-    def export_stats_csv(self):
-        """Export pump statistics to CSV file"""
-        filename = filedialog.asksaveasfilename(
-            defaultextension=".csv",
-            filetypes=[("CSV files", "*.csv"), ("All files", "*.*")],
-            initialfile=f"pump_stats_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
-        )
+    def reset_fluid_stats(self):
+        """Reset fluid statistics (triggers, units, volumes) but NOT plunger positions"""
+        if messagebox.askyesno("Reset Statistics",
+                               "Reset triggers and fluid delivery statistics?\n(Plunger positions will NOT be reset)"):
+            self.total_triggers = 0
+            self.total_trigger_label.config(text="0")
 
-        if filename:
-            try:
-                with open(filename, 'w') as f:
-                    f.write(
-                        "Pump,Triggers,Total Units,Average Units/Trigger,Desired Unit Size (µL),Delivered Unit Size (µL),Total Delivered (µL)\n")
-                    for pump_num in [1, 2, 3]:
-                        triggers = self.pump_stats[pump_num]["triggers"]
-                        total = self.pump_stats[pump_num]["total_units"]
-                        avg = total / triggers if triggers > 0 else 0
-                        desired = self.pump_stats[pump_num]["desired_unit_size"].get()
-                        delivered = self.pump_stats[pump_num]["delivered_unit_size"].get()
-                        total_del = self.pump_stats[pump_num]["total_delivered"].get()
-                        f.write(f"{pump_num},{triggers},{total},{avg:.2f},{desired},{delivered},{total_del}\n")
-                self.log_area.insert(tk.END,
-                                     f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Statistics exported to {filename}\n")
-            except Exception as e:
-                self.log_area.insert(tk.END, f"Error exporting stats: {str(e)}\n")
+            for pump_num in [1, 2, 3]:
+                stats = self.pump_stats[pump_num]
+                stats["triggers"] = 0
+                stats["total_units"] = 0
+                stats["triggers_label"].config(text="0")
+                stats["total_units_label"].config(text="0")
+                stats["avg_units_label"].config(text="0.00")
+                self.update_pump_calculation(pump_num)
+
+            self.log_message("Fluid statistics reset (plunger positions preserved)")
+
+    def log_message(self, message, tag=None):
+        timestamp = datetime.now().strftime("%H:%M:%S")
+        full_message = f"[{timestamp}] {message}\n"
+
+        self.log_text.config(state="normal")
+        if tag:
+            self.log_text.insert("end", full_message, tag)
+        else:
+            self.log_text.insert("end", full_message)
+        self.log_text.see("end")
+        self.log_text.config(state="disabled")
 
     def clear_log(self):
-        """Clear the activity log"""
-        self.log_area.delete(1.0, tk.END)
+        if messagebox.askyesno("Clear Log", "Clear activity log?"):
+            self.log_text.config(state="normal")
+            self.log_text.delete(1.0, "end")
+            self.log_text.config(state="disabled")
 
     def save_log(self):
-        """Save activity log to file - User chooses location"""
-        filename = filedialog.asksaveasfilename(
-            defaultextension=".txt",
-            filetypes=[("Text files", "*.txt"), ("All files", "*.*")],
-            initialfile=f"pump_log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"pump_log_{timestamp}.txt"
+        filepath = os.path.join(self.state_dir, filename)
+
+        try:
+            with open(filepath, 'w', encoding='utf-8') as f:
+                # Write pump parameters
+                f.write("=== Pump Parameters ===\n")
+                for pump_num in [1, 2, 3]:
+                    stats = self.pump_stats[pump_num]
+                    f.write(f"\nPump {pump_num}:\n")
+                    f.write(f"  Desired Unit Size: {stats['desired_unit_size'].get()} uL\n")
+                    f.write(f"  Delivered Unit Size: {stats['delivered_unit_size'].get()} uL\n")
+                    f.write(f"  Total Delivered: {stats['total_delivered'].get()} uL\n")
+                    f.write(f"  Triggers: {stats['triggers']}\n")
+                    f.write(f"  Total Units: {stats['total_units']}\n")
+                    avg = stats["total_units"] / stats["triggers"] if stats["triggers"] > 0 else 0
+                    f.write(f"  Average Units/Trigger: {avg:.2f}\n")
+                    f.write(f"  Plunger Position: {stats['position_mm']:.2f} mm\n")
+                    direction_text = "Forward (0->40)" if stats["direction"] == 1 else "Reverse (40->0)"
+                    f.write(f"  Direction: {direction_text}\n")
+
+                f.write(f"\nTotal Triggers (all pumps): {self.total_triggers}\n")
+                f.write(f"\nPump Constants:\n")
+                f.write(f"  mm/step: {self.MM_PER_STEP}\n")
+                f.write(f"  mL/mm: {self.ML_PER_MM}\n")
+                f.write(f"  uL/step: {self.UL_PER_STEP}\n")
+                f.write(f"  Max travel: {self.MAX_TRAVEL_MM} mm\n")
+
+                # Write activity log
+                f.write("\n\n=== Activity Log ===\n")
+                f.write(self.log_text.get(1.0, "end"))
+
+            self.log_message(f"Log saved to {filepath}")
+            messagebox.showinfo("Success", f"Log saved to:\n{filepath}")
+        except Exception as e:
+            messagebox.showerror("Save Error", str(e))
+
+    def export_stats(self):
+        filepath = filedialog.asksaveasfilename(
+            defaultextension=".csv",
+            filetypes=[("CSV files", "*.csv"), ("All files", "*.*")]
         )
 
-        if filename:
+        if filepath:
             try:
-                with open(filename, 'w') as f:
-                    f.write(self.log_area.get(1.0, tk.END))
-                self.log_area.insert(tk.END,
-                                     f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Log saved to {filename}\n")
-            except Exception as e:
-                self.log_area.insert(tk.END, f"Error saving log: {str(e)}\n")
-
-    def auto_save_log_on_exit(self):
-        """Automatically save log file when exiting"""
-        log_content = self.log_area.get(1.0, tk.END).strip()
-
-        if log_content:  # Only save if there's content
-            timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-            filename = os.path.join(self.log_directory, f"pump_log_{timestamp}.txt")
-
-            try:
-                with open(filename, 'w') as f:
-                    f.write("=" * 70 + "\n")
-                    f.write(f"Pump Monitor Log - Session ended: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
-                    f.write("=" * 70 + "\n\n")
-
-                    # Write pump parameters
-                    f.write("PUMP PARAMETERS:\n")
-                    f.write("-" * 70 + "\n")
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    f.write(
+                        "Pump,Triggers,Total_Units,Avg_Units,Desired_Unit_uL,Delivered_Unit_uL,Total_Delivered_uL,Position_mm,Direction\n")
                     for pump_num in [1, 2, 3]:
-                        f.write(f"Pump {pump_num}:\n")
-                        f.write(f"  Desired Unit Size: {self.pump_stats[pump_num]['desired_unit_size'].get()} µL\n")
-                        f.write(f"  Delivered Unit Size: {self.pump_stats[pump_num]['delivered_unit_size'].get()} µL\n")
-                        f.write(f"  Total Triggers: {self.pump_stats[pump_num]['triggers']}\n")
-                        f.write(f"  Total Units: {self.pump_stats[pump_num]['total_units']}\n")
-                        f.write(f"  Total Delivered: {self.pump_stats[pump_num]['total_delivered'].get()} µL\n\n")
+                        stats = self.pump_stats[pump_num]
+                        avg = stats["total_units"] / stats["triggers"] if stats["triggers"] > 0 else 0
+                        direction_text = "Forward" if stats["direction"] == 1 else "Reverse"
+                        f.write(f"{pump_num},{stats['triggers']},{stats['total_units']},{avg:.2f},")
+                        f.write(f"{stats['desired_unit_size'].get()},{stats['delivered_unit_size'].get()},")
+                        f.write(f"{stats['total_delivered'].get()},{stats['position_mm']:.2f},{direction_text}\n")
 
-                    f.write("=" * 70 + "\n")
-                    f.write("ACTIVITY LOG:\n")
-                    f.write("=" * 70 + "\n")
-                    f.write(log_content)
-
-                print(f"Log automatically saved to: {filename}")
-                return True
+                messagebox.showinfo("Success", f"Statistics exported to:\n{filepath}")
             except Exception as e:
-                print(f"Error auto-saving log: {str(e)}")
-                return False
-        return True
-
-    def refresh_ports(self):
-        """Refresh the list of available serial ports"""
-        ports = serial.tools.list_ports.comports()
-        port_list = [port.device for port in ports]
-        self.port_combo['values'] = port_list
-        if port_list:
-            self.port_combo.current(0)
-
-    def toggle_connection(self):
-        """Connect or disconnect from the serial port"""
-        if not self.is_connected:
-            self.connect()
-        else:
-            self.disconnect()
-
-    def connect(self):
-        """Establish connection to Arduino"""
-        try:
-            port = self.port_combo.get()
-            baud = int(self.baud_combo.get())
-
-            if not port:
-                self.log_area.insert(tk.END, "Error: No port selected\n")
-                return
-
-            self.serial_port = serial.Serial(port, baud, timeout=1)
-            time.sleep(2)  # Wait for Arduino to reset
-
-            self.is_connected = True
-            self.connect_btn.config(text="Disconnect")
-            self.status_label.config(text="Connected", foreground="green")
-            self.port_combo.config(state="disabled")
-            self.baud_combo.config(state="disabled")
-
-            # Start reading thread
-            self.reading_thread = threading.Thread(target=self.read_serial, daemon=True)
-            self.reading_thread.start()
-
-            self.log_area.insert(tk.END, f"=== Connected to {port} at {baud} baud ===\n")
-
-        except serial.SerialException as e:
-            self.log_area.insert(tk.END, f"Error: {str(e)}\n")
-
-    def disconnect(self):
-        """Disconnect from Arduino"""
-        self.is_connected = False
-
-        if self.serial_port and self.serial_port.is_open:
-            self.serial_port.close()
-
-        self.connect_btn.config(text="Connect")
-        self.status_label.config(text="Disconnected", foreground="red")
-        self.port_combo.config(state="readonly")
-        self.baud_combo.config(state="readonly")
-
-        self.log_area.insert(tk.END, "=== Disconnected ===\n")
-
-        # Reset decoded displays
-        self.current_magnitude.set("--")
-        self.current_pump.set("None")
-        self.current_binary.set("----")
-        self.pump_label.config(fg="gray")
-
-    def read_serial(self):
-        """Read data from serial port in a separate thread"""
-        while self.is_connected and self.serial_port.is_open:
-            try:
-                if self.serial_port.in_waiting > 0:
-                    data = self.serial_port.readline().decode('utf-8', errors='ignore').strip()
-
-                    if data:
-                        # Check if this is pin state data (7 digits of 0s and 1s)
-                        if len(data) == 7 and all(c in '01' for c in data):
-                            self.root.after(0, self.process_pump_data, data)
-
-            except serial.SerialException:
-                self.is_connected = False
-                self.root.after(0, self.disconnect)
-                break
-            except Exception as e:
-                self.log_area.insert(tk.END, f"Error reading: {str(e)}\n")
-
-    def process_pump_data(self, pin_data):
-        """Process and display decoded pump data"""
-        # Decode magnitude and pump
-        magnitude, pump_num = self.decode_pump_data(pin_data)
-
-        # Update decoded display
-        if magnitude is not None:
-            self.current_magnitude.set(str(magnitude))
-            # Show magnitude bits in correct order (Pin5 Pin4 Pin3 Pin2)
-            self.current_binary.set(pin_data[6] + pin_data[5] + pin_data[4] + pin_data[3])
-        else:
-            self.current_magnitude.set("ERR")
-            self.current_binary.set("ERR")
-
-        if pump_num is not None:
-            self.current_pump.set(f"Pump {pump_num}")
-            self.pump_label.config(fg=self.get_pump_color(pump_num))
-
-            # Update statistics
-            self.update_pump_stats(pump_num, magnitude)
-        else:
-            self.current_pump.set("INVALID")
-            self.pump_label.config(fg="red")
-
-        # Log the activity
-        self.log_pump_activity(pump_num, magnitude, pin_data)
-
-        # Increment total counter and flash LED
-        self.increment_counter()
-        self.flash_trigger_led()
-
-    def flash_trigger_led(self):
-        """Flash the trigger LED from red to green momentarily"""
-        # Turn LED green
-        self.led_canvas.itemconfig(self.led_indicator, fill="lime green", outline="darkgreen")
-
-        # Schedule return to red after 300ms
-        self.root.after(300, lambda: self.led_canvas.itemconfig(
-            self.led_indicator, fill="red", outline="darkred"))
-
-    def increment_counter(self):
-        """Increment the trigger counter"""
-        self.trigger_count += 1
-        self.trigger_count_var.set(str(self.trigger_count))
-
-    def reset_counter(self):
-        """Reset the trigger counter to 0"""
-        self.trigger_count = 0
-        self.trigger_count_var.set("0")
-        self.log_area.insert(tk.END, f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] Trigger counter reset to 0\n")
+                messagebox.showerror("Export Error", str(e))
 
     def on_closing(self):
-        """Handle window closing - auto-save log"""
-        if self.is_connected:
-            self.disconnect()
+        # Save state before closing
+        self.save_state()
 
-        # Auto-save log
-        success = self.auto_save_log_on_exit()
+        # Auto-save log on exit
+        self.save_log()
 
-        if success:
-            self.root.destroy()
-        else:
-            response = messagebox.askyesno(
-                "Save Error",
-                "Failed to auto-save log. Exit anyway?")
-            if response:
-                self.root.destroy()
-
-
-def main():
-    root = tk.Tk()
-    app = ArduinoSerialGUI(root)
-    root.protocol("WM_DELETE_WINDOW", app.on_closing)
-    root.mainloop()
+        if self.serial_connection and self.is_connected:
+            self.serial_connection.close()
+        self.root.destroy()
 
 
 if __name__ == "__main__":
-    main()
+    root = tk.Tk()
+    app = PumpMonitorGUI(root)
+    root.protocol("WM_DELETE_WINDOW", app.on_closing)
+    root.mainloop()
