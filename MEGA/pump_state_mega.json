@@ -1,0 +1,32 @@
+{
+  "positions": {
+    "1": 0.0,
+    "2": 0.0,
+    "3": 0.0
+  },
+  "directions": {
+    "1": "Forward",
+    "2": "Forward",
+    "3": "Forward"
+  },
+  "stats": {
+    "1": {
+      "triggers": 0,
+      "total_units": 0,
+      "desired_unit_size": 100.0,
+      "total_delivered": "0.0"
+    },
+    "2": {
+      "triggers": 0,
+      "total_units": 0,
+      "desired_unit_size": 100.0,
+      "total_delivered": "0.0"
+    },
+    "3": {
+      "triggers": 0,
+      "total_units": 0,
+      "desired_unit_size": 100.0,
+      "total_delivered": "0.0"
+    }
+  }
+}
