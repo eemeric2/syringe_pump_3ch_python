@@ -23,7 +23,7 @@
     !Home [pump]\r\n                      - Move to position 0
     !ResetCounter [pump]\r\n              - Reset trigger counter
     !GetStatus\r\n                        - Get full system status
-  
+
   Hardware:
     - Input pins: 22-29 (GPIO bits 0-7)
     - Pump 1: EN=10, STEP=11, DIR=12
@@ -43,8 +43,10 @@
 #define TRIGGER_BIT_INDEX 7
 
 // GPIO input pins (TDT configuration)
-const int GPIO_PINS[NUM_GPIO_BITS] = {22, 23, 24, 25, 26, 27, 28, 29};
-const int TRIGGER_PIN = 29; // Bit 7
+//const int GPIO_PINS[NUM_GPIO_BITS] = {22, 23, 24, 25, 26, 27, 28, 29};
+// different MEGA used than the one currently in the rig
+const int GPIO_PINS[NUM_GPIO_BITS] = {2,3,4,5,6,7,8,9};
+const int TRIGGER_PIN = 9; // Bit 7
 
 // Stepper motor pins [pump_index][0=enable, 1=step, 2=direction]
 const int STEPPER_PINS[NUM_PUMPS][3] = {
@@ -274,37 +276,36 @@ void CheckTrigger() {
 }
 
 void DecodeTrigger(byte value, String binaryStr) {
-  // Extract fields
-  byte magnitude = value & 0x0F;           // Bits 0-3
-  byte pumpSelect = (value >> 4) & 0x03;   // Bits 4-5
-  byte parity = (value >> 6) & 0x01;       // Bit 6
-  byte trigger = (value >> 7) & 0x01;      // Bit 7
+  // MATLAB encoding: val = pump_no * 32 + amount - 1
+  // Then adds 128 for trigger bit (bit 7)
   
-  // Validate pump selection
-  if (pumpSelect > 2) {
-    SendError("Invalid pump selection (bits 4-5 must be 00, 01, or 10)");
+  // Remove trigger bit for decoding
+  byte dataValue = value & 0x7F;  // Mask off bit 7
+  
+  // Extract pump number and amount
+  // Pump 1: 0-31, Pump 2: 32-63, Pump 3: 64-95
+  int pumpNum = (dataValue / 32) + 1;  // Integer division gives pump number
+  int amount = (dataValue % 32) + 1;   // Remainder + 1 gives amount (1-32)
+  
+  // Validate pump number
+  if (pumpNum < 1 || pumpNum > 3) {
+    SendError("Invalid pump number decoded from MATLAB signal");
     return;
   }
   
-  // Check parity (even parity on bits 0-6)
-  byte parityCheck = 0;
-  for (int i = 0; i < 7; i++) {
-    parityCheck ^= ((value >> i) & 0x01);
-  }
-  if (parityCheck != 0) {
-    SendError("Parity check failed");
+  // Validate amount
+  if (amount < 1 || amount > 32) {
+    SendError("Invalid amount decoded from MATLAB signal");
     return;
   }
   
-  // Convert magnitude to units (0-15 becomes 1-16)
-  int units = magnitude + 1;
-  int pumpNum = pumpSelect + 1; // Convert to 1-indexed
+  int pumpIndex = pumpNum - 1;  // Convert to 0-indexed
   
   // Send trigger acknowledgment
-  SendTriggerJSON(pumpNum, units, binaryStr);
+  SendTriggerJSON(pumpNum, amount, binaryStr);
   
   // Deliver reward
-  DeliverReward(pumpSelect, units);
+  DeliverReward(pumpIndex, amount);
 }
 
 // ============================================================================
