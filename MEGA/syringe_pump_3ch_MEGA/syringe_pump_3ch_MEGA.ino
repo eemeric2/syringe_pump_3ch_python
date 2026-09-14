@@ -3,11 +3,24 @@
   3-Channel Syringe Pump Controller for Arduino Mega
   ============================================================================
   
-  Monitors 8-bit GPIO input from TDT/Plexon system:
+  Monitors 8-bit GPIO input from external device (TDT/Plexon system):
     - Bits 0-3: Magnitude (0-15, representing 1-16 units)
-    - Bits 4-5: Pump selection (00=Pump1, 01=Pump2, 10=Pump3)
-    - Bit 6: Parity (even)
-    - Bit 7: Trigger
+    - Bit 4: Unused (reserved)
+    - Bits 5-6: Pump selection (10=Pump1, 01=Pump2, 11=Pump3)
+    - Bit 7: Trigger (rising edge triggers delivery)
+  
+  GPIO Pin Mapping (reading left to right, Pin 2 to Pin 9):
+    Position:  0  1  2  3  4  5  6  7
+    Pin:       2  3  4  5  6  7  8  9
+               └──────┬──────┘  └─┬─┘  └─ Trigger
+                    Amount      Pump
+  
+  Example encodings:
+    Pump 1, Amount 1:  00000101 (binary) = 0x05 (hex)
+    Pump 1, Amount 2:  10000101 (binary) = 0x85 (hex)
+    Pump 2, Amount 1:  00000011 (binary) = 0x03 (hex)
+    Pump 3, Amount 5:  00100111 (binary) = 0x27 (hex)
+  
   
   Controls 3 stepper motors with auto-reversal at 0-40mm boundaries.
   Sends JSON messages to Raspberry Pi monitor via USB serial.
@@ -23,9 +36,9 @@
     !Home [pump]\r\n                      - Move to position 0
     !ResetCounter [pump]\r\n              - Reset trigger counter
     !GetStatus\r\n                        - Get full system status
-  
+
   Hardware:
-    - Input pins: 22-29 (GPIO bits 0-7)
+    - Input pins: 2-9 (GPIO bits 0-7)
     - Pump 1: EN=10, STEP=11, DIR=12
     - Pump 2: EN=13, STEP=14, DIR=15
     - Pump 3: EN=16, STEP=17, DIR=18
@@ -43,8 +56,11 @@
 #define TRIGGER_BIT_INDEX 7
 
 // GPIO input pins (TDT configuration)
-const int GPIO_PINS[NUM_GPIO_BITS] = {22, 23, 24, 25, 26, 27, 28, 29};
-const int TRIGGER_PIN = 29; // Bit 7
+//const int GPIO_PINS[NUM_GPIO_BITS] = {22, 23, 24, 25, 26, 27, 28, 29};
+// different MEGA used than the one currently in the rig
+const int GPIO_PINS[NUM_GPIO_BITS] = {2,3,4,5,6,7,8,9};
+const int TRIGGER_PIN = 9; // Bit 7
+unsigned long droppedTriggers = 0;
 
 // Stepper motor pins [pump_index][0=enable, 1=step, 2=direction]
 const int STEPPER_PINS[NUM_PUMPS][3] = {
@@ -119,7 +135,7 @@ void setup() {
   // Initialize pump states
   for (int i = 0; i < NUM_PUMPS; i++) {
     pumps[i].currentPosition = 0.0;
-    pumps[i].unitSize = 200.0; // 200 µL default
+    pumps[i].unitSize = 55.0; // 30 µL default
     pumps[i].pulsesPerMM = DEFAULT_PULSES_PER_MM;
     pumps[i].pulseCount = 0;
     pumps[i].directionFlag = false; // Start going forward
@@ -252,16 +268,17 @@ void CheckTrigger() {
     triggerState = HIGH;
     digitalWrite(LED_PIN, HIGH);
     
-    // Read all GPIO bits
-    byte value = 0;
+    // Read all GPIO bits and build binary string (for logging)
     String binaryStr = "";
-    for (int i = 0; i < NUM_GPIO_BITS; i++) {
-      gpioState[i] = digitalRead(GPIO_PINS[i]);
-      value = (value << 1) | gpioState[i];
-      binaryStr += String(gpioState[i]);
+    byte value = 0;
+    
+    for (int i = 0; i < NUM_GPIO_BITS - 1; i++) {  // -1 to exclude trigger bit
+      int bit = digitalRead(GPIO_PINS[i]);
+      binaryStr += String(bit);
+      value |= (bit << i);  // Directly place bit at correct position
     }
     
-    // Decode the 8-bit value
+    // Decode the value
     DecodeTrigger(value, binaryStr);
     
     digitalWrite(LED_PIN, LOW);
@@ -274,37 +291,44 @@ void CheckTrigger() {
 }
 
 void DecodeTrigger(byte value, String binaryStr) {
-  // Extract fields
-  byte magnitude = value & 0x0F;           // Bits 0-3
-  byte pumpSelect = (value >> 4) & 0x03;   // Bits 4-5
-  byte parity = (value >> 6) & 0x01;       // Bit 6
-  byte trigger = (value >> 7) & 0x01;      // Bit 7
+  // Debug: print the raw byte value and binary string
+  // Serial.print(F("{\"type\":\"debug\",\"byte_value\":"));
+  // Serial.print(value, BIN);
+  // Serial.print(F(",\"binary_str\":\""));
+  // Serial.print(binaryStr);
+  // Serial.print(F("\",\"bits_0_3\":"));
+  // Serial.print(value & 0x0F);
+  // Serial.print(F(",\"bits_5_6\":"));
+  // Serial.print((value >> 5) & 0x03, BIN);
+  // Serial.println(F("}"));
   
-  // Validate pump selection
-  if (pumpSelect > 2) {
-    SendError("Invalid pump selection (bits 4-5 must be 00, 01, or 10)");
+  // Extract amount (bits 0-3)
+  int amount = (value & 0x0F) + 1;  // 1-16
+  
+  // Extract pump (bits 5-6)
+  int pump_code = (value >> 5) & 0x03;
+  
+  
+  // Extract pump from pins 7-8 (indices 5-6 of binaryStr)
+  String pump_bits = binaryStr.substring(5, 7);  // Get "10", "01", or "11"
+  int pumpNum;
+
+  if (pump_bits == "10") pumpNum = 1;
+  else if (pump_bits == "01") pumpNum = 2;
+  else if (pump_bits == "11") pumpNum = 3;
+  else {
+    SendError("Invalid pump number decoded from external signal");
     return;
   }
   
-  // Check parity (even parity on bits 0-6)
-  byte parityCheck = 0;
-  for (int i = 0; i < 7; i++) {
-    parityCheck ^= ((value >> i) & 0x01);
-  }
-  if (parityCheck != 0) {
-    SendError("Parity check failed");
+  if (amount < 1 || amount > 16) {
+    SendError("Invalid amount decoded from external signal");
     return;
   }
   
-  // Convert magnitude to units (0-15 becomes 1-16)
-  int units = magnitude + 1;
-  int pumpNum = pumpSelect + 1; // Convert to 1-indexed
-  
-  // Send trigger acknowledgment
-  SendTriggerJSON(pumpNum, units, binaryStr);
-  
-  // Deliver reward
-  DeliverReward(pumpSelect, units);
+  int pumpIndex = pumpNum - 1;
+  SendTriggerJSON(pumpNum, amount, binaryStr);
+  DeliverReward(pumpIndex, amount);
 }
 
 // ============================================================================
@@ -352,6 +376,45 @@ void DeliverReward(int pumpIndex, int units) {
     delayMicroseconds(STEP_PULSE_WIDTH);
     digitalWrite(STEPPER_PINS[pumpIndex][1], LOW);
     delayMicroseconds(INTER_PULSE_INTERVAL);
+
+    // Check for trigger during dispensing
+    if (digitalRead(TRIGGER_PIN) == HIGH && triggerState == LOW) {
+      droppedTriggers++;
+      
+      // Read the GPIO to see what was being sent
+      byte value = 0;
+      String binaryStr = "";
+      for (int j = 0; j < NUM_GPIO_BITS - 1; j++) {
+        int bit = digitalRead(GPIO_PINS[j]);
+        binaryStr += String(bit);
+        value |= (bit << j);
+      }
+      
+      // Extract pump and amount for logging
+      int amount = 0;
+      for (int j = 0; j < 4; j++) {
+        amount = (amount << 1) | (binaryStr[j] - '0');
+      }
+      amount += 1;
+      
+      String pump_bits = binaryStr.substring(5, 7);
+      int attemptedPump = (pump_bits == "10") ? 1 : (pump_bits == "01") ? 2 : 3;
+      
+      Serial.print(F("{\"type\":\"warning\",\"message\":\"Trigger ignored during dispensing - Pump "));
+      Serial.print(attemptedPump);
+      Serial.print(F(", Amount "));
+      Serial.print(amount);
+      Serial.print(F("\",\"totalDropped\":"));
+      Serial.print(droppedTriggers);
+      Serial.println(F("}"));
+      
+      triggerState = HIGH;  // Set state to avoid re-triggering
+    }
+    
+    // Reset trigger state when it goes low
+    if (digitalRead(TRIGGER_PIN) == LOW && triggerState == HIGH) {
+      triggerState = LOW;
+    }
   }
   
   // Update state

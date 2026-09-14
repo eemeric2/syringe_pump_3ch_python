@@ -38,6 +38,7 @@ class PumpMonitorGUI:
         
         # Statistics storage
         self.pump_stats = {}
+        self.desired_ul_history = {}  # track desired µL changes
         for pump_num in [1, 2, 3]:
             self.pump_stats[pump_num] = {
                 "triggers": 0,
@@ -48,7 +49,7 @@ class PumpMonitorGUI:
                 "position_mm": 0.0,
                 "direction": 1
             }
-        
+        self.desired_ul_history[pump_num] = []  # ADD THIS - list of (timestamp, value) tuples
         self.total_triggers = 0
         
         
@@ -57,7 +58,13 @@ class PumpMonitorGUI:
         
         # Load saved state
         self.load_state()
-        
+        # Ensure all pumps have history initialized
+        for pump_num in [1, 2, 3]:
+            if not self.desired_ul_history[pump_num]:
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                desired = float(self.pump_stats[pump_num]["desired_unit_size"].get())
+                self.desired_ul_history[pump_num] = [(timestamp, desired)]
+
         # Build GUI
         self.create_widgets()
         
@@ -83,8 +90,8 @@ class PumpMonitorGUI:
         ttk.Button(conn_frame, text="Refresh", command=self.refresh_ports).grid(row=0, column=2, padx=5)
         
         ttk.Label(conn_frame, text="Baud:").grid(row=0, column=3, sticky=tk.W, padx=(20,0))
-        self.baud_combo = ttk.Combobox(conn_frame, width=10, values=["9600", "115200"])
-        self.baud_combo.set("9600")
+        self.baud_combo = ttk.Combobox(conn_frame, width=10, values=["115200"])
+        self.baud_combo.set("115200")
         self.baud_combo.grid(row=0, column=4, padx=5)
         
         self.connect_btn = ttk.Button(conn_frame, text="Connect", command=self.toggle_connection)
@@ -238,6 +245,78 @@ class PumpMonitorGUI:
             
         except Exception as e:
             messagebox.showerror("Connection Error", str(e))
+
+    def read_serial(self):
+        """Read serial data from Arduino in separate thread"""
+        buffer = b""  # Use bytes buffer instead of string
+        
+        while not self.stop_reading and self.serial_connection and self.serial_connection.is_open:
+            try:
+                if self.serial_connection.in_waiting > 0:
+                    raw_data = self.serial_connection.read(self.serial_connection.in_waiting)
+                    buffer += raw_data
+                    
+                    # DEBUG
+                    # print(f"DEBUG: Raw bytes: {raw_data}")
+                    
+                    # Process complete lines (split on \n)
+                    while b'\n' in buffer:
+                        line_bytes, buffer = buffer.split(b'\n', 1)
+                        line = line_bytes.decode('utf-8', errors='ignore').strip()
+                        
+                        if line:
+                            # print(f"DEBUG: Decoded line: {line}")
+                            try:
+                                json_data = json.loads(line)
+                                self.handle_json_message(json_data)
+                            except json.JSONDecodeError as e:
+                                # print(f"DEBUG: JSON error: {e}")
+                                if len(line) == 7 and all(c in '01' for c in line):
+                                    self.root.after(0, self.decode_pins, line)
+                                else:
+                                    self.root.after(0, self.log_message, 
+                                                f"Unexpected format: {line}", "error")
+                else:
+                    time.sleep(0.01)
+                    
+            except Exception as e:
+                self.root.after(0, self.log_message, f"Serial read error: {e}", "error")
+                time.sleep(0.1)
+
+    def handle_json_message(self, json_data):
+        """Process JSON messages from Arduino"""
+        msg_type = json_data.get("type", "unknown")
+        
+        if msg_type == "trigger":
+            pump = json_data.get("pump", "?")
+            magnitude = json_data.get("magnitude", "?")
+            volume = json_data.get("volume", "?")
+            binary = json_data.get("binary", "")
+            self.log_message(f"Arduino: Pump {pump}, Magnitude {magnitude}, Volume {volume} µL", "trigger")
+            if isinstance(pump, int) and isinstance(magnitude, int):
+                self.root.after(0, self.update_statistics, pump, magnitude)
+        elif msg_type == "complete":
+            pump = json_data.get("pump", "?")
+            volume = json_data.get("volume", "?")
+            position = json_data.get("position", "?")
+            direction = json_data.get("direction", "?")
+            self.log_message(f"Complete: Pump {pump} delivered {volume} µL at {position} mm ({direction})", "system")
+            
+        elif msg_type == "error":
+            message = json_data.get("message", "Unknown error")
+            self.log_message(f"Arduino Error: {message}", "error")
+            
+        elif msg_type == "status":
+            message = json_data.get("message", "")
+            pump = json_data.get("pump", None)
+            if pump:
+                self.log_message(f"Pump {pump}: {message}", "system")
+            else:
+                self.log_message(f"Arduino: {message}", "system")
+
+        elif msg_type == "warning":
+            message = json_data.get("message", "Unknown warning")
+            self.log_message(f"Arduino Warning: {message}", "error")
     
     def disconnect(self):
         self.stop_reading = True
@@ -252,30 +331,30 @@ class PumpMonitorGUI:
         self.log_message("Disconnected", "system")
     
     def toggle_simulation(self):
-        print(f"Toggle simulation called. Current state: {self.simulation_enabled}")
+        # print(f"Toggle simulation called. Current state: {self.simulation_enabled}")
         self.simulation_enabled = not self.simulation_enabled
-        print(f"New state: {self.simulation_enabled}")
+        # print(f"New state: {self.simulation_enabled}")
         
         if self.simulation_enabled:
             self.simulate_btn.config(text="Simulate Input: ON")
             self.log_message("Simulation mode enabled", "system")
-            print("Starting simulation schedule")
+            # print("Starting simulation schedule")
             self.schedule_simulation()
         else:
             self.simulate_btn.config(text="Simulate Input: OFF")
             self.log_message("Simulation mode disabled", "system")
-            print("Stopping simulation")
+            # print("Stopping simulation")
             if self.simulation_timer:
                 self.root.after_cancel(self.simulation_timer)
                 self.simulation_timer = None
 
     def schedule_simulation(self):
-        print("Schedule simulation called")
+        # print("Schedule simulation called")
         if self.simulation_enabled:
-            print("Generating trigger")
+            # print("Generating trigger")
             self.generate_simulated_trigger()
             self.simulation_timer = self.root.after(2000, self.schedule_simulation)
-            print(f"Next trigger scheduled, timer ID: {self.simulation_timer}")
+            # print(f"Next trigger scheduled, timer ID: {self.simulation_timer}")
 
     def generate_simulated_trigger(self):
         import random
@@ -302,7 +381,7 @@ class PumpMonitorGUI:
             if magnitude % 2 == 0:  # Currently even, make odd
                 magnitude = magnitude + 1 if magnitude < 16 else magnitude - 1
         
-        print(f"Generated: Pump {pump_num}, Magnitude {magnitude}")
+        # print(f"Generated: Pump {pump_num}, Magnitude {magnitude}")
         
         mag_value = magnitude - 1
         mag_bits = format(mag_value, '04b')
@@ -319,8 +398,8 @@ class PumpMonitorGUI:
         
         bit_string = ''.join(bit_string_list)
         
-        print(f"Bit string: {bit_string} (length: {len(bit_string)})")
-        print(f"  Pump {pump_num}, Magnitude {magnitude}, Constraint: pump_bits[1]={pump_bits[1]} == mag_bits[3]={mag_bits[3]}")
+        # print(f"Bit string: {bit_string} (length: {len(bit_string)})")
+        # print(f"  Pump {pump_num}, Magnitude {magnitude}, Constraint: pump_bits[1]={pump_bits[1]} == mag_bits[3]={mag_bits[3]}")
         
         self.decode_pins(bit_string)
     
@@ -334,12 +413,12 @@ class PumpMonitorGUI:
         # Decode magnitude from pins 2-5 (indices 6,5,4,3)
         mag_bits = bit_string[6] + bit_string[5] + bit_string[4] + bit_string[3]
         magnitude = int(mag_bits, 2) + 1
-        print(f"DECODE: mag_bits='{mag_bits}' from indices [6,5,4,3], magnitude={magnitude}")
+        # print(f"DECODE: mag_bits='{mag_bits}' from indices [6,5,4,3], magnitude={magnitude}")
         self.magnitude_label.config(text=str(magnitude))
         
         # Decode pump from pins 6-7 (indices 2,1)
         pump_bits = bit_string[2:4]
-        print(f"DECODE: pump_bits='{pump_bits}' from indices [2:4]")
+        # print(f"DECODE: pump_bits='{pump_bits}' from indices [2:4]")
         pump_map = {'01': 1, '10': 2, '11': 3}
                
         if pump_bits in pump_map:
@@ -426,6 +505,11 @@ class PumpMonitorGUI:
             desired = float(self.pump_stats[pump_num]["desired_unit_size"].get())
             if desired <= 0:
                 raise ValueError("Must be positive")
+
+            # Log the change with timestamp
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            self.desired_ul_history[pump_num].append((timestamp, desired))
+
             self.save_state()
             self.log_message(f"Pump {pump_num}: Desired unit size updated to {desired:.3f} µL", "system")
         except ValueError:
@@ -499,7 +583,7 @@ class PumpMonitorGUI:
             self.total_triggers = 0
             self.trigger_count_label.config(text="0")
             
-            self.log_message("Statistics reset", "system")
+            self.save_state()  # ADD THIS to persist the reset
     
     def export_csv(self):
         filename = filedialog.asksaveasfilename(
@@ -513,23 +597,43 @@ class PumpMonitorGUI:
             try:
                 with open(filename, 'w', newline='', encoding='utf-8') as f:
                     writer = csv.writer(f)
-                    writer.writerow(["Pump", "Triggers", "Total Units", "Desired uL", "Delivered uL", "Total uL", "Position mm", "Direction"])
+                    writer.writerow(["Timestamp", "Pump", "Triggers", "Total Units", "Desired uL", "Delivered uL", "Total uL", "Position mm", "Direction"])
                     
+                    # Get all unique timestamps from history
+                    all_timestamps = set()
                     for pump_num in [1, 2, 3]:
-                        stats = self.pump_stats[pump_num]
-                        direction_text = "Forward" if stats["direction"] == 1 else "Reverse"
-                        writer.writerow([
-                            pump_num,
-                            stats["triggers"],
-                            stats["total_units"],
-                            stats["desired_unit_size"].get(),
-                            stats["delivered_unit_size"].get(),
-                            stats["total_delivered"].get(),
-                            f"{stats['position_mm']:.2f}",
-                            direction_text
-                        ])
-                
-                self.log_message(f"Statistics exported to {filename}", "system")
+                        for timestamp, _ in self.desired_ul_history[pump_num]:
+                            all_timestamps.add(timestamp)
+                    
+                    # Sort timestamps
+                    sorted_timestamps = sorted(all_timestamps)
+                    
+                    # Write rows for each timestamp
+                    for timestamp in sorted_timestamps:
+                        for pump_num in [1, 2, 3]:
+                            stats = self.pump_stats[pump_num]
+                            direction_text = "Forward" if stats["direction"] == 1 else "Reverse"
+                            
+                            # Find desired µL at this timestamp
+                            desired_ul = stats["desired_unit_size"].get()
+                            for ts, value in reversed(self.desired_ul_history[pump_num]):
+                                if ts <= timestamp:
+                                    desired_ul = value
+                                    break
+                            
+                            writer.writerow([
+                                timestamp,
+                                pump_num,
+                                stats["triggers"],
+                                stats["total_units"],
+                                f"{desired_ul:.3f}",
+                                stats["delivered_unit_size"].get(),
+                                stats["total_delivered"].get(),
+                                f"{stats['position_mm']:.2f}",
+                                direction_text
+                            ])
+                    
+                    self.log_message(f"Statistics exported to {filename}", "system")
             except Exception as e:
                 messagebox.showerror("Export Error", str(e))
     
@@ -549,7 +653,8 @@ class PumpMonitorGUI:
     
     def save_state(self):
         state = {
-            "pumps": {}
+            "pumps": {},
+            "desired_ul_history": {}
         }
         
         for pump_num in [1, 2, 3]:
@@ -559,6 +664,10 @@ class PumpMonitorGUI:
                 "direction": stats["direction"],
                 "desired_unit_size": stats["desired_unit_size"].get()
             }
+            # Convert tuples to lists for JSON serialization
+            state["desired_ul_history"][pump_num] = [
+                list(entry) for entry in self.desired_ul_history[pump_num]
+            ]
         
         state_file = os.path.join(self.script_dir, "pump_state.json")
         try:
@@ -566,7 +675,7 @@ class PumpMonitorGUI:
                 json.dump(state, f, indent=2)
         except Exception as e:
             self.log_message(f"Error saving state: {e}", "error")
-    
+
     def load_state(self):
         state_file = os.path.join(self.script_dir, "pump_state.json")
         if os.path.exists(state_file):
@@ -580,6 +689,22 @@ class PumpMonitorGUI:
                         self.pump_stats[pump_num]["position_mm"] = pump_data.get("position_mm", 0.0)
                         self.pump_stats[pump_num]["direction"] = pump_data.get("direction", 1)
                         self.pump_stats[pump_num]["desired_unit_size"].set(pump_data.get("desired_unit_size", "10.0"))
+                
+                # Load history and convert lists back to tuples
+                for pump_num_str, history in state.get("desired_ul_history", {}).items():
+                    pump_num = int(pump_num_str)
+                    if pump_num in self.desired_ul_history:
+                        self.desired_ul_history[pump_num] = [
+                            tuple(entry) for entry in history
+                        ]
+                
+                # Ensure all pumps have initialized history (in case state file is old)
+                for pump_num in [1, 2, 3]:
+                    if pump_num not in self.desired_ul_history or not self.desired_ul_history[pump_num]:
+                        # Initialize with current desired size
+                        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        desired = float(self.pump_stats[pump_num]["desired_unit_size"].get())
+                        self.desired_ul_history[pump_num] = [(timestamp, desired)]
                 
             except Exception as e:
                 print(f"Error loading state: {e}")
