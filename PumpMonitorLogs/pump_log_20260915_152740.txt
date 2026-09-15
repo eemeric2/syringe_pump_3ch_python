@@ -1,0 +1,45 @@
+[2026-09-15 15:27:40] Connected to COM5 at 115200 baud
+[2026-09-15 15:27:41] Pump 1: Synced unit size to 30.000 uL
+[2026-09-15 15:27:41] Pump 2: Synced unit size to 10.000 uL
+[2026-09-15 15:27:41] Pump 3: Synced unit size to 10.000 uL
+[2026-09-15 15:27:44] Simulation mode enabled
+[2026-09-15 15:27:44] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:27:44] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:27:44] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:27:46] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:27:46] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:27:46] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:27:48] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:27:48] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:27:48] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:27:50] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:27:50] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:27:50] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:27:52] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:27:52] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:27:52] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:27:54] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:27:54] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:27:54] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:27:56] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:27:56] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:27:56] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:27:58] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:27:58] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:27:58] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:28:00] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:28:00] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:28:00] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:28:02] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:28:02] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:28:02] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:28:04] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:28:04] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:28:04] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:28:06] Simulation mode disabled
+[2026-09-15 15:28:13] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-15 15:28:13] Arduino: Initialization complete. Ready for triggers.
+[2026-09-15 15:28:13] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:28:13] Complete: Pump 1 delivered 30.0 uL at 0.182 mm (F)
+[2026-09-15 15:40:47] Disconnected
+

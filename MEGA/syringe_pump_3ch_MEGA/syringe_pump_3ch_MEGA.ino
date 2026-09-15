@@ -135,7 +135,7 @@ void setup() {
   // Initialize pump states
   for (int i = 0; i < NUM_PUMPS; i++) {
     pumps[i].currentPosition = 0.0;
-    pumps[i].unitSize = 55.0; // 30 µL default
+    pumps[i].unitSize = 30.0; // 30 µL default
     pumps[i].pulsesPerMM = DEFAULT_PULSES_PER_MM;
     pumps[i].pulseCount = 0;
     pumps[i].directionFlag = false; // Start going forward
@@ -221,6 +221,8 @@ void ProcessCommand(String cmd) {
     Cmd_ResetCounter(params);
   } else if (command.equalsIgnoreCase("GetStatus")) {
     Cmd_GetStatus(params);
+  } else if (command.equalsIgnoreCase("ManualTrigger")) {
+    Cmd_ManualTrigger(params);
   } else {
     SendError("Unknown command: " + command);
   }
@@ -615,7 +617,7 @@ void Cmd_SetUnitSize(String params) {
   String sizeStr = GetSecondParam(params);
   
   int pump = ParseInt(pumpStr, 1);
-  float size = ParseFloat(sizeStr, 200.0);
+  float size = ParseFloat(sizeStr, 30.0);
   
   if (pump < 1 || pump > NUM_PUMPS) {
     SendError("Invalid pump number");
@@ -676,6 +678,22 @@ void Cmd_SetCalibration(String params) {
   Serial.print(F(",\"message\":\"Calibration set to "));
   Serial.print(ppm);
   Serial.println(F(" pulses/mm\"}"));
+}
+
+void Cmd_ManualTrigger(String params) {
+  String pumpStr = GetFirstParam(params);
+  String amountStr = GetSecondParam(params);
+  
+  int pump = ParseInt(pumpStr, 1);
+  int amount = ParseInt(amountStr, 1);
+  
+  if (pump < 1 || pump > NUM_PUMPS || amount < 1 || amount > 16) {
+    SendError("Invalid pump or amount");
+    return;
+  }
+  
+  SendTriggerJSON(pump, amount, "manual_command");
+  DeliverReward(pump - 1, amount);
 }
 
 void Cmd_Home(String params) {

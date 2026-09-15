@@ -1,0 +1,80 @@
+[2026-09-15 15:45:25] Connected to COM5 at 115200 baud
+[2026-09-15 15:45:26] Pump 1: Synced unit size to 30.000 uL
+[2026-09-15 15:45:26] Pump 2: Synced unit size to 10.000 uL
+[2026-09-15 15:45:26] Pump 3: Synced unit size to 10.000 uL
+[2026-09-15 15:45:35] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-15 15:45:35] Arduino: Initialization complete. Ready for triggers.
+[2026-09-15 15:45:35] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:45:35] Complete: Pump 1 delivered 30.0 uL at 0.182 mm (F)
+[2026-09-15 15:46:05] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:46:05] Complete: Pump 1 delivered 30.0 uL at 0.364 mm (F)
+[2026-09-15 15:46:10] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:46:10] Complete: Pump 1 delivered 30.0 uL at 0.545 mm (F)
+[2026-09-15 15:46:15] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:46:15] Complete: Pump 1 delivered 30.0 uL at 0.727 mm (F)
+[2026-09-15 15:46:20] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:46:21] Complete: Pump 1 delivered 30.0 uL at 0.909 mm (F)
+[2026-09-15 15:46:26] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:46:26] Complete: Pump 1 delivered 30.0 uL at 1.091 mm (F)
+[2026-09-15 15:46:31] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:46:31] Complete: Pump 1 delivered 30.0 uL at 1.273 mm (F)
+[2026-09-15 15:46:42] Simulation mode enabled
+[2026-09-15 15:46:42] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:46:42] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:46:42] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:46:42] Arduino: Pump 1, Magnitude 2, Volume 60.0 uL
+[2026-09-15 15:46:42] Complete: Pump 1 delivered 60.0 uL at 1.636 mm (F)
+[2026-09-15 15:46:44] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:46:44] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:46:44] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:46:44] Arduino: Pump 1, Magnitude 2, Volume 60.0 uL
+[2026-09-15 15:46:44] Complete: Pump 1 delivered 60.0 uL at 2.0 mm (F)
+[2026-09-15 15:46:46] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:46:46] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:46:46] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:46:46] Arduino: Pump 1, Magnitude 2, Volume 60.0 uL
+[2026-09-15 15:46:46] Complete: Pump 1 delivered 60.0 uL at 2.364 mm (F)
+[2026-09-15 15:46:48] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:46:48] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:46:48] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:46:48] Arduino: Pump 1, Magnitude 2, Volume 60.0 uL
+[2026-09-15 15:46:48] Complete: Pump 1 delivered 60.0 uL at 2.727 mm (F)
+[2026-09-15 15:46:50] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:46:50] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:46:50] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:46:50] Arduino: Pump 1, Magnitude 2, Volume 60.0 uL
+[2026-09-15 15:46:50] Complete: Pump 1 delivered 60.0 uL at 3.091 mm (F)
+[2026-09-15 15:46:52] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 15:46:52] Trigger: Pump 1, Magnitude 2
+[2026-09-15 15:46:52] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 15:46:52] Arduino: Pump 1, Magnitude 2, Volume 60.0 uL
+[2026-09-15 15:46:52] Simulation mode disabled
+[2026-09-15 15:46:52] Complete: Pump 1 delivered 60.0 uL at 3.455 mm (F)
+[2026-09-15 15:47:07] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:47:07] Complete: Pump 1 delivered 30.0 uL at 3.636 mm (F)
+[2026-09-15 15:47:12] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:47:13] Complete: Pump 1 delivered 30.0 uL at 3.818 mm (F)
+[2026-09-15 15:47:18] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:47:18] Complete: Pump 1 delivered 30.0 uL at 4.0 mm (F)
+[2026-09-15 15:47:23] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:47:23] Complete: Pump 1 delivered 30.0 uL at 4.182 mm (F)
+[2026-09-15 15:47:28] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:47:28] Complete: Pump 1 delivered 30.0 uL at 4.364 mm (F)
+[2026-09-15 15:47:33] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:47:34] Complete: Pump 1 delivered 30.0 uL at 4.545 mm (F)
+[2026-09-15 15:47:38] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:47:39] Complete: Pump 1 delivered 30.0 uL at 4.727 mm (F)
+[2026-09-15 15:47:44] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:47:44] Complete: Pump 1 delivered 30.0 uL at 4.909 mm (F)
+[2026-09-15 15:47:49] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:47:49] Complete: Pump 1 delivered 30.0 uL at 5.091 mm (F)
+[2026-09-15 15:47:54] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:47:54] Complete: Pump 1 delivered 30.0 uL at 5.273 mm (F)
+[2026-09-15 15:47:59] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:48:00] Complete: Pump 1 delivered 30.0 uL at 5.455 mm (F)
+[2026-09-15 15:48:05] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:48:05] Complete: Pump 1 delivered 30.0 uL at 5.636 mm (F)
+[2026-09-15 15:48:10] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 15:48:10] Complete: Pump 1 delivered 30.0 uL at 5.818 mm (F)
+[2026-09-15 15:48:16] Disconnected
+

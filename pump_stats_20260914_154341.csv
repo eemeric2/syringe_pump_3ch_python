@@ -1,0 +1,4 @@
+Timestamp,Pump,Triggers,Total Units,Desired uL,Delivered uL,Total uL,Position mm,Direction
+2026-09-14 15:40:32,1,21,172,55.000,104.000,2184.000,17.44,Forward
+2026-09-14 15:40:32,2,19,143,55.000,104.000,1976.000,39.48,Reverse
+2026-09-14 15:40:32,3,20,166,55.000,104.000,2080.000,37.72,Forward

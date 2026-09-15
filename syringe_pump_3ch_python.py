@@ -238,6 +238,14 @@ class PumpMonitorGUI:
             self.status_label.config(text="Connected", foreground="green")
             self.connect_btn.config(text="Disconnect")
             self.log_message(f"Connected to {port} at {baud} baud", "system")
+
+            # sync current desired sizes with Arduino
+            time.sleep(0.5)  # Give Arduino time to initialize
+            for pump_num in [1, 2, 3]:
+                desired = float(self.pump_stats[pump_num]["desired_unit_size"].get())
+                command = f"!SetUnitSize {pump_num} {desired}\r\n"
+                self.serial_connection.write(command.encode())
+                self.log_message(f"Pump {pump_num}: Synced unit size to {desired:.3f} µL", "system")
             
             self.stop_reading = False
             self.reading_thread = threading.Thread(target=self.read_serial, daemon=True)
@@ -255,22 +263,17 @@ class PumpMonitorGUI:
                 if self.serial_connection.in_waiting > 0:
                     raw_data = self.serial_connection.read(self.serial_connection.in_waiting)
                     buffer += raw_data
-                    
-                    # DEBUG
-                    # print(f"DEBUG: Raw bytes: {raw_data}")
-                    
+                                        
                     # Process complete lines (split on \n)
                     while b'\n' in buffer:
                         line_bytes, buffer = buffer.split(b'\n', 1)
                         line = line_bytes.decode('utf-8', errors='ignore').strip()
                         
                         if line:
-                            # print(f"DEBUG: Decoded line: {line}")
                             try:
                                 json_data = json.loads(line)
                                 self.handle_json_message(json_data)
                             except json.JSONDecodeError as e:
-                                # print(f"DEBUG: JSON error: {e}")
                                 if len(line) == 7 and all(c in '01' for c in line):
                                     self.root.after(0, self.decode_pins, line)
                                 else:
@@ -297,11 +300,19 @@ class PumpMonitorGUI:
                 self.root.after(0, self.update_statistics, pump, magnitude)
         elif msg_type == "complete":
             pump = json_data.get("pump", "?")
+            volume = json_data.get("volume", "?")  # Get actual volume from Arduino
             volume = json_data.get("volume", "?")
             position = json_data.get("position", "?")
             direction = json_data.get("direction", "?")
             self.log_message(f"Complete: Pump {pump} delivered {volume} µL at {position} mm ({direction})", "system")
-            
+
+            # update total_delivered with actual Arduino volume
+            if isinstance(pump, int) and isinstance(volume, (int, float)):
+                stats = self.pump_stats[pump]
+                total = float(stats["total_delivered"].get()) + volume
+                stats["total_delivered"].set(f"{total:.3f}")
+                self.save_state()
+                
         elif msg_type == "error":
             message = json_data.get("message", "Unknown error")
             self.log_message(f"Arduino Error: {message}", "error")
@@ -331,37 +342,44 @@ class PumpMonitorGUI:
         self.log_message("Disconnected", "system")
     
     def toggle_simulation(self):
-        # print(f"Toggle simulation called. Current state: {self.simulation_enabled}")
         self.simulation_enabled = not self.simulation_enabled
-        # print(f"New state: {self.simulation_enabled}")
         
         if self.simulation_enabled:
             self.simulate_btn.config(text="Simulate Input: ON")
             self.log_message("Simulation mode enabled", "system")
-            # print("Starting simulation schedule")
             self.schedule_simulation()
         else:
             self.simulate_btn.config(text="Simulate Input: OFF")
             self.log_message("Simulation mode disabled", "system")
-            # print("Stopping simulation")
             if self.simulation_timer:
                 self.root.after_cancel(self.simulation_timer)
                 self.simulation_timer = None
 
     def schedule_simulation(self):
-        # print("Schedule simulation called")
         if self.simulation_enabled:
-            # print("Generating trigger")
             self.generate_simulated_trigger()
             self.simulation_timer = self.root.after(2000, self.schedule_simulation)
-            # print(f"Next trigger scheduled, timer ID: {self.simulation_timer}")
+
+    def send_trigger_to_arduino(self, pump_num, magnitude):
+        """Send a manual trigger command to Arduino"""
+        if not self.serial_connection or not self.serial_connection.is_open:
+            self.log_message("ERROR: Not connected to Arduino", "error")
+            return
+        
+        command = f"!ManualTrigger {pump_num} {magnitude}\r\n"
+        self.serial_connection.write(command.encode())
+        self.log_message(f"[SIMULATION] Sent trigger to Arduino: Pump {pump_num}, Magnitude {magnitude}", "trigger")
+
 
     def generate_simulated_trigger(self):
         import random
         
         pump_num = random.randint(1, 3)
         magnitude = random.randint(1, 16)
-        
+
+        pump_num = 1
+        magnitude = 1
+
         pump_encoding = {1: '01', 2: '10', 3: '11'}
         pump_bits = pump_encoding[pump_num]
         
@@ -381,8 +399,6 @@ class PumpMonitorGUI:
             if magnitude % 2 == 0:  # Currently even, make odd
                 magnitude = magnitude + 1 if magnitude < 16 else magnitude - 1
         
-        # print(f"Generated: Pump {pump_num}, Magnitude {magnitude}")
-        
         mag_value = magnitude - 1
         mag_bits = format(mag_value, '04b')
         
@@ -398,11 +414,23 @@ class PumpMonitorGUI:
         
         bit_string = ''.join(bit_string_list)
         
-        # print(f"Bit string: {bit_string} (length: {len(bit_string)})")
-        # print(f"  Pump {pump_num}, Magnitude {magnitude}, Constraint: pump_bits[1]={pump_bits[1]} == mag_bits[3]={mag_bits[3]}")
+        # simulate Arduino JSON output
+        simulated_json = {
+            "type": "trigger",
+            "pump": pump_num,
+            "magnitude": magnitude,
+            "volume": magnitude * 55.0,  # Use default 55µL from Arduino
+            "position": 0.0,  # Placeholder
+            "direction": "F",
+            "binary": bit_string
+        }
         
-        self.decode_pins(bit_string)
+        self.log_message(f"[SIMULATED] Pump {pump_num}, Magnitude {magnitude}", "trigger")
     
+        self.decode_pins(bit_string)
+        # Also send to Arduino if connected
+        self.send_trigger_to_arduino(pump_num, magnitude)
+
     def process_data(self, data):
         if len(data) == 7 and all(c in '01' for c in data):
             self.decode_pins(data)
@@ -413,12 +441,10 @@ class PumpMonitorGUI:
         # Decode magnitude from pins 2-5 (indices 6,5,4,3)
         mag_bits = bit_string[6] + bit_string[5] + bit_string[4] + bit_string[3]
         magnitude = int(mag_bits, 2) + 1
-        # print(f"DECODE: mag_bits='{mag_bits}' from indices [6,5,4,3], magnitude={magnitude}")
         self.magnitude_label.config(text=str(magnitude))
         
         # Decode pump from pins 6-7 (indices 2,1)
         pump_bits = bit_string[2:4]
-        # print(f"DECODE: pump_bits='{pump_bits}' from indices [2:4]")
         pump_map = {'01': 1, '10': 2, '11': 3}
                
         if pump_bits in pump_map:
@@ -510,6 +536,12 @@ class PumpMonitorGUI:
             timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             self.desired_ul_history[pump_num].append((timestamp, desired))
 
+            # SEND COMMAND TO ARDUINO
+            if self.serial_connection and self.serial_connection.is_open:
+                command = f"!SetUnitSize {pump_num} {desired}\r\n"
+                self.serial_connection.write(command.encode())
+                self.log_message(f"Pump {pump_num}: Sent unit size update to Arduino: {desired:.3f} µL", "system")
+                
             self.save_state()
             self.log_message(f"Pump {pump_num}: Desired unit size updated to {desired:.3f} µL", "system")
         except ValueError:

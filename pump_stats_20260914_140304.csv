@@ -1,0 +1,4 @@
+Pump,Triggers,Total Units,Desired uL,Delivered uL,Total uL,Position mm,Direction
+1,16,130,55,56.000,896.000,11.76,Forward
+2,14,120,55,56.000,784.000,35.76,Forward
+3,5,20,55,56.000,280.000,30.20,Forward

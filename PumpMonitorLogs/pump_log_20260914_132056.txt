@@ -1,0 +1,13 @@
+[2026-09-14 13:20:56] Connected to COM5 at 115200 baud
+[2026-09-14 13:20:57] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-14 13:20:57] Arduino: Initialization complete. Ready for triggers.
+[2026-09-14 13:20:57] Arduino: Pump 1, Magnitude 6, Volume 180.0 uL
+[2026-09-14 13:20:59] Complete: Pump 1 delivered 180.0 uL at 1.091 mm (F)
+[2026-09-14 13:21:10] Arduino: Pump 1, Magnitude 7, Volume 210.0 uL
+[2026-09-14 13:21:12] Complete: Pump 1 delivered 210.0 uL at 2.364 mm (F)
+[2026-09-14 13:21:15] Arduino: Pump 1, Magnitude 8, Volume 240.0 uL
+[2026-09-14 13:21:17] Complete: Pump 1 delivered 240.0 uL at 3.818 mm (F)
+[2026-09-14 13:21:21] Arduino: Pump 1, Magnitude 9, Volume 270.0 uL
+[2026-09-14 13:21:23] Complete: Pump 1 delivered 270.0 uL at 5.455 mm (F)
+[2026-09-14 13:21:28] Disconnected
+

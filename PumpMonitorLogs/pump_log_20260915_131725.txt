@@ -1,0 +1,31 @@
+[2026-09-15 13:17:25] Connected to COM5 at 115200 baud
+[2026-09-15 13:17:26] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-15 13:17:26] Arduino: Initialization complete. Ready for triggers.
+[2026-09-15 13:17:26] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 13:17:26] Complete: Pump 1 delivered 30.0 uL at 0.182 mm (F)
+[2026-09-15 13:17:30] Simulation mode enabled
+[2026-09-15 13:17:30] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-15 13:17:30] Trigger: Pump 2, Magnitude 15
+[2026-09-15 13:17:32] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-15 13:17:32] Trigger: Pump 1, Magnitude 10
+[2026-09-15 13:17:34] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-15 13:17:34] Trigger: Pump 2, Magnitude 9
+[2026-09-15 13:17:36] [SIMULATED] Pump 1, Magnitude 6
+[2026-09-15 13:17:36] Trigger: Pump 1, Magnitude 6
+[2026-09-15 13:17:38] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-15 13:17:38] Trigger: Pump 3, Magnitude 16
+[2026-09-15 13:17:40] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-15 13:17:40] Trigger: Pump 2, Magnitude 9
+[2026-09-15 13:17:42] [SIMULATED] Pump 2, Magnitude 3
+[2026-09-15 13:17:42] Trigger: Pump 2, Magnitude 3
+[2026-09-15 13:17:44] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-15 13:17:44] Trigger: Pump 2, Magnitude 9
+[2026-09-15 13:17:46] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-15 13:17:46] Trigger: Pump 1, Magnitude 10
+[2026-09-15 13:17:48] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-15 13:17:48] Trigger: Pump 2, Magnitude 13
+[2026-09-15 13:17:50] [SIMULATED] Pump 3, Magnitude 8
+[2026-09-15 13:17:50] Trigger: Pump 3, Magnitude 8
+[2026-09-15 13:17:52] Simulation mode disabled
+[2026-09-15 13:17:53] Disconnected
+

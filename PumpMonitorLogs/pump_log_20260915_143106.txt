@@ -1,0 +1,19 @@
+[2026-09-15 14:31:06] Connected to COM5 at 115200 baud
+[2026-09-15 14:31:07] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-15 14:31:07] Arduino: Initialization complete. Ready for triggers.
+[2026-09-15 14:31:10] Simulation mode enabled
+[2026-09-15 14:31:10] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 14:31:10] Trigger: Pump 1, Magnitude 2
+[2026-09-15 14:31:10] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 14:31:10] Arduino Error: Unknown command: ManualTrigger
+[2026-09-15 14:31:12] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 14:31:12] Trigger: Pump 1, Magnitude 2
+[2026-09-15 14:31:12] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 14:31:12] Arduino Error: Unknown command: ManualTrigger
+[2026-09-15 14:31:14] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 14:31:14] Trigger: Pump 1, Magnitude 2
+[2026-09-15 14:31:14] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-15 14:31:14] Arduino Error: Unknown command: ManualTrigger
+[2026-09-15 14:31:14] Simulation mode disabled
+[2026-09-15 14:31:53] Disconnected
+

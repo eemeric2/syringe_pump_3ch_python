@@ -1,0 +1,108 @@
+[2026-09-15 13:19:19] Connected to COM5 at 115200 baud
+[2026-09-15 13:19:20] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-15 13:19:20] Arduino: Initialization complete. Ready for triggers.
+[2026-09-15 13:19:20] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-15 13:19:20] Complete: Pump 1 delivered 30.0 uL at 0.182 mm (F)
+[2026-09-15 13:19:27] Simulation mode enabled
+[2026-09-15 13:19:27] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-15 13:19:27] Trigger: Pump 1, Magnitude 10
+[2026-09-15 13:19:29] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-15 13:19:29] Pump 2: Reached min position, reversing direction
+[2026-09-15 13:19:29] Trigger: Pump 2, Magnitude 15
+[2026-09-15 13:19:31] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-15 13:19:31] Trigger: Pump 2, Magnitude 15
+[2026-09-15 13:19:33] [SIMULATED] Pump 2, Magnitude 5
+[2026-09-15 13:19:33] Trigger: Pump 2, Magnitude 5
+[2026-09-15 13:19:35] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-15 13:19:35] Trigger: Pump 2, Magnitude 9
+[2026-09-15 13:19:37] [SIMULATED] Pump 1, Magnitude 8
+[2026-09-15 13:19:37] Trigger: Pump 1, Magnitude 8
+[2026-09-15 13:19:39] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-15 13:19:39] Trigger: Pump 1, Magnitude 4
+[2026-09-15 13:19:41] [SIMULATED] Pump 1, Magnitude 6
+[2026-09-15 13:19:41] Trigger: Pump 1, Magnitude 6
+[2026-09-15 13:19:43] [SIMULATED] Pump 1, Magnitude 12
+[2026-09-15 13:19:43] Trigger: Pump 1, Magnitude 12
+[2026-09-15 13:19:45] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-15 13:19:45] Trigger: Pump 1, Magnitude 4
+[2026-09-15 13:19:47] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-15 13:19:47] Trigger: Pump 3, Magnitude 16
+[2026-09-15 13:19:49] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-15 13:19:49] Trigger: Pump 2, Magnitude 9
+[2026-09-15 13:19:51] [SIMULATED] Pump 3, Magnitude 12
+[2026-09-15 13:19:51] Trigger: Pump 3, Magnitude 12
+[2026-09-15 13:19:53] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-15 13:19:53] Trigger: Pump 1, Magnitude 10
+[2026-09-15 13:19:55] [SIMULATED] Pump 1, Magnitude 16
+[2026-09-15 13:19:55] Trigger: Pump 1, Magnitude 16
+[2026-09-15 13:19:57] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-15 13:19:57] Trigger: Pump 1, Magnitude 4
+[2026-09-15 13:19:59] [SIMULATED] Pump 3, Magnitude 14
+[2026-09-15 13:19:59] Trigger: Pump 3, Magnitude 14
+[2026-09-15 13:20:01] [SIMULATED] Pump 3, Magnitude 4
+[2026-09-15 13:20:01] Trigger: Pump 3, Magnitude 4
+[2026-09-15 13:20:03] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-15 13:20:03] Trigger: Pump 2, Magnitude 9
+[2026-09-15 13:20:05] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-15 13:20:05] Trigger: Pump 3, Magnitude 16
+[2026-09-15 13:20:07] [SIMULATED] Pump 1, Magnitude 14
+[2026-09-15 13:20:07] Trigger: Pump 1, Magnitude 14
+[2026-09-15 13:20:09] [SIMULATED] Pump 2, Magnitude 1
+[2026-09-15 13:20:09] Trigger: Pump 2, Magnitude 1
+[2026-09-15 13:20:11] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-15 13:20:11] Trigger: Pump 1, Magnitude 4
+[2026-09-15 13:20:13] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-15 13:20:13] Trigger: Pump 2, Magnitude 13
+[2026-09-15 13:20:15] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-15 13:20:15] Trigger: Pump 2, Magnitude 13
+[2026-09-15 13:20:17] [SIMULATED] Pump 3, Magnitude 14
+[2026-09-15 13:20:17] Trigger: Pump 3, Magnitude 14
+[2026-09-15 13:20:19] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-15 13:20:19] Trigger: Pump 2, Magnitude 13
+[2026-09-15 13:20:21] [SIMULATED] Pump 3, Magnitude 6
+[2026-09-15 13:20:21] Trigger: Pump 3, Magnitude 6
+[2026-09-15 13:20:23] [SIMULATED] Pump 2, Magnitude 7
+[2026-09-15 13:20:23] Trigger: Pump 2, Magnitude 7
+[2026-09-15 13:20:25] [SIMULATED] Pump 3, Magnitude 8
+[2026-09-15 13:20:25] Trigger: Pump 3, Magnitude 8
+[2026-09-15 13:20:27] [SIMULATED] Pump 3, Magnitude 8
+[2026-09-15 13:20:27] Trigger: Pump 3, Magnitude 8
+[2026-09-15 13:20:29] [SIMULATED] Pump 1, Magnitude 12
+[2026-09-15 13:20:29] Trigger: Pump 1, Magnitude 12
+[2026-09-15 13:20:31] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-15 13:20:31] Trigger: Pump 3, Magnitude 16
+[2026-09-15 13:20:33] [SIMULATED] Pump 3, Magnitude 6
+[2026-09-15 13:20:33] Trigger: Pump 3, Magnitude 6
+[2026-09-15 13:20:35] [SIMULATED] Pump 1, Magnitude 6
+[2026-09-15 13:20:35] Trigger: Pump 1, Magnitude 6
+[2026-09-15 13:20:37] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-15 13:20:37] Trigger: Pump 1, Magnitude 10
+[2026-09-15 13:20:39] [SIMULATED] Pump 1, Magnitude 16
+[2026-09-15 13:20:39] Trigger: Pump 1, Magnitude 16
+[2026-09-15 13:20:41] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-15 13:20:41] Trigger: Pump 2, Magnitude 15
+[2026-09-15 13:20:43] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-15 13:20:43] Trigger: Pump 1, Magnitude 2
+[2026-09-15 13:20:45] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-15 13:20:45] Trigger: Pump 2, Magnitude 15
+[2026-09-15 13:20:47] [SIMULATED] Pump 1, Magnitude 12
+[2026-09-15 13:20:47] Trigger: Pump 1, Magnitude 12
+[2026-09-15 13:20:49] [SIMULATED] Pump 1, Magnitude 8
+[2026-09-15 13:20:49] Trigger: Pump 1, Magnitude 8
+[2026-09-15 13:20:51] [SIMULATED] Pump 1, Magnitude 8
+[2026-09-15 13:20:51] Trigger: Pump 1, Magnitude 8
+[2026-09-15 13:20:53] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-15 13:20:53] Trigger: Pump 2, Magnitude 15
+[2026-09-15 13:20:55] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-15 13:20:55] Trigger: Pump 2, Magnitude 15
+[2026-09-15 13:20:57] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-15 13:20:57] Trigger: Pump 2, Magnitude 13
+[2026-09-15 13:20:59] [SIMULATED] Pump 3, Magnitude 4
+[2026-09-15 13:20:59] Trigger: Pump 3, Magnitude 4
+[2026-09-15 13:21:01] [SIMULATED] Pump 2, Magnitude 1
+[2026-09-15 13:21:01] Trigger: Pump 2, Magnitude 1
+[2026-09-15 13:21:03] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-15 13:21:03] Trigger: Pump 2, Magnitude 15
+[2026-09-15 13:21:04] Simulation mode disabled
+[2026-09-15 13:59:53] Disconnected
+

@@ -1,0 +1,56 @@
+Raspberry Pi deployment:
+1. Test on Raspberry Pi first
+Install Python 3.10+ on Pi
+Install dependencies: pip install pyserial tkinter
+Copy your script and test it works
+2. Create a standalone executable
+Option A: PyInstaller (Recommended for Pi)
+bash
+pip install pyinstaller
+pyinstaller --onefile --windowed syringe_pump_3ch_python.py
+Syringe_Pump_3CH single executable in dist/ folder.
+
+Option B: py2exe (Windows only, skip this)
+3. Create a desktop launcher
+Create /home/pi/Desktop/Pump_Monitor.desktop:
+
+ini
+[Desktop Entry]
+Type=Application
+Name=Pump Monitor
+Comment=3-Channel Syringe Pump Controller
+Exec=/path/to/dist/syringe_pump_3ch_python
+Icon=application-x-executable
+Terminal=false
+Categories=Utility;
+Make it executable:
+
+bash
+chmod +x /home/pi/Desktop/Pump_Monitor.desktop
+4. Serial permissions on Pi
+Add user to dialout group (so it can access /dev/ttyUSB0):
+
+bash
+sudo usermod -a -G dialout $USER
+# Reboot or: newgrp dialout
+5. Handle file paths for Pi
+Update your code to work cross-platform:
+
+python
+import platform
+import os
+
+self.script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# On Pi, might want to use home directory instead
+if platform.system() == 'Linux':
+    # Raspberry Pi - use home directory for logs/state
+    self.script_dir = os.path.expanduser('~/.pump_monitor')
+    os.makedirs(self.script_dir, exist_ok=True)
+Testing checklist:
+ Script runs on Pi via terminal
+ Serial connection works (/dev/ttyUSB0 or /dev/ttyACM0)
+ Desktop icon launches it
+ Can connect to Arduino and receive triggers
+ Close button doesn't hang
+Want help with any of these steps? 🍓
