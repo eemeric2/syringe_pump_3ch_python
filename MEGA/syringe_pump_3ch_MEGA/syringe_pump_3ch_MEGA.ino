@@ -55,6 +55,36 @@
 #define NUM_GPIO_BITS 8
 #define TRIGGER_BIT_INDEX 7
 
+// ============================================================================
+// FORWARD DECLARATIONS
+// ============================================================================
+
+void CheckTrigger();
+void ProcessSerialCommands();
+void ProcessCommand(String cmd);
+void DecodeTrigger(byte value, String binaryStr);
+void DeliverReward(int pumpIndex, int units);
+void ManualRewardFunc(int pumpIndex);
+void TranslateFunc(int pumpIndex, float distanceMM);
+void HomeFunc(int pumpIndex);
+void SendTriggerJSON(int pumpNum, int magnitude, String binary);
+void SendCompleteJSON(int pumpNum, float volume, float position, bool reversed);
+void SendError(String message);
+void SendWarning(String message);
+void Cmd_GetCurrentPosition(String params);
+void Cmd_SetCurrentPosition(String params);
+void Cmd_GetUnitSize(String params);
+void Cmd_SetUnitSize(String params);
+void Cmd_Translate(String params);
+void Cmd_ManualReward(String params);
+void Cmd_SetCalibration(String params);
+void Cmd_Home(String params);
+void Cmd_ResetCounter(String params);
+void Cmd_GetStatus(String params);
+void Cmd_ManualTrigger(String params);
+void Cmd_TestDirection(String params);
+void Cmd_SetDirection(String params);
+
 // GPIO input pins (TDT configuration)
 //const int GPIO_PINS[NUM_GPIO_BITS] = {22, 23, 24, 25, 26, 27, 28, 29};
 // different MEGA used than the one currently in the rig
@@ -135,7 +165,7 @@ void setup() {
   // Initialize pump states
   for (int i = 0; i < NUM_PUMPS; i++) {
     pumps[i].currentPosition = 0.0;
-    pumps[i].unitSize = 30.0; // 30 µL default
+    pumps[i].unitSize = 500.0; // 30 µL default
     pumps[i].pulsesPerMM = DEFAULT_PULSES_PER_MM;
     pumps[i].pulseCount = 0;
     pumps[i].directionFlag = false; // Start going forward
@@ -223,6 +253,10 @@ void ProcessCommand(String cmd) {
     Cmd_GetStatus(params);
   } else if (command.equalsIgnoreCase("ManualTrigger")) {
     Cmd_ManualTrigger(params);
+  } else if (command.equalsIgnoreCase("TestDirection")) {
+    Cmd_TestDirection(params);
+  } else if (command.equalsIgnoreCase("SetDirection")) {
+    Cmd_SetDirection(params);
   } else {
     SendError("Unknown command: " + command);
   }
@@ -328,6 +362,13 @@ void DecodeTrigger(byte value, String binaryStr) {
     return;
   }
   
+  // DEBUG
+  Serial.print(F("{\"type\":\"debug\",\"source\":\"MATLAB\",\"pump\":"));
+  Serial.print(pumpNum);
+  Serial.print(F(",\"amount\":"));
+  Serial.print(amount);
+  Serial.println(F("}"));
+
   int pumpIndex = pumpNum - 1;
   SendTriggerJSON(pumpNum, amount, binaryStr);
   DeliverReward(pumpIndex, amount);
@@ -378,45 +419,6 @@ void DeliverReward(int pumpIndex, int units) {
     delayMicroseconds(STEP_PULSE_WIDTH);
     digitalWrite(STEPPER_PINS[pumpIndex][1], LOW);
     delayMicroseconds(INTER_PULSE_INTERVAL);
-
-    // Check for trigger during dispensing
-    if (digitalRead(TRIGGER_PIN) == HIGH && triggerState == LOW) {
-      droppedTriggers++;
-      
-      // Read the GPIO to see what was being sent
-      byte value = 0;
-      String binaryStr = "";
-      for (int j = 0; j < NUM_GPIO_BITS - 1; j++) {
-        int bit = digitalRead(GPIO_PINS[j]);
-        binaryStr += String(bit);
-        value |= (bit << j);
-      }
-      
-      // Extract pump and amount for logging
-      int amount = 0;
-      for (int j = 0; j < 4; j++) {
-        amount = (amount << 1) | (binaryStr[j] - '0');
-      }
-      amount += 1;
-      
-      String pump_bits = binaryStr.substring(5, 7);
-      int attemptedPump = (pump_bits == "10") ? 1 : (pump_bits == "01") ? 2 : 3;
-      
-      Serial.print(F("{\"type\":\"warning\",\"message\":\"Trigger ignored during dispensing - Pump "));
-      Serial.print(attemptedPump);
-      Serial.print(F(", Amount "));
-      Serial.print(amount);
-      Serial.print(F("\",\"totalDropped\":"));
-      Serial.print(droppedTriggers);
-      Serial.println(F("}"));
-      
-      triggerState = HIGH;  // Set state to avoid re-triggering
-    }
-    
-    // Reset trigger state when it goes low
-    if (digitalRead(TRIGGER_PIN) == LOW && triggerState == HIGH) {
-      triggerState = LOW;
-    }
   }
   
   // Update state
@@ -431,7 +433,6 @@ void DeliverReward(int pumpIndex, int units) {
   // Send completion JSON
   SendCompleteJSON(pumpIndex + 1, volumeToDeliver, pump.currentPosition, pump.directionFlag);
 }
-
 // ============================================================================
 // MANUAL CONTROL FUNCTIONS
 // ============================================================================
@@ -695,7 +696,23 @@ void Cmd_ManualTrigger(String params) {
   SendTriggerJSON(pump, amount, "manual_command");
   DeliverReward(pump - 1, amount);
 }
-
+void Cmd_TestDirection(String params) {
+  int pump = ParseInt(params, 1);
+  if (pump < 1 || pump > NUM_PUMPS) {
+    SendError("Invalid pump");
+    return;
+  }
+  
+  // Toggle direction pin 5 times to test
+  for (int i = 0; i < 5; i++) {
+    digitalWrite(STEPPER_PINS[pump-1][2], HIGH);
+    delay(500);
+    digitalWrite(STEPPER_PINS[pump-1][2], LOW);
+    delay(500);
+  }
+  
+  Serial.println(F("{\"type\":\"status\",\"message\":\"Direction pin test complete\"}"));
+}
 void Cmd_Home(String params) {
   int pump = ParseInt(params, 1);
   
@@ -747,3 +764,33 @@ void Cmd_GetStatus(String params) {
   
   Serial.println(F("]}"));
 }
+
+void Cmd_SetDirection(String params) {
+  String pumpStr = GetFirstParam(params);
+  String dirStr = GetSecondParam(params);
+  
+  int pump = ParseInt(pumpStr, 1);
+  
+  if (pump < 1 || pump > NUM_PUMPS) {
+    SendError("Invalid pump number");
+    return;
+  }
+  
+  dirStr.toLowerCase();
+  
+  if (dirStr == "f" || dirStr == "forward") {
+    pumps[pump - 1].directionFlag = false;
+  } else if (dirStr == "r" || dirStr == "reverse") {
+    pumps[pump - 1].directionFlag = true;
+  } else {
+    SendError("Invalid direction - use 'F'/'Forward' or 'R'/'Reverse'");
+    return;
+  }
+  
+  Serial.print(F("{\"type\":\"status\",\"pump\":"));
+  Serial.print(pump);
+  Serial.print(F(",\"message\":\"Direction set to "));
+  Serial.print(dirStr);
+  Serial.println(F("\"}"));
+}
+

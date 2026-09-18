@@ -1,0 +1,196 @@
+[2026-09-16 13:50:52] Simulation mode enabled
+[2026-09-16 13:50:52] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:50:52] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:50:52] ERROR: Not connected to Arduino
+[2026-09-16 13:50:54] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:50:54] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:50:54] ERROR: Not connected to Arduino
+[2026-09-16 13:50:56] Simulation mode disabled
+[2026-09-16 13:50:57] Connected to COM5 at 115200 baud
+[2026-09-16 13:50:58] Pump 1: Synced unit size to 10.000 uL
+[2026-09-16 13:50:58] Pump 2: Synced unit size to 10.000 uL
+[2026-09-16 13:50:58] Pump 3: Synced unit size to 10.000 uL
+[2026-09-16 13:51:01] Simulation mode enabled
+[2026-09-16 13:51:01] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:01] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:01] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:03] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:03] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:03] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:05] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:05] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:05] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:07] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:07] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:07] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:09] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:09] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:09] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:11] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:11] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:11] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:13] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:13] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:13] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:15] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:15] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:15] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:17] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:17] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:17] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:19] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:19] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:19] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:21] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:21] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:21] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:23] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:23] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:23] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:25] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:25] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:25] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:27] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:27] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:27] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:29] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:29] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:29] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:31] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:31] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:31] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:33] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:33] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:33] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:35] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:35] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:35] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:37] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:37] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:37] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:39] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:39] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:39] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:41] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:41] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:41] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:43] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:43] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:43] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:45] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:45] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:45] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:47] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:47] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:47] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:49] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:49] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:49] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:51] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:51] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:51] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:53] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:53] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:53] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:55] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:55] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:55] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:57] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:57] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:57] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:51:59] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:51:59] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:51:59] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:01] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:01] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:01] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:03] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:03] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:03] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:05] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:05] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:05] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:07] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:07] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:07] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:09] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:09] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:09] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:11] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:11] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:11] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:13] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:13] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:13] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:15] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:15] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:15] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:18] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:18] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:18] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:20] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:20] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:20] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:21] Disconnected
+[2026-09-16 13:52:22] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:22] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:22] ERROR: Not connected to Arduino
+[2026-09-16 13:52:24] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:24] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:24] ERROR: Not connected to Arduino
+[2026-09-16 13:52:26] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:26] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:26] ERROR: Not connected to Arduino
+[2026-09-16 13:52:28] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:28] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:28] ERROR: Not connected to Arduino
+[2026-09-16 13:52:30] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:30] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:30] ERROR: Not connected to Arduino
+[2026-09-16 13:52:32] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:32] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:32] ERROR: Not connected to Arduino
+[2026-09-16 13:52:34] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:34] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:34] ERROR: Not connected to Arduino
+[2026-09-16 13:52:36] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:36] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:36] ERROR: Not connected to Arduino
+[2026-09-16 13:52:38] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:38] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:38] ERROR: Not connected to Arduino
+[2026-09-16 13:52:40] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:40] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:40] ERROR: Not connected to Arduino
+[2026-09-16 13:52:42] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:42] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:42] ERROR: Not connected to Arduino
+[2026-09-16 13:52:44] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:44] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:44] ERROR: Not connected to Arduino
+[2026-09-16 13:52:46] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:46] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:46] ERROR: Not connected to Arduino
+[2026-09-16 13:52:48] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:48] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:48] ERROR: Not connected to Arduino
+[2026-09-16 13:52:49] Simulation mode disabled
+[2026-09-16 13:52:50] Connected to COM5 at 115200 baud
+[2026-09-16 13:52:51] Pump 1: Synced unit size to 10.000 uL
+[2026-09-16 13:52:51] Pump 2: Synced unit size to 10.000 uL
+[2026-09-16 13:52:51] Pump 3: Synced unit size to 10.000 uL
+[2026-09-16 13:52:54] Simulation mode enabled
+[2026-09-16 13:52:54] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:54] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:54] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:56] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:56] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:56] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:52:58] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 13:52:58] Trigger: Pump 1, Magnitude 2
+[2026-09-16 13:52:58] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 13:53:00] Simulation mode disabled
+[2026-09-16 13:53:07] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-16 13:53:07] Arduino: Initialization complete. Ready for triggers.
+[2026-09-16 13:55:03] Disconnected
+

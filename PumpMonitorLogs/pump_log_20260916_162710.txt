@@ -1,0 +1,20 @@
+[2026-09-16 16:27:10] Connected to COM5 at 115200 baud
+[2026-09-16 16:27:11] Pump 1: Synced unit size to 100.000 uL
+[2026-09-16 16:27:11] Pump 2: Synced unit size to 10.000 uL
+[2026-09-16 16:27:11] Pump 3: Synced unit size to 10.000 uL
+[2026-09-16 16:27:19] Simulation mode enabled
+[2026-09-16 16:27:19] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 16:27:19] Trigger: Pump 1, Magnitude 2
+[2026-09-16 16:27:19] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 16:27:21] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 16:27:21] Trigger: Pump 1, Magnitude 2
+[2026-09-16 16:27:21] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 16:27:23] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 16:27:23] Trigger: Pump 1, Magnitude 2
+[2026-09-16 16:27:23] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 16:27:25] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-16 16:27:25] Trigger: Pump 1, Magnitude 2
+[2026-09-16 16:27:25] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-16 16:27:26] Simulation mode disabled
+[2026-09-16 16:27:27] Disconnected
+

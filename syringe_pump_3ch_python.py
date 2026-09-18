@@ -197,7 +197,8 @@ class PumpMonitorGUI:
         ttk.Button(button_frame, text="Reset Stats", command=self.reset_stats).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Export CSV", command=self.export_csv).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Clear Log", command=self.clear_log).pack(side=tk.LEFT, padx=5)
-        
+        ttk.Button(button_frame, text="Test Direction Pin", command=self.test_direction_pin).pack(side=tk.LEFT, padx=5)
+
         # Activity log
         log_frame = ttk.LabelFrame(self.root, text="Activity Log", padding=10)
         log_frame.grid(row=5, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), padx=10, pady=5)
@@ -239,12 +240,17 @@ class PumpMonitorGUI:
             self.connect_btn.config(text="Disconnect")
             self.log_message(f"Connected to {port} at {baud} baud", "system")
 
+            # Wait for Arduino to finish initialization
+            time.sleep(2)  # Increased from 0.5 to 2 seconds
             # sync current desired sizes with Arduino
             time.sleep(0.5)  # Give Arduino time to initialize
+            # Sync current desired sizes with Arduino
             for pump_num in [1, 2, 3]:
                 desired = float(self.pump_stats[pump_num]["desired_unit_size"].get())
                 command = f"!SetUnitSize {pump_num} {desired}\r\n"
                 self.serial_connection.write(command.encode())
+                self.serial_connection.flush()
+                time.sleep(0.2)  # Increased delay
                 self.log_message(f"Pump {pump_num}: Synced unit size to {desired:.3f} µL", "system")
             
             self.stop_reading = False
@@ -256,29 +262,35 @@ class PumpMonitorGUI:
 
     def read_serial(self):
         """Read serial data from Arduino in separate thread"""
-        buffer = b""  # Use bytes buffer instead of string
+        buffer = b""
         
         while not self.stop_reading and self.serial_connection and self.serial_connection.is_open:
             try:
                 if self.serial_connection.in_waiting > 0:
                     raw_data = self.serial_connection.read(self.serial_connection.in_waiting)
                     buffer += raw_data
-                                        
-                    # Process complete lines (split on \n)
+                    
                     while b'\n' in buffer:
                         line_bytes, buffer = buffer.split(b'\n', 1)
-                        line = line_bytes.decode('utf-8', errors='ignore').strip()
+                        
+                        # Be more careful with decoding - only decode valid ASCII/UTF-8
+                        try:
+                            line = line_bytes.decode('utf-8').strip()
+                        except UnicodeDecodeError:
+                            # Skip corrupted lines
+                            continue
                         
                         if line:
                             try:
                                 json_data = json.loads(line)
-                                self.handle_json_message(json_data)
-                            except json.JSONDecodeError as e:
+                                # Process trigger immediately on serial thread
+                                if json_data.get("type") == "trigger":
+                                    self.handle_json_message(json_data)
+                                else:
+                                    self.root.after(0, self.handle_json_message, json_data)
+                            except json.JSONDecodeError:
                                 if len(line) == 7 and all(c in '01' for c in line):
                                     self.root.after(0, self.decode_pins, line)
-                                else:
-                                    self.root.after(0, self.log_message, 
-                                                f"Unexpected format: {line}", "error")
                 else:
                     time.sleep(0.01)
                     
@@ -295,22 +307,28 @@ class PumpMonitorGUI:
             magnitude = json_data.get("magnitude", "?")
             volume = json_data.get("volume", "?")
             binary = json_data.get("binary", "")
-            self.log_message(f"Arduino: Pump {pump}, Magnitude {magnitude}, Volume {volume} µL", "trigger")
+            self.log_message(f"Trigger: Pump {pump}, Magnitude {magnitude}, Volume {volume} µL", "trigger")
             if isinstance(pump, int) and isinstance(magnitude, int):
                 self.root.after(0, self.update_statistics, pump, magnitude)
+            
         elif msg_type == "complete":
             pump = json_data.get("pump", "?")
-            volume = json_data.get("volume", "?")  # Get actual volume from Arduino
             volume = json_data.get("volume", "?")
             position = json_data.get("position", "?")
             direction = json_data.get("direction", "?")
             self.log_message(f"Complete: Pump {pump} delivered {volume} µL at {position} mm ({direction})", "system")
-
-            # update total_delivered with actual Arduino volume
-            if isinstance(pump, int) and isinstance(volume, (int, float)):
+            
+            # Sync position and direction directly from Arduino
+            if isinstance(pump, int) and isinstance(position, (int, float)):
                 stats = self.pump_stats[pump]
-                total = float(stats["total_delivered"].get()) + volume
-                stats["total_delivered"].set(f"{total:.3f}")
+                stats["position_mm"] = float(position)
+                stats["direction"] = 1 if direction == "F" else -1
+                
+                if isinstance(volume, (int, float)):
+                    total = float(stats["total_delivered"].get()) + volume
+                    stats["total_delivered"].set(f"{total:.3f}")
+                
+                self.root.after(0, self.update_position_displays)
                 self.save_state()
                 
         elif msg_type == "error":
@@ -367,9 +385,19 @@ class PumpMonitorGUI:
             return
         
         command = f"!ManualTrigger {pump_num} {magnitude}\r\n"
+        
+        # Clear any pending data first
+        self.serial_connection.reset_input_buffer()
+        time.sleep(0.05)
+        
+        # Send command
         self.serial_connection.write(command.encode())
+        self.serial_connection.flush()
+        
+        # Give Arduino time to process
+        time.sleep(0.1)
+        
         self.log_message(f"[SIMULATION] Sent trigger to Arduino: Pump {pump_num}, Magnitude {magnitude}", "trigger")
-
 
     def generate_simulated_trigger(self):
         import random
@@ -487,8 +515,6 @@ class PumpMonitorGUI:
         
         total_delivered = stats["triggers"] * delivered_ul
         stats["total_delivered"].set(f"{total_delivered:.3f}")
-        
-        self.update_plunger_position(pump_num, delivered_ul)
     
     def calculate_discrete_volume(self, desired_ul):
         steps_needed = desired_ul / self.UL_PER_STEP
@@ -539,7 +565,9 @@ class PumpMonitorGUI:
             # SEND COMMAND TO ARDUINO
             if self.serial_connection and self.serial_connection.is_open:
                 command = f"!SetUnitSize {pump_num} {desired}\r\n"
+                print(f"DEBUG: Sending: {repr(command)}")  # ADD THIS
                 self.serial_connection.write(command.encode())
+                self.serial_connection.flush()  # ADD THIS - force send
                 self.log_message(f"Pump {pump_num}: Sent unit size update to Arduino: {desired:.3f} µL", "system")
                 
             self.save_state()
@@ -574,13 +602,22 @@ class PumpMonitorGUI:
                     raise ValueError("Position out of range")
                 
                 new_dir = 1 if dir_var.get() == "Forward" else -1
+                dir_str = "F" if dir_var.get() == "Forward" else "R"
                 
                 self.pump_stats[pump_num]['position_mm'] = new_pos
                 self.pump_stats[pump_num]['direction'] = new_dir
                 
+                # Sync to Arduino
+                if self.serial_connection and self.serial_connection.is_open:
+                    self.serial_connection.write(f"!SetCurrentPosition {pump_num} {new_pos}\r\n".encode())
+                    self.serial_connection.flush()
+                    time.sleep(0.1)
+                    self.serial_connection.write(f"!SetDirection {pump_num} {dir_str}\r\n".encode())
+                    self.serial_connection.flush()
+                
                 self.update_position_displays()
                 self.save_state()
-                self.log_message(f"Pump {pump_num}: Position manually set to {new_pos:.2f} mm ({dir_var.get()})", "position")
+                self.log_message(f"Pump {pump_num}: Position set to {new_pos:.2f} mm ({dir_var.get()})", "position")
                 dialog.destroy()
                 
             except ValueError as e:
@@ -595,12 +632,11 @@ class PumpMonitorGUI:
         apply_btn = ttk.Button(dialog, text="Apply", command=apply)
         apply_btn.grid(row=2, column=0, columnspan=2, pady=10)
         
-        # Center dialog on parent
         dialog.update_idletasks()
         x = self.root.winfo_x() + (self.root.winfo_width() // 2) - (dialog.winfo_width() // 2)
         y = self.root.winfo_y() + (self.root.winfo_height() // 2) - (dialog.winfo_height() // 2)
         dialog.geometry(f"+{x}+{y}")
-    
+
     def reset_stats(self):
         if messagebox.askyesno("Reset Statistics", "Reset all pump statistics (positions will be preserved)?"):
             for pump_num in [1, 2, 3]:
@@ -673,6 +709,16 @@ class PumpMonitorGUI:
         self.log_text.config(state='normal')
         self.log_text.delete(1.0, tk.END)
         self.log_text.config(state='disabled')
+
+    def test_direction_pin(self):
+        """Test direction pin toggle"""
+        if not self.serial_connection or not self.serial_connection.is_open:
+            messagebox.showerror("Error", "Not connected to Arduino")
+            return
+        
+        command = b"!TestDirection 1\r\n"
+        self.serial_connection.write(command)
+        self.log_message("Sent TestDirection command to Pump 1", "system")
     
     def log_message(self, message, tag=""):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")

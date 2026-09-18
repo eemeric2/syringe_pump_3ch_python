@@ -1,12 +1,12 @@
 {
   "pumps": {
     "1": {
-      "position_mm": 15.36000000000001,
-      "direction": 1,
-      "desired_unit_size": "10"
+      "position_mm": 37.576,
+      "direction": -1,
+      "desired_unit_size": "200"
     },
     "2": {
-      "position_mm": 27.60000000000004,
+      "position_mm": 32.39999999999994,
       "direction": 1,
       "desired_unit_size": "10"
     },
@@ -19,13 +19,13 @@
   "desired_ul_history": {
     "1": [
       [
-        "2026-09-15 15:54:05",
-        10.0
+        "2026-09-18 13:49:44",
+        200.0
       ]
     ],
     "2": [
       [
-        "2026-09-15 15:54:05",
+        "2026-09-18 13:49:44",
         10.0
       ]
     ],

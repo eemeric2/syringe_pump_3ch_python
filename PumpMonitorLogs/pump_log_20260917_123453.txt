@@ -1,0 +1,16 @@
+[2026-09-17 12:34:53] Connected to COM5 at 115200 baud
+[2026-09-17 12:34:54] Pump 1: Synced unit size to 500.000 uL
+[2026-09-17 12:34:54] Pump 2: Synced unit size to 10.000 uL
+[2026-09-17 12:34:54] Pump 3: Synced unit size to 10.000 uL
+[2026-09-17 12:35:03] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-17 12:35:03] Arduino: Initialization complete. Ready for triggers.
+[2026-09-17 12:35:03] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-17 12:35:03] Complete: Pump 1 delivered 30.0 uL at 0.182 mm (F)
+[2026-09-17 12:35:21] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-17 12:35:21] Complete: Pump 1 delivered 30.0 uL at 0.364 mm (F)
+[2026-09-17 12:35:26] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-17 12:35:26] Complete: Pump 1 delivered 30.0 uL at 0.545 mm (F)
+[2026-09-17 12:35:31] Arduino: Pump 1, Magnitude 1, Volume 30.0 uL
+[2026-09-17 12:35:31] Complete: Pump 1 delivered 30.0 uL at 0.727 mm (F)
+[2026-09-17 12:35:47] Disconnected
+

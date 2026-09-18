@@ -1,0 +1,26 @@
+[2026-09-18 13:42:21] Connected to COM5 at 115200 baud
+[2026-09-18 13:42:23] Pump 1: Synced unit size to 200.000 uL
+[2026-09-18 13:42:24] Pump 2: Synced unit size to 10.000 uL
+[2026-09-18 13:42:24] Pump 3: Synced unit size to 10.000 uL
+[2026-09-18 13:42:24] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-18 13:42:24] Arduino: Initialization complete. Ready for triggers.
+[2026-09-18 13:42:24] Trigger: Pump 1, Magnitude 1, Volume 500.0 uL
+[2026-09-18 13:42:25] Complete: Pump 1 delivered 500.0 uL at 3.03 mm (F)
+[2026-09-18 13:42:25] Pump 1: Unit size set to 200.0 uL
+[2026-09-18 13:42:25] Pump 2: Unit size set to 10.0 uL
+[2026-09-18 13:42:25] Pump 3: Unit size set to 10.0 uL
+[2026-09-18 13:43:08] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:43:09] Complete: Pump 1 delivered 200.0 uL at 4.242 mm (F)
+[2026-09-18 13:43:13] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:43:14] Complete: Pump 1 delivered 200.0 uL at 5.455 mm (F)
+[2026-09-18 13:43:18] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:43:19] Complete: Pump 1 delivered 200.0 uL at 6.667 mm (F)
+[2026-09-18 13:43:23] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:43:25] Complete: Pump 1 delivered 200.0 uL at 7.879 mm (F)
+[2026-09-18 13:43:28] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:43:30] Complete: Pump 1 delivered 200.0 uL at 9.091 mm (F)
+[2026-09-18 13:43:37] Pump 1: Position set to 9.09 mm (Reverse)
+[2026-09-18 13:43:37] Pump 1: Position set to 9.090 mm
+[2026-09-18 13:43:37] Arduino Error: Unknown command: SetDirection
+[2026-09-18 13:43:42] Disconnected
+

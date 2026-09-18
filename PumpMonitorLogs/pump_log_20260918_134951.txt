@@ -1,0 +1,52 @@
+[2026-09-18 13:49:51] Connected to COM5 at 115200 baud
+[2026-09-18 13:49:54] Pump 1: Synced unit size to 200.000 uL
+[2026-09-18 13:49:54] Pump 2: Synced unit size to 10.000 uL
+[2026-09-18 13:49:54] Pump 3: Synced unit size to 10.000 uL
+[2026-09-18 13:49:54] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-18 13:49:54] Arduino: Initialization complete. Ready for triggers.
+[2026-09-18 13:49:54] Trigger: Pump 1, Magnitude 1, Volume 500.0 uL
+[2026-09-18 13:49:56] Complete: Pump 1 delivered 500.0 uL at 3.03 mm (F)
+[2026-09-18 13:49:56] Pump 1: Unit size set to 200.0 uL
+[2026-09-18 13:49:56] Pump 2: Unit size set to 10.0 uL
+[2026-09-18 13:49:56] Pump 3: Unit size set to 10.0 uL
+[2026-09-18 13:50:03] Pump 1: Position set to 3.03 mm (Reverse)
+[2026-09-18 13:50:03] Pump 1: Position set to 3.030 mm
+[2026-09-18 13:50:03] Pump 1: Direction set to r
+[2026-09-18 13:50:28] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:50:30] Complete: Pump 1 delivered 200.0 uL at 1.818 mm (R)
+[2026-09-18 13:50:34] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:50:35] Complete: Pump 1 delivered 200.0 uL at 0.606 mm (R)
+[2026-09-18 13:50:46] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:50:48] Complete: Pump 1 delivered 200.0 uL at 1.212 mm (F)
+[2026-09-18 13:50:51] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:50:53] Complete: Pump 1 delivered 200.0 uL at 2.424 mm (F)
+[2026-09-18 13:50:57] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:50:58] Complete: Pump 1 delivered 200.0 uL at 3.636 mm (F)
+[2026-09-18 13:51:07] Pump 1: Position set to 39.00 mm (Forward)
+[2026-09-18 13:51:07] Pump 1: Position set to 39.000 mm
+[2026-09-18 13:51:07] Pump 1: Direction set to f
+[2026-09-18 13:51:12] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:51:13] Complete: Pump 1 delivered 200.0 uL at 38.788 mm (R)
+[2026-09-18 13:51:17] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:51:19] Complete: Pump 1 delivered 200.0 uL at 37.576 mm (R)
+[2026-09-18 13:51:22] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:51:24] Complete: Pump 1 delivered 200.0 uL at 36.364 mm (R)
+[2026-09-18 13:51:28] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:51:29] Complete: Pump 1 delivered 200.0 uL at 35.152 mm (R)
+[2026-09-18 13:51:35] Pump 1: Position set to 35.15 mm (Forward)
+[2026-09-18 13:51:35] Pump 1: Position set to 35.150 mm
+[2026-09-18 13:51:35] Pump 1: Direction set to f
+[2026-09-18 13:51:41] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:51:42] Complete: Pump 1 delivered 200.0 uL at 36.362 mm (F)
+[2026-09-18 13:51:46] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:51:47] Complete: Pump 1 delivered 200.0 uL at 37.574 mm (F)
+[2026-09-18 13:51:51] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:51:53] Complete: Pump 1 delivered 200.0 uL at 38.786 mm (F)
+[2026-09-18 13:51:56] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:51:58] Complete: Pump 1 delivered 200.0 uL at 39.998 mm (F)
+[2026-09-18 13:52:02] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:52:03] Complete: Pump 1 delivered 200.0 uL at 38.788 mm (R)
+[2026-09-18 13:52:07] Trigger: Pump 1, Magnitude 1, Volume 200.0 uL
+[2026-09-18 13:52:08] Complete: Pump 1 delivered 200.0 uL at 37.576 mm (R)
+[2026-09-18 13:52:13] Disconnected
+
