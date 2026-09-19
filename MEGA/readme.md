@@ -339,13 +339,12 @@ Exports current statistics:
 - Python GUI with statistics
 
 ## Future Enhancements
- [] CSV export with desired µL history
- [] Interrupt-based trigger handling for dropped trigger detection
- [] Raspberry Pi deployment with desktop shortcuts
- [] Multi-pump simultaneous operation
- [] Temperature-compensated calibration
- [] Real-time graphing of delivery history
- [] Network remote control capability
+ - [ ] CSV export with desired µL history
+ - [ ] Interrupt-based trigger handling for dropped trigger detection
+ - [ ] Raspberry Pi deployment with desktop shortcuts
+ - [ ]  Multi-pump simultaneous operation
+ - [ ]  Real-time graphing of delivery history
+ - [ ]  Network remote control capability
 
 ## Support & Contributing
 For issues, feature requests, or contributions:
