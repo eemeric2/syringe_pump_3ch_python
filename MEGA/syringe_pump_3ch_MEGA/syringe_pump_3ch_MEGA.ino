@@ -91,6 +91,9 @@ void Cmd_SetDirection(String params);
 const int GPIO_PINS[NUM_GPIO_BITS] = {2,3,4,5,6,7,8,9};
 const int TRIGGER_PIN = 9; // Bit 7
 unsigned long droppedTriggers = 0;
+// for variability testing
+unsigned long lastTriggerTime = 0;
+unsigned long firstStepTime = 0;
 
 // Stepper motor pins [pump_index][0=enable, 1=step, 2=direction]
 const int STEPPER_PINS[NUM_PUMPS][3] = {
@@ -104,7 +107,8 @@ const int LED_PIN = LED_BUILTIN;
 // Mechanical parameters
 const float TOTAL_TRAVEL_MM = 40.0;
 const float TOTAL_VOLUME_UL = 6600.0; // 6.6 mL
-const unsigned long DEFAULT_PULSES_PER_MM = 945; // 37,800 / 40mm (adjustable for calibration)
+// Calibration: 200 steps/rev ÷ 1.25mm pitch = 160 pulses/mm
+const unsigned long DEFAULT_PULSES_PER_MM = 160;
 
 // Stepper timing (microseconds)
 const int STEP_PULSE_WIDTH = 600;
@@ -338,6 +342,7 @@ void DecodeTrigger(byte value, String binaryStr) {
   // Serial.print((value >> 5) & 0x03, BIN);
   // Serial.println(F("}"));
   
+  lastTriggerTime = micros();  // Record trigger time
   // Extract amount (bits 0-3)
   int amount = (value & 0x0F) + 1;  // 1-16
   
@@ -404,7 +409,7 @@ void DeliverReward(int pumpIndex, int units) {
   
   // Enable motor
   digitalWrite(STEPPER_PINS[pumpIndex][0], HIGH);
-  delay(25);
+  delay(10);
   
   // Set direction
   if (pump.directionFlag == false) {
@@ -413,6 +418,14 @@ void DeliverReward(int pumpIndex, int units) {
     digitalWrite(STEPPER_PINS[pumpIndex][2], HIGH); // Reverse
   }
   
+  // Record time just before first step
+  firstStepTime = micros();
+  unsigned long latency_us = firstStepTime - lastTriggerTime;
+  
+  Serial.print(F("{\"type\":\"debug\",\"latency_us\":"));
+  Serial.print(latency_us);
+  Serial.println(F("}"));
+
   // Send step pulses
   for (int i = 0; i < pulsesToDeliver; i++) {
     digitalWrite(STEPPER_PINS[pumpIndex][1], HIGH);
