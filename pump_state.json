@@ -1,36 +1,32 @@
 {
   "pumps": {
     "1": {
-      "position_mm": 29.091,
-      "direction": 1,
-      "desired_unit_size": "600"
+      "position_mm": 33.455,
+      "direction": -1,
+      "desired_unit_size": "60"
     },
     "2": {
-      "position_mm": 32.39999999999994,
+      "position_mm": 17.091,
       "direction": 1,
-      "desired_unit_size": "10"
+      "desired_unit_size": "60"
     },
     "3": {
-      "position_mm": 38.99999999999996,
-      "direction": 1,
-      "desired_unit_size": "10"
+      "position_mm": 30.545,
+      "direction": -1,
+      "desired_unit_size": "60"
     }
   },
   "desired_ul_history": {
     "1": [
       [
-        "2026-09-21 10:22:54",
-        200.0
-      ],
-      [
-        "2026-09-21 10:24:27",
-        600.0
+        "2026-09-22 12:28:19",
+        60.0
       ]
     ],
     "2": [
       [
-        "2026-09-21 10:22:54",
-        10.0
+        "2026-09-22 12:28:19",
+        60.0
       ]
     ],
     "3": [

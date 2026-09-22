@@ -169,7 +169,7 @@ void setup() {
   // Initialize pump states
   for (int i = 0; i < NUM_PUMPS; i++) {
     pumps[i].currentPosition = 0.0;
-    pumps[i].unitSize = 500.0; // 30 µL default
+    pumps[i].unitSize = 60.0; // 30 µL default
     pumps[i].pulsesPerMM = DEFAULT_PULSES_PER_MM;
     pumps[i].pulseCount = 0;
     pumps[i].directionFlag = false; // Start going forward

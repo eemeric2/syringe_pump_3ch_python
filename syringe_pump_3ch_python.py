@@ -405,8 +405,8 @@ class PumpMonitorGUI:
         pump_num = random.randint(1, 3)
         magnitude = random.randint(1, 16)
 
-        pump_num = 1
-        magnitude = 1
+        # pump_num = 1
+        # magnitude = 1
 
         pump_encoding = {1: '01', 2: '10', 3: '11'}
         pump_bits = pump_encoding[pump_num]

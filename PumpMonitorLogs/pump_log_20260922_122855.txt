@@ -1,0 +1,848 @@
+[2026-09-22 12:28:55] Connected to COM5 at 115200 baud
+[2026-09-22 12:28:57] Pump 1: Synced unit size to 60.000 uL
+[2026-09-22 12:28:57] Pump 2: Synced unit size to 60.000 uL
+[2026-09-22 12:28:58] Pump 3: Synced unit size to 60.000 uL
+[2026-09-22 12:28:58] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-22 12:28:58] Arduino: Initialization complete. Ready for triggers.
+[2026-09-22 12:28:58] Trigger: Pump 1, Magnitude 1, Volume 60.0 uL
+[2026-09-22 12:28:58] Complete: Pump 1 delivered 60.0 uL at 0.364 mm (F)
+[2026-09-22 12:28:58] Pump 1: Unit size set to 60.0 uL
+[2026-09-22 12:28:58] Pump 2: Unit size set to 60.0 uL
+[2026-09-22 12:28:58] Pump 3: Unit size set to 60.0 uL
+[2026-09-22 12:28:59] Simulation mode enabled
+[2026-09-22 12:28:59] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-22 12:28:59] Trigger: Pump 1, Magnitude 4
+[2026-09-22 12:29:00] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 4
+[2026-09-22 12:28:59] Trigger: Pump 1, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:29:00] Complete: Pump 1 delivered 240.0 uL at 1.818 mm (F)
+[2026-09-22 12:29:02] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:29:02] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:29:02] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:29:02] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:29:02] Complete: Pump 3 delivered 600.0 uL at 3.636 mm (F)
+[2026-09-22 12:29:04] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-22 12:29:04] Trigger: Pump 1, Magnitude 10
+[2026-09-22 12:29:04] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 10
+[2026-09-22 12:29:04] Trigger: Pump 1, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:29:05] Complete: Pump 1 delivered 600.0 uL at 5.455 mm (F)
+[2026-09-22 12:29:06] [SIMULATED] Pump 3, Magnitude 6
+[2026-09-22 12:29:06] Trigger: Pump 3, Magnitude 6
+[2026-09-22 12:29:06] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 6
+[2026-09-22 12:29:06] Trigger: Pump 3, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:29:06] Complete: Pump 3 delivered 360.0 uL at 5.818 mm (F)
+[2026-09-22 12:29:08] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:29:08] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:29:08] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:29:08] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:29:09] Complete: Pump 3 delivered 600.0 uL at 9.455 mm (F)
+[2026-09-22 12:29:10] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-22 12:29:10] Trigger: Pump 2, Magnitude 15
+[2026-09-22 12:29:10] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 15
+[2026-09-22 12:29:10] Trigger: Pump 2, Magnitude 15, Volume 900.0 uL
+[2026-09-22 12:29:11] Complete: Pump 2 delivered 900.0 uL at 5.455 mm (F)
+[2026-09-22 12:29:12] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-22 12:29:12] Trigger: Pump 1, Magnitude 4
+[2026-09-22 12:29:13] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 4
+[2026-09-22 12:29:12] Trigger: Pump 1, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:29:13] Complete: Pump 1 delivered 240.0 uL at 6.909 mm (F)
+[2026-09-22 12:29:15] [SIMULATED] Pump 1, Magnitude 6
+[2026-09-22 12:29:15] Trigger: Pump 1, Magnitude 6
+[2026-09-22 12:29:15] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 6
+[2026-09-22 12:29:15] Trigger: Pump 1, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:29:15] Complete: Pump 1 delivered 360.0 uL at 9.091 mm (F)
+[2026-09-22 12:29:17] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-22 12:29:17] Trigger: Pump 1, Magnitude 10
+[2026-09-22 12:29:17] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 10
+[2026-09-22 12:29:17] Trigger: Pump 1, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:29:18] Complete: Pump 1 delivered 600.0 uL at 12.727 mm (F)
+[2026-09-22 12:29:19] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-22 12:29:19] Trigger: Pump 2, Magnitude 9
+[2026-09-22 12:29:19] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 9
+[2026-09-22 12:29:19] Trigger: Pump 2, Magnitude 9, Volume 540.0 uL
+[2026-09-22 12:29:20] Complete: Pump 2 delivered 540.0 uL at 8.727 mm (F)
+[2026-09-22 12:29:21] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-22 12:29:21] Trigger: Pump 2, Magnitude 13
+[2026-09-22 12:29:21] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 13
+[2026-09-22 12:29:21] Trigger: Pump 2, Magnitude 13, Volume 780.0 uL
+[2026-09-22 12:29:22] Complete: Pump 2 delivered 780.0 uL at 13.455 mm (F)
+[2026-09-22 12:29:23] [SIMULATED] Pump 1, Magnitude 6
+[2026-09-22 12:29:23] Trigger: Pump 1, Magnitude 6
+[2026-09-22 12:29:23] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 6
+[2026-09-22 12:29:23] Trigger: Pump 1, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:29:24] Complete: Pump 1 delivered 360.0 uL at 14.909 mm (F)
+[2026-09-22 12:29:25] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-22 12:29:25] Trigger: Pump 2, Magnitude 15
+[2026-09-22 12:29:25] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 15
+[2026-09-22 12:29:25] Trigger: Pump 2, Magnitude 15, Volume 900.0 uL
+[2026-09-22 12:29:27] Complete: Pump 2 delivered 900.0 uL at 18.909 mm (F)
+[2026-09-22 12:29:27] [SIMULATED] Pump 1, Magnitude 8
+[2026-09-22 12:29:27] Trigger: Pump 1, Magnitude 8
+[2026-09-22 12:29:28] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 8
+[2026-09-22 12:29:28] Trigger: Pump 1, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:29:28] Complete: Pump 1 delivered 480.0 uL at 17.818 mm (F)
+[2026-09-22 12:29:30] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-22 12:29:30] Trigger: Pump 3, Magnitude 16
+[2026-09-22 12:29:30] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 16
+[2026-09-22 12:29:30] Trigger: Pump 3, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:29:31] Complete: Pump 3 delivered 960.0 uL at 15.273 mm (F)
+[2026-09-22 12:29:32] [SIMULATED] Pump 3, Magnitude 14
+[2026-09-22 12:29:32] Trigger: Pump 3, Magnitude 14
+[2026-09-22 12:29:32] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 14
+[2026-09-22 12:29:32] Trigger: Pump 3, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:29:33] Complete: Pump 3 delivered 840.0 uL at 20.364 mm (F)
+[2026-09-22 12:29:34] [SIMULATED] Pump 3, Magnitude 2
+[2026-09-22 12:29:34] Trigger: Pump 3, Magnitude 2
+[2026-09-22 12:29:34] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 2
+[2026-09-22 12:29:34] Trigger: Pump 3, Magnitude 2, Volume 120.0 uL
+[2026-09-22 12:29:34] Complete: Pump 3 delivered 120.0 uL at 21.091 mm (F)
+[2026-09-22 12:29:36] [SIMULATED] Pump 2, Magnitude 11
+[2026-09-22 12:29:36] Trigger: Pump 2, Magnitude 11
+[2026-09-22 12:29:36] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 11
+[2026-09-22 12:29:36] Trigger: Pump 2, Magnitude 11, Volume 660.0 uL
+[2026-09-22 12:29:37] Complete: Pump 2 delivered 660.0 uL at 22.909 mm (F)
+[2026-09-22 12:29:38] [SIMULATED] Pump 1, Magnitude 16
+[2026-09-22 12:29:38] Trigger: Pump 1, Magnitude 16
+[2026-09-22 12:29:38] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 16
+[2026-09-22 12:29:38] Trigger: Pump 1, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:29:40] Complete: Pump 1 delivered 960.0 uL at 23.636 mm (F)
+[2026-09-22 12:29:40] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-22 12:29:40] Trigger: Pump 2, Magnitude 9
+[2026-09-22 12:29:41] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 9
+[2026-09-22 12:29:41] Trigger: Pump 2, Magnitude 9, Volume 540.0 uL
+[2026-09-22 12:29:41] Complete: Pump 2 delivered 540.0 uL at 26.182 mm (F)
+[2026-09-22 12:29:43] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:29:43] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:29:43] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:29:43] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:29:43] Complete: Pump 3 delivered 600.0 uL at 24.727 mm (F)
+[2026-09-22 12:29:45] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-22 12:29:45] Trigger: Pump 1, Magnitude 4
+[2026-09-22 12:29:45] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 4
+[2026-09-22 12:29:45] Trigger: Pump 1, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:29:45] Complete: Pump 1 delivered 240.0 uL at 25.091 mm (F)
+[2026-09-22 12:29:47] [SIMULATED] Pump 2, Magnitude 5
+[2026-09-22 12:29:47] Trigger: Pump 2, Magnitude 5
+[2026-09-22 12:29:47] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 5
+[2026-09-22 12:29:47] Trigger: Pump 2, Magnitude 5, Volume 300.0 uL
+[2026-09-22 12:29:47] Complete: Pump 2 delivered 300.0 uL at 28.0 mm (F)
+[2026-09-22 12:29:49] [SIMULATED] Pump 3, Magnitude 6
+[2026-09-22 12:29:49] Trigger: Pump 3, Magnitude 6
+[2026-09-22 12:29:49] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 6
+[2026-09-22 12:29:49] Trigger: Pump 3, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:29:50] Complete: Pump 3 delivered 360.0 uL at 26.909 mm (F)
+[2026-09-22 12:29:51] [SIMULATED] Pump 1, Magnitude 16
+[2026-09-22 12:29:51] Trigger: Pump 1, Magnitude 16
+[2026-09-22 12:29:51] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 16
+[2026-09-22 12:29:51] Trigger: Pump 1, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:29:52] Complete: Pump 1 delivered 960.0 uL at 30.909 mm (F)
+[2026-09-22 12:29:53] [SIMULATED] Pump 2, Magnitude 5
+[2026-09-22 12:29:53] Trigger: Pump 2, Magnitude 5
+[2026-09-22 12:29:54] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 5
+[2026-09-22 12:29:53] Trigger: Pump 2, Magnitude 5, Volume 300.0 uL
+[2026-09-22 12:29:54] Complete: Pump 2 delivered 300.0 uL at 29.818 mm (F)
+[2026-09-22 12:29:56] [SIMULATED] Pump 3, Magnitude 4
+[2026-09-22 12:29:56] Trigger: Pump 3, Magnitude 4
+[2026-09-22 12:29:56] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 4
+[2026-09-22 12:29:56] Trigger: Pump 3, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:29:56] Complete: Pump 3 delivered 240.0 uL at 28.364 mm (F)
+[2026-09-22 12:29:58] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-22 12:29:58] Trigger: Pump 1, Magnitude 4
+[2026-09-22 12:29:58] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 4
+[2026-09-22 12:29:58] Trigger: Pump 1, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:29:58] Complete: Pump 1 delivered 240.0 uL at 32.364 mm (F)
+[2026-09-22 12:30:00] [SIMULATED] Pump 3, Magnitude 6
+[2026-09-22 12:30:00] Trigger: Pump 3, Magnitude 6
+[2026-09-22 12:30:00] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 6
+[2026-09-22 12:30:00] Trigger: Pump 3, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:30:00] Complete: Pump 3 delivered 360.0 uL at 30.545 mm (F)
+[2026-09-22 12:30:02] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-22 12:30:02] Trigger: Pump 1, Magnitude 10
+[2026-09-22 12:30:02] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 10
+[2026-09-22 12:30:02] Trigger: Pump 1, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:30:03] Complete: Pump 1 delivered 600.0 uL at 36.0 mm (F)
+[2026-09-22 12:30:04] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-22 12:30:04] Trigger: Pump 2, Magnitude 15
+[2026-09-22 12:30:04] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 15
+[2026-09-22 12:30:04] Trigger: Pump 2, Magnitude 15, Volume 900.0 uL
+[2026-09-22 12:30:05] Complete: Pump 2 delivered 900.0 uL at 35.273 mm (F)
+[2026-09-22 12:30:06] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-22 12:30:06] Trigger: Pump 2, Magnitude 13
+[2026-09-22 12:30:07] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 13
+[2026-09-22 12:30:06] Trigger: Pump 2, Magnitude 13, Volume 780.0 uL
+[2026-09-22 12:30:07] Complete: Pump 2 delivered 780.0 uL at 40.0 mm (F)
+[2026-09-22 12:30:09] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:30:09] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:30:09] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:30:09] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:30:09] Complete: Pump 3 delivered 600.0 uL at 34.182 mm (F)
+[2026-09-22 12:30:11] [SIMULATED] Pump 2, Magnitude 3
+[2026-09-22 12:30:11] Trigger: Pump 2, Magnitude 3
+[2026-09-22 12:30:11] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 3
+[2026-09-22 12:30:11] Trigger: Pump 2, Magnitude 3, Volume 180.0 uL
+[2026-09-22 12:30:11] Complete: Pump 2 delivered 180.0 uL at 38.909 mm (R)
+[2026-09-22 12:30:13] [SIMULATED] Pump 1, Magnitude 8
+[2026-09-22 12:30:13] Trigger: Pump 1, Magnitude 8
+[2026-09-22 12:30:13] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 8
+[2026-09-22 12:30:13] Trigger: Pump 1, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:30:13] Complete: Pump 1 delivered 480.0 uL at 38.909 mm (F)
+[2026-09-22 12:30:15] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-22 12:30:15] Trigger: Pump 2, Magnitude 15
+[2026-09-22 12:30:15] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 15
+[2026-09-22 12:30:15] Trigger: Pump 2, Magnitude 15, Volume 900.0 uL
+[2026-09-22 12:30:16] Complete: Pump 2 delivered 900.0 uL at 33.455 mm (R)
+[2026-09-22 12:30:17] [SIMULATED] Pump 1, Magnitude 8
+[2026-09-22 12:30:17] Trigger: Pump 1, Magnitude 8
+[2026-09-22 12:30:17] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 8
+[2026-09-22 12:30:17] Trigger: Pump 1, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:30:18] Complete: Pump 1 delivered 480.0 uL at 37.091 mm (R)
+[2026-09-22 12:30:19] [SIMULATED] Pump 2, Magnitude 1
+[2026-09-22 12:30:19] Trigger: Pump 2, Magnitude 1
+[2026-09-22 12:30:19] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 1
+[2026-09-22 12:30:19] Trigger: Pump 2, Magnitude 1, Volume 60.0 uL
+[2026-09-22 12:30:19] Complete: Pump 2 delivered 60.0 uL at 33.091 mm (R)
+[2026-09-22 12:30:21] [SIMULATED] Pump 3, Magnitude 8
+[2026-09-22 12:30:21] Trigger: Pump 3, Magnitude 8
+[2026-09-22 12:30:22] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 8
+[2026-09-22 12:30:22] Trigger: Pump 3, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:30:22] Complete: Pump 3 delivered 480.0 uL at 37.091 mm (F)
+[2026-09-22 12:30:24] [SIMULATED] Pump 3, Magnitude 12
+[2026-09-22 12:30:24] Trigger: Pump 3, Magnitude 12
+[2026-09-22 12:30:24] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 12
+[2026-09-22 12:30:24] Trigger: Pump 3, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:30:25] Complete: Pump 3 delivered 720.0 uL at 35.636 mm (R)
+[2026-09-22 12:30:26] [SIMULATED] Pump 2, Magnitude 3
+[2026-09-22 12:30:26] Trigger: Pump 2, Magnitude 3
+[2026-09-22 12:30:26] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 3
+[2026-09-22 12:30:26] Trigger: Pump 2, Magnitude 3, Volume 180.0 uL
+[2026-09-22 12:30:26] Complete: Pump 2 delivered 180.0 uL at 32.0 mm (R)
+[2026-09-22 12:30:28] [SIMULATED] Pump 1, Magnitude 16
+[2026-09-22 12:30:28] Trigger: Pump 1, Magnitude 16
+[2026-09-22 12:30:28] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 16
+[2026-09-22 12:30:28] Trigger: Pump 1, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:30:29] Complete: Pump 1 delivered 960.0 uL at 31.273 mm (R)
+[2026-09-22 12:30:30] [SIMULATED] Pump 1, Magnitude 14
+[2026-09-22 12:30:30] Trigger: Pump 1, Magnitude 14
+[2026-09-22 12:30:30] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 14
+[2026-09-22 12:30:30] Trigger: Pump 1, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:30:31] Complete: Pump 1 delivered 840.0 uL at 26.182 mm (R)
+[2026-09-22 12:30:32] [SIMULATED] Pump 3, Magnitude 6
+[2026-09-22 12:30:32] Trigger: Pump 3, Magnitude 6
+[2026-09-22 12:30:32] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 6
+[2026-09-22 12:30:32] Trigger: Pump 3, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:30:33] Complete: Pump 3 delivered 360.0 uL at 33.455 mm (R)
+[2026-09-22 12:30:34] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:30:34] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:30:35] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:30:34] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:30:35] Complete: Pump 3 delivered 600.0 uL at 29.818 mm (R)
+[2026-09-22 12:30:37] [SIMULATED] Pump 3, Magnitude 12
+[2026-09-22 12:30:37] Trigger: Pump 3, Magnitude 12
+[2026-09-22 12:30:37] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 12
+[2026-09-22 12:30:37] Trigger: Pump 3, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:30:38] Complete: Pump 3 delivered 720.0 uL at 25.455 mm (R)
+[2026-09-22 12:30:39] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-22 12:30:39] Trigger: Pump 2, Magnitude 13
+[2026-09-22 12:30:39] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 13
+[2026-09-22 12:30:39] Trigger: Pump 2, Magnitude 13, Volume 780.0 uL
+[2026-09-22 12:30:40] Complete: Pump 2 delivered 780.0 uL at 27.273 mm (R)
+[2026-09-22 12:30:41] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:30:41] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:30:41] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:30:41] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:30:42] Complete: Pump 3 delivered 600.0 uL at 21.818 mm (R)
+[2026-09-22 12:30:43] [SIMULATED] Pump 1, Magnitude 14
+[2026-09-22 12:30:43] Trigger: Pump 1, Magnitude 14
+[2026-09-22 12:30:43] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 14
+[2026-09-22 12:30:43] Trigger: Pump 1, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:30:44] Complete: Pump 1 delivered 840.0 uL at 21.091 mm (R)
+[2026-09-22 12:30:45] [SIMULATED] Pump 1, Magnitude 6
+[2026-09-22 12:30:45] Trigger: Pump 1, Magnitude 6
+[2026-09-22 12:30:45] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 6
+[2026-09-22 12:30:45] Trigger: Pump 1, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:30:46] Complete: Pump 1 delivered 360.0 uL at 18.909 mm (R)
+[2026-09-22 12:30:47] [SIMULATED] Pump 1, Magnitude 6
+[2026-09-22 12:30:47] Trigger: Pump 1, Magnitude 6
+[2026-09-22 12:30:48] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 6
+[2026-09-22 12:30:47] Trigger: Pump 1, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:30:48] Complete: Pump 1 delivered 360.0 uL at 16.727 mm (R)
+[2026-09-22 12:30:50] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-22 12:30:50] Trigger: Pump 2, Magnitude 13
+[2026-09-22 12:30:50] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 13
+[2026-09-22 12:30:50] Trigger: Pump 2, Magnitude 13, Volume 780.0 uL
+[2026-09-22 12:30:51] Complete: Pump 2 delivered 780.0 uL at 22.545 mm (R)
+[2026-09-22 12:30:52] [SIMULATED] Pump 1, Magnitude 16
+[2026-09-22 12:30:52] Trigger: Pump 1, Magnitude 16
+[2026-09-22 12:30:52] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 16
+[2026-09-22 12:30:52] Trigger: Pump 1, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:30:53] Complete: Pump 1 delivered 960.0 uL at 10.909 mm (R)
+[2026-09-22 12:30:54] [SIMULATED] Pump 3, Magnitude 2
+[2026-09-22 12:30:54] Trigger: Pump 3, Magnitude 2
+[2026-09-22 12:30:54] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 2
+[2026-09-22 12:30:54] Trigger: Pump 3, Magnitude 2, Volume 120.0 uL
+[2026-09-22 12:30:54] Complete: Pump 3 delivered 120.0 uL at 21.091 mm (R)
+[2026-09-22 12:30:56] [SIMULATED] Pump 3, Magnitude 2
+[2026-09-22 12:30:56] Trigger: Pump 3, Magnitude 2
+[2026-09-22 12:30:56] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 2
+[2026-09-22 12:30:56] Trigger: Pump 3, Magnitude 2, Volume 120.0 uL
+[2026-09-22 12:30:56] Complete: Pump 3 delivered 120.0 uL at 20.364 mm (R)
+[2026-09-22 12:30:58] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:30:58] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:30:58] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:30:58] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:30:59] Complete: Pump 3 delivered 600.0 uL at 16.727 mm (R)
+[2026-09-22 12:31:00] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:31:00] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:31:00] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:31:00] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:31:01] Complete: Pump 3 delivered 600.0 uL at 13.091 mm (R)
+[2026-09-22 12:31:02] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-22 12:31:02] Trigger: Pump 1, Magnitude 10
+[2026-09-22 12:31:03] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 10
+[2026-09-22 12:31:03] Trigger: Pump 1, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:31:03] Complete: Pump 1 delivered 600.0 uL at 7.273 mm (R)
+[2026-09-22 12:31:05] [SIMULATED] Pump 3, Magnitude 12
+[2026-09-22 12:31:05] Trigger: Pump 3, Magnitude 12
+[2026-09-22 12:31:05] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 12
+[2026-09-22 12:31:05] Trigger: Pump 3, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:31:06] Complete: Pump 3 delivered 720.0 uL at 8.727 mm (R)
+[2026-09-22 12:31:07] [SIMULATED] Pump 3, Magnitude 2
+[2026-09-22 12:31:07] Trigger: Pump 3, Magnitude 2
+[2026-09-22 12:31:07] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 2
+[2026-09-22 12:31:07] Trigger: Pump 3, Magnitude 2, Volume 120.0 uL
+[2026-09-22 12:31:07] Complete: Pump 3 delivered 120.0 uL at 8.0 mm (R)
+[2026-09-22 12:31:09] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-22 12:31:09] Trigger: Pump 3, Magnitude 16
+[2026-09-22 12:31:09] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 16
+[2026-09-22 12:31:09] Trigger: Pump 3, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:31:10] Complete: Pump 3 delivered 960.0 uL at 2.182 mm (R)
+[2026-09-22 12:31:11] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-22 12:31:11] Trigger: Pump 2, Magnitude 15
+[2026-09-22 12:31:11] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 15
+[2026-09-22 12:31:11] Trigger: Pump 2, Magnitude 15, Volume 900.0 uL
+[2026-09-22 12:31:12] Complete: Pump 2 delivered 900.0 uL at 17.091 mm (R)
+[2026-09-22 12:31:13] [SIMULATED] Pump 2, Magnitude 5
+[2026-09-22 12:31:13] Trigger: Pump 2, Magnitude 5
+[2026-09-22 12:31:13] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 5
+[2026-09-22 12:31:13] Trigger: Pump 2, Magnitude 5, Volume 300.0 uL
+[2026-09-22 12:31:14] Complete: Pump 2 delivered 300.0 uL at 15.273 mm (R)
+[2026-09-22 12:31:15] [SIMULATED] Pump 1, Magnitude 8
+[2026-09-22 12:31:15] Trigger: Pump 1, Magnitude 8
+[2026-09-22 12:31:16] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 8
+[2026-09-22 12:31:16] Trigger: Pump 1, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:31:16] Complete: Pump 1 delivered 480.0 uL at 4.364 mm (R)
+[2026-09-22 12:31:18] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-22 12:31:18] Trigger: Pump 2, Magnitude 15
+[2026-09-22 12:31:18] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 15
+[2026-09-22 12:31:18] Trigger: Pump 2, Magnitude 15, Volume 900.0 uL
+[2026-09-22 12:31:19] Complete: Pump 2 delivered 900.0 uL at 9.818 mm (R)
+[2026-09-22 12:31:20] [SIMULATED] Pump 2, Magnitude 3
+[2026-09-22 12:31:20] Trigger: Pump 2, Magnitude 3
+[2026-09-22 12:31:20] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 3
+[2026-09-22 12:31:20] Trigger: Pump 2, Magnitude 3, Volume 180.0 uL
+[2026-09-22 12:31:20] Complete: Pump 2 delivered 180.0 uL at 8.727 mm (R)
+[2026-09-22 12:31:22] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-22 12:31:22] Trigger: Pump 1, Magnitude 10
+[2026-09-22 12:31:22] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 10
+[2026-09-22 12:31:22] Trigger: Pump 1, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:31:23] Complete: Pump 1 delivered 600.0 uL at 0.727 mm (R)
+[2026-09-22 12:31:24] [SIMULATED] Pump 2, Magnitude 1
+[2026-09-22 12:31:24] Trigger: Pump 2, Magnitude 1
+[2026-09-22 12:31:24] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 1
+[2026-09-22 12:31:24] Trigger: Pump 2, Magnitude 1, Volume 60.0 uL
+[2026-09-22 12:31:24] Complete: Pump 2 delivered 60.0 uL at 8.364 mm (R)
+[2026-09-22 12:31:26] [SIMULATED] Pump 1, Magnitude 14
+[2026-09-22 12:31:26] Trigger: Pump 1, Magnitude 14
+[2026-09-22 12:31:26] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 14
+[2026-09-22 12:31:26] Trigger: Pump 1, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:31:27] Complete: Pump 1 delivered 840.0 uL at 5.091 mm (F)
+[2026-09-22 12:31:28] [SIMULATED] Pump 2, Magnitude 11
+[2026-09-22 12:31:28] Trigger: Pump 2, Magnitude 11
+[2026-09-22 12:31:29] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 11
+[2026-09-22 12:31:28] Trigger: Pump 2, Magnitude 11, Volume 660.0 uL
+[2026-09-22 12:31:29] Complete: Pump 2 delivered 660.0 uL at 4.364 mm (R)
+[2026-09-22 12:31:31] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-22 12:31:31] Trigger: Pump 2, Magnitude 13
+[2026-09-22 12:31:31] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 13
+[2026-09-22 12:31:31] Trigger: Pump 2, Magnitude 13, Volume 780.0 uL
+[2026-09-22 12:31:32] Complete: Pump 2 delivered 780.0 uL at 4.727 mm (F)
+[2026-09-22 12:31:33] [SIMULATED] Pump 1, Magnitude 8
+[2026-09-22 12:31:33] Trigger: Pump 1, Magnitude 8
+[2026-09-22 12:31:33] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 8
+[2026-09-22 12:31:33] Trigger: Pump 1, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:31:33] Complete: Pump 1 delivered 480.0 uL at 8.0 mm (F)
+[2026-09-22 12:31:35] [SIMULATED] Pump 3, Magnitude 14
+[2026-09-22 12:31:35] Trigger: Pump 3, Magnitude 14
+[2026-09-22 12:31:35] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 14
+[2026-09-22 12:31:35] Trigger: Pump 3, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:31:36] Complete: Pump 3 delivered 840.0 uL at 5.091 mm (F)
+[2026-09-22 12:31:37] [SIMULATED] Pump 3, Magnitude 14
+[2026-09-22 12:31:37] Trigger: Pump 3, Magnitude 14
+[2026-09-22 12:31:37] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 14
+[2026-09-22 12:31:37] Trigger: Pump 3, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:31:38] Complete: Pump 3 delivered 840.0 uL at 10.182 mm (F)
+[2026-09-22 12:31:39] [SIMULATED] Pump 2, Magnitude 11
+[2026-09-22 12:31:39] Trigger: Pump 2, Magnitude 11
+[2026-09-22 12:31:39] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 11
+[2026-09-22 12:31:39] Trigger: Pump 2, Magnitude 11, Volume 660.0 uL
+[2026-09-22 12:31:40] Complete: Pump 2 delivered 660.0 uL at 8.727 mm (F)
+[2026-09-22 12:31:41] [SIMULATED] Pump 3, Magnitude 8
+[2026-09-22 12:31:41] Trigger: Pump 3, Magnitude 8
+[2026-09-22 12:31:42] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 8
+[2026-09-22 12:31:41] Trigger: Pump 3, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:31:42] Complete: Pump 3 delivered 480.0 uL at 13.091 mm (F)
+[2026-09-22 12:31:44] [SIMULATED] Pump 1, Magnitude 16
+[2026-09-22 12:31:44] Trigger: Pump 1, Magnitude 16
+[2026-09-22 12:31:44] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 16
+[2026-09-22 12:31:44] Trigger: Pump 1, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:31:45] Complete: Pump 1 delivered 960.0 uL at 13.818 mm (F)
+[2026-09-22 12:31:46] [SIMULATED] Pump 1, Magnitude 6
+[2026-09-22 12:31:46] Trigger: Pump 1, Magnitude 6
+[2026-09-22 12:31:46] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 6
+[2026-09-22 12:31:46] Trigger: Pump 1, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:31:46] Complete: Pump 1 delivered 360.0 uL at 16.0 mm (F)
+[2026-09-22 12:31:48] [SIMULATED] Pump 2, Magnitude 5
+[2026-09-22 12:31:48] Trigger: Pump 2, Magnitude 5
+[2026-09-22 12:31:48] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 5
+[2026-09-22 12:31:48] Trigger: Pump 2, Magnitude 5, Volume 300.0 uL
+[2026-09-22 12:31:48] Complete: Pump 2 delivered 300.0 uL at 10.545 mm (F)
+[2026-09-22 12:31:50] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-22 12:31:50] Trigger: Pump 3, Magnitude 16
+[2026-09-22 12:31:50] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 16
+[2026-09-22 12:31:50] Trigger: Pump 3, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:31:51] Complete: Pump 3 delivered 960.0 uL at 18.909 mm (F)
+[2026-09-22 12:31:52] [SIMULATED] Pump 3, Magnitude 6
+[2026-09-22 12:31:52] Trigger: Pump 3, Magnitude 6
+[2026-09-22 12:31:52] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 6
+[2026-09-22 12:31:52] Trigger: Pump 3, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:31:53] Complete: Pump 3 delivered 360.0 uL at 21.091 mm (F)
+[2026-09-22 12:31:54] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-22 12:31:54] Trigger: Pump 2, Magnitude 9
+[2026-09-22 12:31:54] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 9
+[2026-09-22 12:31:54] Trigger: Pump 2, Magnitude 9, Volume 540.0 uL
+[2026-09-22 12:31:55] Complete: Pump 2 delivered 540.0 uL at 13.818 mm (F)
+[2026-09-22 12:31:56] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:31:56] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:31:57] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:31:57] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:31:57] Complete: Pump 3 delivered 600.0 uL at 24.727 mm (F)
+[2026-09-22 12:31:59] [SIMULATED] Pump 1, Magnitude 16
+[2026-09-22 12:31:59] Trigger: Pump 1, Magnitude 16
+[2026-09-22 12:31:59] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 16
+[2026-09-22 12:31:59] Trigger: Pump 1, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:32:00] Complete: Pump 1 delivered 960.0 uL at 21.818 mm (F)
+[2026-09-22 12:32:01] [SIMULATED] Pump 3, Magnitude 14
+[2026-09-22 12:32:01] Trigger: Pump 3, Magnitude 14
+[2026-09-22 12:32:01] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 14
+[2026-09-22 12:32:01] Trigger: Pump 3, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:32:02] Complete: Pump 3 delivered 840.0 uL at 29.818 mm (F)
+[2026-09-22 12:32:03] [SIMULATED] Pump 3, Magnitude 4
+[2026-09-22 12:32:03] Trigger: Pump 3, Magnitude 4
+[2026-09-22 12:32:03] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 4
+[2026-09-22 12:32:03] Trigger: Pump 3, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:32:03] Complete: Pump 3 delivered 240.0 uL at 31.273 mm (F)
+[2026-09-22 12:32:05] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-22 12:32:05] Trigger: Pump 1, Magnitude 2
+[2026-09-22 12:32:05] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-22 12:32:05] Trigger: Pump 1, Magnitude 2, Volume 120.0 uL
+[2026-09-22 12:32:05] Complete: Pump 1 delivered 120.0 uL at 22.545 mm (F)
+[2026-09-22 12:32:07] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-22 12:32:07] Trigger: Pump 3, Magnitude 16
+[2026-09-22 12:32:07] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 16
+[2026-09-22 12:32:07] Trigger: Pump 3, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:32:09] Complete: Pump 3 delivered 960.0 uL at 37.091 mm (F)
+[2026-09-22 12:32:09] [SIMULATED] Pump 3, Magnitude 12
+[2026-09-22 12:32:09] Trigger: Pump 3, Magnitude 12
+[2026-09-22 12:32:10] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 12
+[2026-09-22 12:32:10] Trigger: Pump 3, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:32:10] Complete: Pump 3 delivered 720.0 uL at 35.636 mm (R)
+[2026-09-22 12:32:12] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-22 12:32:12] Trigger: Pump 2, Magnitude 15
+[2026-09-22 12:32:12] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 15
+[2026-09-22 12:32:12] Trigger: Pump 2, Magnitude 15, Volume 900.0 uL
+[2026-09-22 12:32:13] Complete: Pump 2 delivered 900.0 uL at 19.273 mm (F)
+[2026-09-22 12:32:14] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-22 12:32:14] Trigger: Pump 1, Magnitude 10
+[2026-09-22 12:32:14] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 10
+[2026-09-22 12:32:14] Trigger: Pump 1, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:32:15] Complete: Pump 1 delivered 600.0 uL at 26.182 mm (F)
+[2026-09-22 12:32:16] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:32:16] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:32:16] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:32:16] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:32:17] Complete: Pump 3 delivered 600.0 uL at 32.0 mm (R)
+[2026-09-22 12:32:18] [SIMULATED] Pump 3, Magnitude 4
+[2026-09-22 12:32:18] Trigger: Pump 3, Magnitude 4
+[2026-09-22 12:32:18] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 4
+[2026-09-22 12:32:18] Trigger: Pump 3, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:32:18] Complete: Pump 3 delivered 240.0 uL at 30.545 mm (R)
+[2026-09-22 12:32:20] [SIMULATED] Pump 1, Magnitude 16
+[2026-09-22 12:32:20] Trigger: Pump 1, Magnitude 16
+[2026-09-22 12:32:20] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 16
+[2026-09-22 12:32:20] Trigger: Pump 1, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:32:21] Complete: Pump 1 delivered 960.0 uL at 32.0 mm (F)
+[2026-09-22 12:32:22] [SIMULATED] Pump 3, Magnitude 4
+[2026-09-22 12:32:22] Trigger: Pump 3, Magnitude 4
+[2026-09-22 12:32:23] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 4
+[2026-09-22 12:32:22] Trigger: Pump 3, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:32:23] Complete: Pump 3 delivered 240.0 uL at 29.091 mm (R)
+[2026-09-22 12:32:25] [SIMULATED] Pump 2, Magnitude 7
+[2026-09-22 12:32:25] Trigger: Pump 2, Magnitude 7
+[2026-09-22 12:32:25] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 7
+[2026-09-22 12:32:25] Trigger: Pump 2, Magnitude 7, Volume 420.0 uL
+[2026-09-22 12:32:25] Complete: Pump 2 delivered 420.0 uL at 21.818 mm (F)
+[2026-09-22 12:32:27] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-22 12:32:27] Trigger: Pump 3, Magnitude 16
+[2026-09-22 12:32:27] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 16
+[2026-09-22 12:32:27] Trigger: Pump 3, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:32:28] Complete: Pump 3 delivered 960.0 uL at 23.273 mm (R)
+[2026-09-22 12:32:29] [SIMULATED] Pump 2, Magnitude 5
+[2026-09-22 12:32:29] Trigger: Pump 2, Magnitude 5
+[2026-09-22 12:32:29] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 5
+[2026-09-22 12:32:29] Trigger: Pump 2, Magnitude 5, Volume 300.0 uL
+[2026-09-22 12:32:29] Complete: Pump 2 delivered 300.0 uL at 23.636 mm (F)
+[2026-09-22 12:32:31] [SIMULATED] Pump 3, Magnitude 8
+[2026-09-22 12:32:31] Trigger: Pump 3, Magnitude 8
+[2026-09-22 12:32:31] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 8
+[2026-09-22 12:32:31] Trigger: Pump 3, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:32:32] Complete: Pump 3 delivered 480.0 uL at 20.364 mm (R)
+[2026-09-22 12:32:33] [SIMULATED] Pump 3, Magnitude 4
+[2026-09-22 12:32:33] Trigger: Pump 3, Magnitude 4
+[2026-09-22 12:32:33] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 4
+[2026-09-22 12:32:33] Trigger: Pump 3, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:32:34] Complete: Pump 3 delivered 240.0 uL at 18.909 mm (R)
+[2026-09-22 12:32:35] [SIMULATED] Pump 1, Magnitude 6
+[2026-09-22 12:32:35] Trigger: Pump 1, Magnitude 6
+[2026-09-22 12:32:35] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 6
+[2026-09-22 12:32:35] Trigger: Pump 1, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:32:36] Complete: Pump 1 delivered 360.0 uL at 34.182 mm (F)
+[2026-09-22 12:32:37] [SIMULATED] Pump 2, Magnitude 3
+[2026-09-22 12:32:37] Trigger: Pump 2, Magnitude 3
+[2026-09-22 12:32:38] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 3
+[2026-09-22 12:32:38] Trigger: Pump 2, Magnitude 3, Volume 180.0 uL
+[2026-09-22 12:32:38] Complete: Pump 2 delivered 180.0 uL at 24.727 mm (F)
+[2026-09-22 12:32:40] [SIMULATED] Pump 3, Magnitude 8
+[2026-09-22 12:32:40] Trigger: Pump 3, Magnitude 8
+[2026-09-22 12:32:40] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 8
+[2026-09-22 12:32:40] Trigger: Pump 3, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:32:40] Complete: Pump 3 delivered 480.0 uL at 16.0 mm (R)
+[2026-09-22 12:32:42] [SIMULATED] Pump 3, Magnitude 14
+[2026-09-22 12:32:42] Trigger: Pump 3, Magnitude 14
+[2026-09-22 12:32:42] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 14
+[2026-09-22 12:32:42] Trigger: Pump 3, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:32:43] Complete: Pump 3 delivered 840.0 uL at 10.909 mm (R)
+[2026-09-22 12:32:44] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-22 12:32:44] Trigger: Pump 1, Magnitude 4
+[2026-09-22 12:32:44] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 4
+[2026-09-22 12:32:44] Trigger: Pump 1, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:32:44] Complete: Pump 1 delivered 240.0 uL at 35.636 mm (F)
+[2026-09-22 12:32:46] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-22 12:32:46] Trigger: Pump 3, Magnitude 16
+[2026-09-22 12:32:46] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 16
+[2026-09-22 12:32:46] Trigger: Pump 3, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:32:47] Complete: Pump 3 delivered 960.0 uL at 5.091 mm (R)
+[2026-09-22 12:32:48] [SIMULATED] Pump 1, Magnitude 6
+[2026-09-22 12:32:48] Trigger: Pump 1, Magnitude 6
+[2026-09-22 12:32:48] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 6
+[2026-09-22 12:32:48] Trigger: Pump 1, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:32:49] Complete: Pump 1 delivered 360.0 uL at 37.818 mm (F)
+[2026-09-22 12:32:50] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-22 12:32:50] Trigger: Pump 3, Magnitude 16
+[2026-09-22 12:32:51] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 16
+[2026-09-22 12:32:51] Trigger: Pump 3, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:32:52] Complete: Pump 3 delivered 960.0 uL at 5.818 mm (F)
+[2026-09-22 12:32:53] [SIMULATED] Pump 2, Magnitude 5
+[2026-09-22 12:32:53] Trigger: Pump 2, Magnitude 5
+[2026-09-22 12:32:53] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 5
+[2026-09-22 12:32:53] Trigger: Pump 2, Magnitude 5, Volume 300.0 uL
+[2026-09-22 12:32:53] Complete: Pump 2 delivered 300.0 uL at 26.545 mm (F)
+[2026-09-22 12:32:55] [SIMULATED] Pump 2, Magnitude 7
+[2026-09-22 12:32:55] Trigger: Pump 2, Magnitude 7
+[2026-09-22 12:32:55] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 7
+[2026-09-22 12:32:55] Trigger: Pump 2, Magnitude 7, Volume 420.0 uL
+[2026-09-22 12:32:55] Complete: Pump 2 delivered 420.0 uL at 29.091 mm (F)
+[2026-09-22 12:32:57] [SIMULATED] Pump 3, Magnitude 6
+[2026-09-22 12:32:57] Trigger: Pump 3, Magnitude 6
+[2026-09-22 12:32:57] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 6
+[2026-09-22 12:32:57] Trigger: Pump 3, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:32:57] Complete: Pump 3 delivered 360.0 uL at 8.0 mm (F)
+[2026-09-22 12:32:59] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-22 12:32:59] Trigger: Pump 2, Magnitude 15
+[2026-09-22 12:32:59] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 15
+[2026-09-22 12:32:59] Trigger: Pump 2, Magnitude 15, Volume 900.0 uL
+[2026-09-22 12:33:00] Complete: Pump 2 delivered 900.0 uL at 34.545 mm (F)
+[2026-09-22 12:33:01] [SIMULATED] Pump 3, Magnitude 8
+[2026-09-22 12:33:01] Trigger: Pump 3, Magnitude 8
+[2026-09-22 12:33:01] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 8
+[2026-09-22 12:33:01] Trigger: Pump 3, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:33:02] Complete: Pump 3 delivered 480.0 uL at 10.909 mm (F)
+[2026-09-22 12:33:03] [SIMULATED] Pump 1, Magnitude 12
+[2026-09-22 12:33:03] Trigger: Pump 1, Magnitude 12
+[2026-09-22 12:33:04] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 12
+[2026-09-22 12:33:03] Trigger: Pump 1, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:33:04] Complete: Pump 1 delivered 720.0 uL at 35.636 mm (R)
+[2026-09-22 12:33:06] [SIMULATED] Pump 3, Magnitude 16
+[2026-09-22 12:33:06] Trigger: Pump 3, Magnitude 16
+[2026-09-22 12:33:06] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 16
+[2026-09-22 12:33:06] Trigger: Pump 3, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:33:07] Complete: Pump 3 delivered 960.0 uL at 16.727 mm (F)
+[2026-09-22 12:33:08] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-22 12:33:08] Trigger: Pump 1, Magnitude 4
+[2026-09-22 12:33:08] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 4
+[2026-09-22 12:33:08] Trigger: Pump 1, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:33:08] Complete: Pump 1 delivered 240.0 uL at 34.182 mm (R)
+[2026-09-22 12:33:10] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-22 12:33:10] Trigger: Pump 2, Magnitude 9
+[2026-09-22 12:33:10] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 9
+[2026-09-22 12:33:10] Trigger: Pump 2, Magnitude 9, Volume 540.0 uL
+[2026-09-22 12:33:11] Complete: Pump 2 delivered 540.0 uL at 37.818 mm (F)
+[2026-09-22 12:33:12] [SIMULATED] Pump 1, Magnitude 16
+[2026-09-22 12:33:12] Trigger: Pump 1, Magnitude 16
+[2026-09-22 12:33:12] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 16
+[2026-09-22 12:33:12] Trigger: Pump 1, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:33:13] Complete: Pump 1 delivered 960.0 uL at 28.364 mm (R)
+[2026-09-22 12:33:14] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-22 12:33:14] Trigger: Pump 2, Magnitude 9
+[2026-09-22 12:33:14] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 9
+[2026-09-22 12:33:14] Trigger: Pump 2, Magnitude 9, Volume 540.0 uL
+[2026-09-22 12:33:15] Complete: Pump 2 delivered 540.0 uL at 36.727 mm (R)
+[2026-09-22 12:33:16] [SIMULATED] Pump 1, Magnitude 12
+[2026-09-22 12:33:16] Trigger: Pump 1, Magnitude 12
+[2026-09-22 12:33:17] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 12
+[2026-09-22 12:33:16] Trigger: Pump 1, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:33:17] Complete: Pump 1 delivered 720.0 uL at 24.0 mm (R)
+[2026-09-22 12:33:19] [SIMULATED] Pump 1, Magnitude 8
+[2026-09-22 12:33:19] Trigger: Pump 1, Magnitude 8
+[2026-09-22 12:33:19] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 8
+[2026-09-22 12:33:19] Trigger: Pump 1, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:33:19] Complete: Pump 1 delivered 480.0 uL at 21.091 mm (R)
+[2026-09-22 12:33:21] [SIMULATED] Pump 2, Magnitude 7
+[2026-09-22 12:33:21] Trigger: Pump 2, Magnitude 7
+[2026-09-22 12:33:21] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 7
+[2026-09-22 12:33:21] Trigger: Pump 2, Magnitude 7, Volume 420.0 uL
+[2026-09-22 12:33:21] Complete: Pump 2 delivered 420.0 uL at 34.182 mm (R)
+[2026-09-22 12:33:23] [SIMULATED] Pump 1, Magnitude 14
+[2026-09-22 12:33:23] Trigger: Pump 1, Magnitude 14
+[2026-09-22 12:33:23] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 14
+[2026-09-22 12:33:23] Trigger: Pump 1, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:33:24] Complete: Pump 1 delivered 840.0 uL at 16.0 mm (R)
+[2026-09-22 12:33:25] [SIMULATED] Pump 2, Magnitude 3
+[2026-09-22 12:33:25] Trigger: Pump 2, Magnitude 3
+[2026-09-22 12:33:25] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 3
+[2026-09-22 12:33:25] Trigger: Pump 2, Magnitude 3, Volume 180.0 uL
+[2026-09-22 12:33:25] Complete: Pump 2 delivered 180.0 uL at 33.091 mm (R)
+[2026-09-22 12:33:27] [SIMULATED] Pump 3, Magnitude 12
+[2026-09-22 12:33:27] Trigger: Pump 3, Magnitude 12
+[2026-09-22 12:33:27] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 12
+[2026-09-22 12:33:27] Trigger: Pump 3, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:33:28] Complete: Pump 3 delivered 720.0 uL at 21.091 mm (F)
+[2026-09-22 12:33:29] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-22 12:33:29] Trigger: Pump 1, Magnitude 10
+[2026-09-22 12:33:29] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 10
+[2026-09-22 12:33:29] Trigger: Pump 1, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:33:30] Complete: Pump 1 delivered 600.0 uL at 12.364 mm (R)
+[2026-09-22 12:33:31] [SIMULATED] Pump 3, Magnitude 6
+[2026-09-22 12:33:31] Trigger: Pump 3, Magnitude 6
+[2026-09-22 12:33:32] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 6
+[2026-09-22 12:33:32] Trigger: Pump 3, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:33:32] Complete: Pump 3 delivered 360.0 uL at 23.273 mm (F)
+[2026-09-22 12:33:34] [SIMULATED] Pump 1, Magnitude 12
+[2026-09-22 12:33:34] Trigger: Pump 1, Magnitude 12
+[2026-09-22 12:33:34] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 12
+[2026-09-22 12:33:34] Trigger: Pump 1, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:33:35] Complete: Pump 1 delivered 720.0 uL at 8.0 mm (R)
+[2026-09-22 12:33:36] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-22 12:33:36] Trigger: Pump 1, Magnitude 4
+[2026-09-22 12:33:36] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 4
+[2026-09-22 12:33:36] Trigger: Pump 1, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:33:36] Complete: Pump 1 delivered 240.0 uL at 6.545 mm (R)
+[2026-09-22 12:33:38] [SIMULATED] Pump 2, Magnitude 3
+[2026-09-22 12:33:38] Trigger: Pump 2, Magnitude 3
+[2026-09-22 12:33:38] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 3
+[2026-09-22 12:33:38] Trigger: Pump 2, Magnitude 3, Volume 180.0 uL
+[2026-09-22 12:33:38] Complete: Pump 2 delivered 180.0 uL at 32.0 mm (R)
+[2026-09-22 12:33:40] [SIMULATED] Pump 3, Magnitude 4
+[2026-09-22 12:33:40] Trigger: Pump 3, Magnitude 4
+[2026-09-22 12:33:40] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 4
+[2026-09-22 12:33:40] Trigger: Pump 3, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:33:40] Complete: Pump 3 delivered 240.0 uL at 24.727 mm (F)
+[2026-09-22 12:33:42] [SIMULATED] Pump 1, Magnitude 12
+[2026-09-22 12:33:42] Trigger: Pump 1, Magnitude 12
+[2026-09-22 12:33:42] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 12
+[2026-09-22 12:33:42] Trigger: Pump 1, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:33:43] Complete: Pump 1 delivered 720.0 uL at 2.182 mm (R)
+[2026-09-22 12:33:44] [SIMULATED] Pump 3, Magnitude 12
+[2026-09-22 12:33:44] Trigger: Pump 3, Magnitude 12
+[2026-09-22 12:33:45] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 12
+[2026-09-22 12:33:45] Trigger: Pump 3, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:33:45] Complete: Pump 3 delivered 720.0 uL at 29.091 mm (F)
+[2026-09-22 12:33:47] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-22 12:33:47] Trigger: Pump 2, Magnitude 13
+[2026-09-22 12:33:47] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 13
+[2026-09-22 12:33:47] Trigger: Pump 2, Magnitude 13, Volume 780.0 uL
+[2026-09-22 12:33:48] Complete: Pump 2 delivered 780.0 uL at 27.273 mm (R)
+[2026-09-22 12:33:49] [SIMULATED] Pump 1, Magnitude 14
+[2026-09-22 12:33:49] Trigger: Pump 1, Magnitude 14
+[2026-09-22 12:33:49] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 14
+[2026-09-22 12:33:49] Trigger: Pump 1, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:33:50] Complete: Pump 1 delivered 840.0 uL at 5.091 mm (F)
+[2026-09-22 12:33:51] [SIMULATED] Pump 1, Magnitude 14
+[2026-09-22 12:33:51] Trigger: Pump 1, Magnitude 14
+[2026-09-22 12:33:51] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 14
+[2026-09-22 12:33:51] Trigger: Pump 1, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:33:52] Complete: Pump 1 delivered 840.0 uL at 10.182 mm (F)
+[2026-09-22 12:33:53] [SIMULATED] Pump 2, Magnitude 11
+[2026-09-22 12:33:53] Trigger: Pump 2, Magnitude 11
+[2026-09-22 12:33:53] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 11
+[2026-09-22 12:33:53] Trigger: Pump 2, Magnitude 11, Volume 660.0 uL
+[2026-09-22 12:33:54] Complete: Pump 2 delivered 660.0 uL at 23.273 mm (R)
+[2026-09-22 12:33:55] [SIMULATED] Pump 1, Magnitude 12
+[2026-09-22 12:33:55] Trigger: Pump 1, Magnitude 12
+[2026-09-22 12:33:55] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 12
+[2026-09-22 12:33:55] Trigger: Pump 1, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:33:56] Complete: Pump 1 delivered 720.0 uL at 14.545 mm (F)
+[2026-09-22 12:33:57] [SIMULATED] Pump 1, Magnitude 2
+[2026-09-22 12:33:57] Trigger: Pump 1, Magnitude 2
+[2026-09-22 12:33:58] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 2
+[2026-09-22 12:33:57] Trigger: Pump 1, Magnitude 2, Volume 120.0 uL
+[2026-09-22 12:33:58] Complete: Pump 1 delivered 120.0 uL at 15.273 mm (F)
+[2026-09-22 12:34:00] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-22 12:34:00] Trigger: Pump 2, Magnitude 13
+[2026-09-22 12:34:00] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 13
+[2026-09-22 12:34:00] Trigger: Pump 2, Magnitude 13, Volume 780.0 uL
+[2026-09-22 12:34:01] Complete: Pump 2 delivered 780.0 uL at 18.545 mm (R)
+[2026-09-22 12:34:02] [SIMULATED] Pump 3, Magnitude 4
+[2026-09-22 12:34:02] Trigger: Pump 3, Magnitude 4
+[2026-09-22 12:34:02] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 4
+[2026-09-22 12:34:02] Trigger: Pump 3, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:34:02] Complete: Pump 3 delivered 240.0 uL at 30.545 mm (F)
+[2026-09-22 12:34:04] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-22 12:34:04] Trigger: Pump 2, Magnitude 15
+[2026-09-22 12:34:04] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 15
+[2026-09-22 12:34:04] Trigger: Pump 2, Magnitude 15, Volume 900.0 uL
+[2026-09-22 12:34:05] Complete: Pump 2 delivered 900.0 uL at 13.091 mm (R)
+[2026-09-22 12:34:06] [SIMULATED] Pump 1, Magnitude 8
+[2026-09-22 12:34:06] Trigger: Pump 1, Magnitude 8
+[2026-09-22 12:34:06] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 8
+[2026-09-22 12:34:06] Trigger: Pump 1, Magnitude 8, Volume 480.0 uL
+[2026-09-22 12:34:07] Complete: Pump 1 delivered 480.0 uL at 18.182 mm (F)
+[2026-09-22 12:34:08] [SIMULATED] Pump 3, Magnitude 14
+[2026-09-22 12:34:08] Trigger: Pump 3, Magnitude 14
+[2026-09-22 12:34:08] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 14
+[2026-09-22 12:34:08] Trigger: Pump 3, Magnitude 14, Volume 840.0 uL
+[2026-09-22 12:34:09] Complete: Pump 3 delivered 840.0 uL at 35.636 mm (F)
+[2026-09-22 12:34:10] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-22 12:34:10] Trigger: Pump 1, Magnitude 10
+[2026-09-22 12:34:10] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 10
+[2026-09-22 12:34:10] Trigger: Pump 1, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:34:11] Complete: Pump 1 delivered 600.0 uL at 21.818 mm (F)
+[2026-09-22 12:34:12] [SIMULATED] Pump 2, Magnitude 13
+[2026-09-22 12:34:12] Trigger: Pump 2, Magnitude 13
+[2026-09-22 12:34:13] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 13
+[2026-09-22 12:34:13] Trigger: Pump 2, Magnitude 13, Volume 780.0 uL
+[2026-09-22 12:34:14] Complete: Pump 2 delivered 780.0 uL at 8.364 mm (R)
+[2026-09-22 12:34:15] [SIMULATED] Pump 2, Magnitude 5
+[2026-09-22 12:34:15] Trigger: Pump 2, Magnitude 5
+[2026-09-22 12:34:15] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 5
+[2026-09-22 12:34:15] Trigger: Pump 2, Magnitude 5, Volume 300.0 uL
+[2026-09-22 12:34:15] Complete: Pump 2 delivered 300.0 uL at 6.545 mm (R)
+[2026-09-22 12:34:17] [SIMULATED] Pump 2, Magnitude 9
+[2026-09-22 12:34:17] Trigger: Pump 2, Magnitude 9
+[2026-09-22 12:34:17] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 9
+[2026-09-22 12:34:17] Trigger: Pump 2, Magnitude 9, Volume 540.0 uL
+[2026-09-22 12:34:18] Complete: Pump 2 delivered 540.0 uL at 3.273 mm (R)
+[2026-09-22 12:34:19] [SIMULATED] Pump 1, Magnitude 12
+[2026-09-22 12:34:19] Trigger: Pump 1, Magnitude 12
+[2026-09-22 12:34:19] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 12
+[2026-09-22 12:34:19] Trigger: Pump 1, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:34:20] Complete: Pump 1 delivered 720.0 uL at 26.182 mm (F)
+[2026-09-22 12:34:21] [SIMULATED] Pump 2, Magnitude 7
+[2026-09-22 12:34:21] Trigger: Pump 2, Magnitude 7
+[2026-09-22 12:34:21] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 7
+[2026-09-22 12:34:21] Trigger: Pump 2, Magnitude 7, Volume 420.0 uL
+[2026-09-22 12:34:22] Complete: Pump 2 delivered 420.0 uL at 0.727 mm (R)
+[2026-09-22 12:34:23] [SIMULATED] Pump 1, Magnitude 12
+[2026-09-22 12:34:23] Trigger: Pump 1, Magnitude 12
+[2026-09-22 12:34:23] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 12
+[2026-09-22 12:34:23] Trigger: Pump 1, Magnitude 12, Volume 720.0 uL
+[2026-09-22 12:34:24] Complete: Pump 1 delivered 720.0 uL at 30.545 mm (F)
+[2026-09-22 12:34:25] [SIMULATED] Pump 1, Magnitude 16
+[2026-09-22 12:34:25] Trigger: Pump 1, Magnitude 16
+[2026-09-22 12:34:26] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 16
+[2026-09-22 12:34:26] Trigger: Pump 1, Magnitude 16, Volume 960.0 uL
+[2026-09-22 12:34:27] Complete: Pump 1 delivered 960.0 uL at 36.364 mm (F)
+[2026-09-22 12:34:28] [SIMULATED] Pump 2, Magnitude 15
+[2026-09-22 12:34:28] Trigger: Pump 2, Magnitude 15
+[2026-09-22 12:34:28] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 15
+[2026-09-22 12:34:28] Trigger: Pump 2, Magnitude 15, Volume 900.0 uL
+[2026-09-22 12:34:29] Complete: Pump 2 delivered 900.0 uL at 5.455 mm (F)
+[2026-09-22 12:34:30] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:34:30] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:34:30] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:34:30] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:34:31] Complete: Pump 3 delivered 600.0 uL at 39.273 mm (F)
+[2026-09-22 12:34:32] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-22 12:34:32] Trigger: Pump 1, Magnitude 4
+[2026-09-22 12:34:32] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 4
+[2026-09-22 12:34:32] Trigger: Pump 1, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:34:32] Complete: Pump 1 delivered 240.0 uL at 37.818 mm (F)
+[2026-09-22 12:34:34] [SIMULATED] Pump 2, Magnitude 7
+[2026-09-22 12:34:34] Trigger: Pump 2, Magnitude 7
+[2026-09-22 12:34:34] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 7
+[2026-09-22 12:34:34] Trigger: Pump 2, Magnitude 7, Volume 420.0 uL
+[2026-09-22 12:34:35] Complete: Pump 2 delivered 420.0 uL at 8.0 mm (F)
+[2026-09-22 12:34:36] [SIMULATED] Pump 2, Magnitude 11
+[2026-09-22 12:34:36] Trigger: Pump 2, Magnitude 11
+[2026-09-22 12:34:36] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 11
+[2026-09-22 12:34:36] Trigger: Pump 2, Magnitude 11, Volume 660.0 uL
+[2026-09-22 12:34:37] Complete: Pump 2 delivered 660.0 uL at 12.0 mm (F)
+[2026-09-22 12:34:38] [SIMULATED] Pump 1, Magnitude 6
+[2026-09-22 12:34:38] Trigger: Pump 1, Magnitude 6
+[2026-09-22 12:34:39] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 6
+[2026-09-22 12:34:38] Trigger: Pump 1, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:34:39] Complete: Pump 1 delivered 360.0 uL at 40.0 mm (F)
+[2026-09-22 12:34:41] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:34:41] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:34:41] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:34:41] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:34:41] Complete: Pump 3 delivered 600.0 uL at 36.364 mm (R)
+[2026-09-22 12:34:43] [SIMULATED] Pump 1, Magnitude 10
+[2026-09-22 12:34:43] Trigger: Pump 1, Magnitude 10
+[2026-09-22 12:34:43] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 10
+[2026-09-22 12:34:43] Trigger: Pump 1, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:34:44] Complete: Pump 1 delivered 600.0 uL at 36.364 mm (R)
+[2026-09-22 12:34:45] [SIMULATED] Pump 3, Magnitude 6
+[2026-09-22 12:34:45] Trigger: Pump 3, Magnitude 6
+[2026-09-22 12:34:45] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 6
+[2026-09-22 12:34:45] Trigger: Pump 3, Magnitude 6, Volume 360.0 uL
+[2026-09-22 12:34:45] Complete: Pump 3 delivered 360.0 uL at 34.182 mm (R)
+[2026-09-22 12:34:47] [SIMULATED] Pump 2, Magnitude 3
+[2026-09-22 12:34:47] Trigger: Pump 2, Magnitude 3
+[2026-09-22 12:34:47] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 3
+[2026-09-22 12:34:47] Trigger: Pump 2, Magnitude 3, Volume 180.0 uL
+[2026-09-22 12:34:47] Complete: Pump 2 delivered 180.0 uL at 13.091 mm (F)
+[2026-09-22 12:34:49] [SIMULATED] Pump 3, Magnitude 10
+[2026-09-22 12:34:49] Trigger: Pump 3, Magnitude 10
+[2026-09-22 12:34:49] [SIMULATION] Sent trigger to Arduino: Pump 3, Magnitude 10
+[2026-09-22 12:34:49] Trigger: Pump 3, Magnitude 10, Volume 600.0 uL
+[2026-09-22 12:34:50] Complete: Pump 3 delivered 600.0 uL at 30.545 mm (R)
+[2026-09-22 12:34:51] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-22 12:34:51] Trigger: Pump 1, Magnitude 4
+[2026-09-22 12:34:52] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 4
+[2026-09-22 12:34:51] Trigger: Pump 1, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:34:52] Complete: Pump 1 delivered 240.0 uL at 34.909 mm (R)
+[2026-09-22 12:34:54] [SIMULATED] Pump 1, Magnitude 4
+[2026-09-22 12:34:54] Trigger: Pump 1, Magnitude 4
+[2026-09-22 12:34:54] [SIMULATION] Sent trigger to Arduino: Pump 1, Magnitude 4
+[2026-09-22 12:34:54] Trigger: Pump 1, Magnitude 4, Volume 240.0 uL
+[2026-09-22 12:34:54] Complete: Pump 1 delivered 240.0 uL at 33.455 mm (R)
+[2026-09-22 12:34:56] [SIMULATED] Pump 2, Magnitude 11
+[2026-09-22 12:34:56] Trigger: Pump 2, Magnitude 11
+[2026-09-22 12:34:56] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 11
+[2026-09-22 12:34:56] Trigger: Pump 2, Magnitude 11, Volume 660.0 uL
+[2026-09-22 12:34:57] Complete: Pump 2 delivered 660.0 uL at 17.091 mm (F)
+[2026-09-22 12:34:58] [SIMULATED] Pump 2, Magnitude 5
+[2026-09-22 12:34:58] Trigger: Pump 2, Magnitude 5
+[2026-09-22 12:34:58] [SIMULATION] Sent trigger to Arduino: Pump 2, Magnitude 5
+[2026-09-22 12:34:58] Trigger: Pump 2, Magnitude 5, Volume 300.0 uL
+[2026-09-22 12:34:58] Disconnected
+
