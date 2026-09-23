@@ -15,7 +15,30 @@ class PumpMonitorGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Arduino Pump Monitor")
-        self.root.geometry("1000x900")
+
+        # Get screen dimensions
+        screen_width = self.root.winfo_screenwidth()
+        screen_height = self.root.winfo_screenheight()
+        
+        # Scale GUI to 90% of screen size
+        window_width = int(screen_width * 0.9)
+        window_height = int(screen_height * 0.9)
+        
+        self.root.geometry(f"{window_width}x{window_height}")
+        
+        # Calculate font sizes based on screen resolution
+        if screen_width < 1024:  # Small display (10" Pi)
+            self.font_large = ("Arial", 9, "bold")
+            self.font_normal = ("Arial", 8)
+            self.font_small = ("Arial", 7)
+        else:  # Large display (42" Windows)
+            self.font_large = ("Arial", 14, "bold")
+            self.font_normal = ("Arial", 11)
+            self.font_small = ("Arial", 9)
+        
+        # Store for use in create_widgets()
+        self.screen_width = screen_width
+        self.screen_height = screen_height
         
         # Constants
         self.MM_PER_STEP = 0.04
@@ -131,34 +154,38 @@ class PumpMonitorGUI:
         self.trigger_count_label.grid(row=1, column=3, sticky=tk.W, padx=5)
         
         # Statistics frame
+        # Statistics frame with responsive height
+        stats_height = max(15, int(self.screen_height / 80))
         stats_frame = ttk.LabelFrame(self.root, text="Pump Statistics", padding=10)
         stats_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), padx=10, pady=5)
         
+        # Scale pump stat labels with responsive font
+
         headers = ["Pump", "Triggers", "Total Units", "Desired µL", "Delivered µL", "Total µL"]
         for col, header in enumerate(headers):
-            ttk.Label(stats_frame, text=header, font=("Arial", 10, "bold")).grid(row=0, column=col, padx=5, pady=5)
-        
+            ttk.Label(stats_frame, text=header, font=self.font_large).grid(row=0, column=col, padx=5, pady=5)
+
         self.stats_labels = {}
         for i, pump_num in enumerate([1, 2, 3], start=1):
             pump_color = {1: "blue", 2: "green", 3: "purple"}[pump_num]
             
-            ttk.Label(stats_frame, text=f"Pump {pump_num}", foreground=pump_color, font=("Arial", 10, "bold")).grid(row=i, column=0, padx=5, pady=2)
+            ttk.Label(stats_frame, text=f"Pump {pump_num}", foreground=pump_color, font=self.font_large).grid(row=i, column=0, padx=5, pady=2)
             
-            triggers_label = ttk.Label(stats_frame, text="0")
+            triggers_label = ttk.Label(stats_frame, text="0", font=self.font_normal)
             triggers_label.grid(row=i, column=1, padx=5, pady=2)
             
-            units_label = ttk.Label(stats_frame, text="0")
+            units_label = ttk.Label(stats_frame, text="0", font=self.font_normal)
             units_label.grid(row=i, column=2, padx=5, pady=2)
             
-            desired_entry = ttk.Entry(stats_frame, textvariable=self.pump_stats[pump_num]["desired_unit_size"], width=10)
+            desired_entry = ttk.Entry(stats_frame, textvariable=self.pump_stats[pump_num]["desired_unit_size"], width=10, font=self.font_normal)
             desired_entry.grid(row=i, column=3, padx=5, pady=2)
             desired_entry.bind('<Return>', lambda e, p=pump_num: self.update_desired_size(p))
-            desired_entry.bind('<FocusIn>', lambda e: e.widget.select_range(0, tk.END))  # Select all on focus
+            desired_entry.bind('<FocusIn>', lambda e: e.widget.select_range(0, tk.END))
             
-            delivered_label = ttk.Label(stats_frame, textvariable=self.pump_stats[pump_num]["delivered_unit_size"])
+            delivered_label = ttk.Label(stats_frame, textvariable=self.pump_stats[pump_num]["delivered_unit_size"], font=self.font_normal)
             delivered_label.grid(row=i, column=4, padx=5, pady=2)
             
-            total_label = ttk.Label(stats_frame, textvariable=self.pump_stats[pump_num]["total_delivered"])
+            total_label = ttk.Label(stats_frame, textvariable=self.pump_stats[pump_num]["total_delivered"], font=self.font_normal)
             total_label.grid(row=i, column=5, padx=5, pady=2)
             
             self.stats_labels[pump_num] = {
@@ -176,7 +203,7 @@ class PumpMonitorGUI:
         for i, pump_num in enumerate([1, 2, 3]):
             pump_color = {1: "blue", 2: "green", 3: "purple"}[pump_num]
             
-            ttk.Label(position_frame, text=f"Pump {pump_num}:", foreground=pump_color, font=("Arial", 10, "bold")).grid(row=i, column=0, sticky=tk.W, padx=5, pady=5)
+            ttk.Label(position_frame, text=f"Pump {pump_num}:", foreground=pump_color, font=self.font_large).grid(row=i, column=0, sticky=tk.W, padx=5, pady=5)
             
             pos_label = ttk.Label(position_frame, text="0.00 mm (Forward)", font=("Arial", 9))
             pos_label.grid(row=i, column=1, sticky=tk.W, padx=10)
@@ -199,11 +226,20 @@ class PumpMonitorGUI:
         ttk.Button(button_frame, text="Clear Log", command=self.clear_log).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Test Direction Pin", command=self.test_direction_pin).pack(side=tk.LEFT, padx=5)
 
-        # Activity log
+        # Activity log with responsive height
         log_frame = ttk.LabelFrame(self.root, text="Activity Log", padding=10)
         log_frame.grid(row=5, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), padx=10, pady=5)
         
-        self.log_text = scrolledtext.ScrolledText(log_frame, height=15, width=100, state='disabled')
+        # Scale log height based on screen
+        log_height = max(8, int(self.screen_height / 100))
+        
+        self.log_text = scrolledtext.ScrolledText(
+            log_frame, 
+            height=log_height, 
+            width=100, 
+            state='disabled',
+            font=self.font_normal
+        )
         self.log_text.pack(fill=tk.BOTH, expand=True)
         
         # Configure text tags for colors

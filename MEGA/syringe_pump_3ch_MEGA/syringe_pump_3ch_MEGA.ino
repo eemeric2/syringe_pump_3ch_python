@@ -39,9 +39,9 @@
 
   Hardware:
     - Input pins: 2-9 (GPIO bits 0-7)
-    - Pump 1: EN=10, STEP=11, DIR=12
-    - Pump 2: EN=13, STEP=14, DIR=15
-    - Pump 3: EN=16, STEP=17, DIR=18
+    - Pump 1: EN=45, STEP=46, DIR=47
+    - Pump 2: EN=48, STEP=49, DIR=50
+    - Pump 3: EN=51, STEP=52, DIR=53
     - LED: Pin 13 (built-in)
   
   ============================================================================
@@ -97,9 +97,9 @@ unsigned long firstStepTime = 0;
 
 // Stepper motor pins [pump_index][0=enable, 1=step, 2=direction]
 const int STEPPER_PINS[NUM_PUMPS][3] = {
-  {10, 11, 12},  // Pump 1
-  {13, 14, 15},  // Pump 2
-  {16, 17, 18}   // Pump 3
+  {45, 46, 47},  // Pump 1
+  {48, 49, 50},  // Pump 2
+  {51, 52, 53}   // Pump 3
 };
 
 const int LED_PIN = LED_BUILTIN;

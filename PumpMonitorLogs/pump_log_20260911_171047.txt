@@ -1,6 +1,0 @@
-[2026-09-11 17:08:55] Connected to COM5 at 9600 baud
-[2026-09-11 17:08:56] Unexpected data format: Rising edge detected on Pin 9! States of pins 2-8: P2 11110111 P9
-[2026-09-11 17:10:24] Disconnected
-[2026-09-11 17:10:47] Connected to COM5 at 9600 baud
-[2026-09-11 17:12:27] Disconnected
-

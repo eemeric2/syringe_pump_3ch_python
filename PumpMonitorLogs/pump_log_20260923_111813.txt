@@ -1,0 +1,6 @@
+[2026-09-23 11:18:13] Connected to COM1 at 115200 baud
+[2026-09-23 11:18:15] Pump 1: Synced unit size to 11.000 uL
+[2026-09-23 11:18:16] Pump 2: Synced unit size to 12.000 uL
+[2026-09-23 11:18:16] Pump 3: Synced unit size to 13.000 uL
+[2026-09-23 11:18:29] Disconnected
+

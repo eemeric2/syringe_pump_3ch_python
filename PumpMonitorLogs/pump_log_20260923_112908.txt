@@ -1,0 +1,21 @@
+[2026-09-23 11:29:08] Connected to COM6 at 115200 baud
+[2026-09-23 11:29:11] Pump 1: Synced unit size to 20.000 uL
+[2026-09-23 11:29:11] Pump 2: Synced unit size to 21.000 uL
+[2026-09-23 11:29:12] Pump 3: Synced unit size to 22.000 uL
+[2026-09-23 11:29:12] Arduino: 3-Channel Syringe Pump Controller Started
+[2026-09-23 11:29:12] Arduino: Initialization complete. Ready for triggers.
+[2026-09-23 11:29:12] Pump 1: Unit size set to 20.0 uL
+[2026-09-23 11:29:12] Arduino Error: Invalid pump number decoded from external signal
+[2026-09-23 11:29:12] Pump 2: Unit size set to 21.0 uL
+[2026-09-23 11:29:12] Pump 3: Unit size set to 22.0 uL
+[2026-09-23 11:29:46] Pump 1: Sent unit size update to Arduino: 25.000 uL
+[2026-09-23 11:29:46] Pump 1: Desired unit size updated to 25.000 uL
+[2026-09-23 11:29:46] Pump 1: Unit size set to 25.0 uL
+[2026-09-23 11:29:53] Pump 2: Sent unit size update to Arduino: 33.000 uL
+[2026-09-23 11:29:53] Pump 2: Desired unit size updated to 33.000 uL
+[2026-09-23 11:29:53] Pump 2: Unit size set to 33.0 uL
+[2026-09-23 11:30:02] Pump 3: Sent unit size update to Arduino: 55.000 uL
+[2026-09-23 11:30:02] Pump 3: Desired unit size updated to 55.000 uL
+[2026-09-23 11:30:02] Pump 3: Unit size set to 55.0 uL
+[2026-09-23 11:35:11] Disconnected
+
