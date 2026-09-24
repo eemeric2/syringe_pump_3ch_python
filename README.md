@@ -69,7 +69,21 @@ Useful for testing logic without hardware
 - Click "Set Position" next to any pump
 - Enter new position (0-40 mm)
 - Useful for synchronizing software with physical plunger position
-  
+
+## Setting Unit Size
+
+1. Enter desired volume (µL) in the "Desired Unit Size" field for each pump
+2. <span style="font-size: 20px;">**Press Enter** to confirm and send to Arduino</span>
+    1. IF YOU DO NOT **PRESS ENTER** THE DESIRED VOLUME WILL NOT BE UPDATED AND THE PREVIOUS DESIRED VOLUME WILL CONTINUE TO BE USED.
+
+3. Activity log will show confirmation: "Unit size = X.XXX µL"
+4. The delivered volume will update based on: `delivered = total_triggers × unit_size`
+
+**Example:**
+- Set Pump 1 unit size to 50 µL
+- Press Enter
+- Trigger 10 times → delivered volume shows 500 µL
+
 #### Exporting Data
 - Click "Export CSV" to save statistics with timestamp
 - Format: **pump_stats_YYYYMMDD_HHMMSS.csv**
