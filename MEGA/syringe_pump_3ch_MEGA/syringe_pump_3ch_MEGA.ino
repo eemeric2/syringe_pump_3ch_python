@@ -32,7 +32,7 @@
     !SetUnitSize [pump] [size]\r\n        - Set unit size in µL
     !Translate [pump] [distance]\r\n      - Move ±distance in mm
     !ManualReward [pump]\r\n              - Deliver one unit manually
-    !SetCalibration [pump] [ppm]\r\n      - Set pulses per mm (default 945)
+    !SetCalibration [pump] [ppm]\r\n      - Set pulses per mm (default 945)FV
     !Home [pump]\r\n                      - Move to position 0
     !ResetCounter [pump]\r\n              - Reset trigger counter
     !GetStatus\r\n                        - Get full system status
@@ -159,17 +159,21 @@ void setup() {
   }
   
   // Initialize stepper pins
+  // Enables/disables the output section of the driver. When in
+  // a logic HIGH state (not connected) the driver outputs are
+  // enabled. Sinking this input will disable the driver outputs
   for (int pump = 0; pump < NUM_PUMPS; pump++) {
     pinMode(STEPPER_PINS[pump][0], OUTPUT); // Enable
     pinMode(STEPPER_PINS[pump][1], OUTPUT); // Step
     pinMode(STEPPER_PINS[pump][2], OUTPUT); // Direction
-    digitalWrite(STEPPER_PINS[pump][0], LOW); // Disable by default
+    digitalWrite(STEPPER_PINS[pump][0], HIGH); // Disable driver by default (HIGH = disabled)
+    digitalWrite(STEPPER_PINS[pump][1], HIGH); // Step triggered by falling edge logic so initialize to HIGH
   }
   
   // Initialize pump states
   for (int i = 0; i < NUM_PUMPS; i++) {
     pumps[i].currentPosition = 0.0;
-    pumps[i].unitSize = 60.0; // 30 µL default
+    pumps[i].unitSize = 60.0; // 60 µL default
     pumps[i].pulsesPerMM = DEFAULT_PULSES_PER_MM;
     pumps[i].pulseCount = 0;
     pumps[i].directionFlag = false; // Start going forward
@@ -408,14 +412,14 @@ void DeliverReward(int pumpIndex, int units) {
   }
   
   // Enable motor
-  digitalWrite(STEPPER_PINS[pumpIndex][0], HIGH);
+  digitalWrite(STEPPER_PINS[pumpIndex][0], LOW);
   delay(10);
   
   // Set direction
   if (pump.directionFlag == false) {
-    digitalWrite(STEPPER_PINS[pumpIndex][2], LOW); // Forward
+    digitalWrite(STEPPER_PINS[pumpIndex][2], HIGH); // Forward
   } else {
-    digitalWrite(STEPPER_PINS[pumpIndex][2], HIGH); // Reverse
+    digitalWrite(STEPPER_PINS[pumpIndex][2], LOW); // Reverse
   }
   
   // Record time just before first step
@@ -428,9 +432,9 @@ void DeliverReward(int pumpIndex, int units) {
 
   // Send step pulses
   for (int i = 0; i < pulsesToDeliver; i++) {
-    digitalWrite(STEPPER_PINS[pumpIndex][1], HIGH);
-    delayMicroseconds(STEP_PULSE_WIDTH);
     digitalWrite(STEPPER_PINS[pumpIndex][1], LOW);
+    delayMicroseconds(STEP_PULSE_WIDTH);
+    digitalWrite(STEPPER_PINS[pumpIndex][1], HIGH);
     delayMicroseconds(INTER_PULSE_INTERVAL);
   }
   
@@ -441,7 +445,7 @@ void DeliverReward(int pumpIndex, int units) {
   
   // Disable motor
   delay(25);
-  digitalWrite(STEPPER_PINS[pumpIndex][0], LOW);
+  digitalWrite(STEPPER_PINS[pumpIndex][0], HIGH);
   
   // Send completion JSON
   SendCompleteJSON(pumpIndex + 1, volumeToDeliver, pump.currentPosition, pump.directionFlag);
@@ -478,24 +482,24 @@ void TranslateFunc(int pumpIndex, float distanceMM) {
   int pulsesToDeliver = abs(round(actualDistance * pump.pulsesPerMM));
   
   // Enable motor
-  digitalWrite(STEPPER_PINS[pumpIndex][0], HIGH);
+  digitalWrite(STEPPER_PINS[pumpIndex][0], LOW);
   delay(25);
   
   // Set direction
   if (actualDistance >= 0) {
-    digitalWrite(STEPPER_PINS[pumpIndex][2], LOW); // Forward
+    digitalWrite(STEPPER_PINS[pumpIndex][2], HIGH); // Forward 
     pump.directionFlag = false;
   } else {
-    digitalWrite(STEPPER_PINS[pumpIndex][2], HIGH); // Reverse
+    digitalWrite(STEPPER_PINS[pumpIndex][2], LOW); // Reverse
     pump.directionFlag = true;
   }
   
-  // Send step pulses
+  // Send step pulses (ACTIVE LOW - falling edge)
   digitalWrite(LED_PIN, HIGH);
   for (int i = 0; i < pulsesToDeliver; i++) {
-    digitalWrite(STEPPER_PINS[pumpIndex][1], HIGH);
+    digitalWrite(STEPPER_PINS[pumpIndex][1], LOW); // Falling edge = step
     delayMicroseconds(STEP_PULSE_WIDTH);
-    digitalWrite(STEPPER_PINS[pumpIndex][1], LOW);
+    digitalWrite(STEPPER_PINS[pumpIndex][1], HIGH); // Return to idle
     delayMicroseconds(INTER_PULSE_INTERVAL);
   }
   digitalWrite(LED_PIN, LOW);
@@ -504,8 +508,8 @@ void TranslateFunc(int pumpIndex, float distanceMM) {
   pump.currentPosition = targetPosition;
   
   // Disable motor
-  delay(25);
-  digitalWrite(STEPPER_PINS[pumpIndex][0], LOW);
+  delay(10);
+  digitalWrite(STEPPER_PINS[pumpIndex][0], HIGH);
   
   Serial.print(F("{\"type\":\"status\",\"pump\":"));
   Serial.print(pumpIndex + 1);
@@ -678,7 +682,7 @@ void Cmd_SetCalibration(String params) {
   String ppmStr = GetSecondParam(params);
   
   int pump = ParseInt(pumpStr, 1);
-  unsigned long ppm = ParseInt(ppmStr, DEFAULT_PULSES_PER_MM);
+  unsigned long ppm = (unsigned long)ParseInt(ppmStr, (int)DEFAULT_PULSES_PER_MM);
   
   if (pump < 1 || pump > NUM_PUMPS) {
     SendError("Invalid pump number");
