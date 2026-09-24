@@ -4,6 +4,36 @@
 
 A Python GUI application for monitoring and logging Arduino-controlled syringe pumps with real-time volume tracking and plunger position management.
 
+## Hardware Status: TDT/Neuropixels rig
+- **Pump 1:** Driver failed (16+ years old) - not in use
+- **Pump 2:** ✅ Fully functional
+- **Pump 3:** ✅ Fully functional
+
+## Currently Operational
+- 2-channel syringe pump system (pumps #2 and #3)
+- Arduino Mega 2560 stepper control
+- Raspberry Pi GUI monitor
+- Hardware trigger support (TDT/Plexon compatible)
+
+## Hardware Configuration
+```yaml
+Input Pins: 2-9 (GPIO trigger input from external system)
+Pump 2: EN=48, STEP=49, DIR=50
+Pump 3: EN=51, STEP=52, DIR=53
+LED: Pin 13 (built-in)
+```
+### Driver Control Logic (IB462H)
+- Enable: LOW = enabled, HIGH = disabled
+- Step: Active LOW falling edge triggers one step
+- Direction: HIGH = reverse, LOW = forward
+- Timing: 25ms enable delay, 10ms disable delay
+
+## Next Steps
+1. Calibration: Measure actual travel distance for pumps #2 and #3
+2. Load syringes and validate volume delivery
+3. Procure replacement driver for pump #1
+4. Full 3-pump testing
+
 ## Features
 
 ### Core Functionality
