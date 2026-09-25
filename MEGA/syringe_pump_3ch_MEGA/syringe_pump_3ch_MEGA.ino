@@ -107,8 +107,10 @@ const int LED_PIN = LED_BUILTIN;
 // Mechanical parameters
 const float TOTAL_TRAVEL_MM = 40.0;
 const float TOTAL_VOLUME_UL = 6600.0; // 6.6 mL
-// Calibration: 200 steps/rev ÷ 1.25mm pitch = 160 pulses/mm
-const unsigned long DEFAULT_PULSES_PER_MM = 160;
+// 200 full steps/revolution
+// stepper motor driver hardware configured for half-steps -> 400 steps/revolution 
+// Calibration: 400 steps/rev ÷ 1.25mm pitch = 320 pulses/mm 
+const unsigned long DEFAULT_PULSES_PER_MM = 320;
 
 // Stepper timing (microseconds)
 const int STEP_PULSE_WIDTH = 600;

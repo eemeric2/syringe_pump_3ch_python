@@ -11,7 +11,7 @@ const int STEP_PULSE_WIDTH = 600;    // microseconds
 const int STEP_INTERVAL = 600;       // microseconds (between pulses)
 const int PAUSE_TIME = 1000;         // milliseconds (between directions)
  
-const int n_steps = 160;
+const int n_steps = 320; 
 void setup() {
   Serial.begin(9600);
   
