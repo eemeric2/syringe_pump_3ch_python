@@ -12,6 +12,8 @@ import os
 import csv
 
 class PumpMonitorGUI:
+    """Pump Monitor GUI"""
+
     def __init__(self, root):
         self.root = root
         self.root.title("Arduino Pump Monitor")
@@ -101,13 +103,28 @@ class PumpMonitorGUI:
         self.root.protocol("WM_DELETE_WINDOW", self.on_closing)
     
     def create_widgets(self):
-        # Connection frame
-        conn_frame = ttk.LabelFrame(self.root, text="Serial Connection", padding=10)
-        conn_frame.grid(row=0, column=0, columnspan=2, sticky=(tk.W, tk.E), padx=10, pady=5)
+        # Main container with two sections (use grid for main layout)
+        main_container = ttk.Frame(self.root)
+        main_container.pack(fill="both", expand=True, padx=5, pady=5)
         
+        # LEFT SIDE - All controls (use pack within main_container)
+        left_frame = ttk.Frame(main_container)
+        left_frame.pack(side="left", fill="both", expand=True, padx=5)
+        
+        # RIGHT SIDE - Activity log (use pack within main_container)
+        right_frame = ttk.Frame(main_container)
+        right_frame.pack(side="right", fill="both", expand=True, padx=5)
+
+        # ===== LEFT SIDE CONTENT =====
+        # Connection frame - use pack (children of left_frame which uses pack)
+        conn_frame = ttk.LabelFrame(left_frame, text="Connection", padding=10)
+        conn_frame.pack(fill="x", padx=10, pady=5)
+        
+        # Children of conn_frame CAN use grid (it's inside a packed frame)
         ttk.Label(conn_frame, text="Port:").grid(row=0, column=0, sticky=tk.W)
         self.port_combo = ttk.Combobox(conn_frame, width=15)
         self.port_combo.grid(row=0, column=1, padx=5)
+        # ... rest ...
         self.refresh_ports()
         
         ttk.Button(conn_frame, text="Refresh", command=self.refresh_ports).grid(row=0, column=2, padx=5)
@@ -126,11 +143,17 @@ class PumpMonitorGUI:
         # Simulation toggle button
         self.simulate_btn = ttk.Button(conn_frame, text="Simulate Input: OFF", command=self.toggle_simulation)
         self.simulate_btn.grid(row=0, column=7, padx=5)
-        
+
+        # Manual control frame
+        control_frame = ttk.LabelFrame(left_frame, text="Manual Control", padding=10)
+        control_frame.pack(fill="x", padx=10, pady=5) 
+
         # Pin display frame
-        pin_frame = ttk.LabelFrame(self.root, text="Pin Status", padding=10)
-        pin_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), padx=10, pady=5)
-        
+        # pin_frame = ttk.LabelFrame(self.root, text="Pin Status", padding=10)
+        # pin_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), padx=10, pady=5)
+        pin_frame = ttk.LabelFrame(left_frame, text="Pin Status", padding=10)
+        pin_frame.pack(fill="x", padx=10, pady=5)
+
         ttk.Label(pin_frame, text="Binary Code:").grid(row=0, column=0, sticky=tk.W)
         self.binary_label = ttk.Label(pin_frame, text="0000000", font=("Courier", 12, "bold"))
         self.binary_label.grid(row=0, column=1, sticky=tk.W, padx=10)
@@ -156,11 +179,12 @@ class PumpMonitorGUI:
         # Statistics frame
         # Statistics frame with responsive height
         stats_height = max(15, int(self.screen_height / 80))
-        stats_frame = ttk.LabelFrame(self.root, text="Pump Statistics", padding=10)
-        stats_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), padx=10, pady=5)
-        
-        # Scale pump stat labels with responsive font
+        # stats_frame = ttk.LabelFrame(self.root, text="Pump Statistics", padding=10)
+        # stats_frame.grid(row=2, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), padx=10, pady=5)
+        stats_frame = ttk.LabelFrame(left_frame, text="Pump Statistics", padding=10)
+        stats_frame.pack(fill="both", expand=True, padx=10, pady=5)
 
+        # Scale pump stat labels with responsive font
         headers = ["Pump", "Triggers", "Total Units", "Desired µL", "Delivered µL", "Total µL"]
         for col, header in enumerate(headers):
             ttk.Label(stats_frame, text=header, font=self.font_large).grid(row=0, column=col, padx=5, pady=5)
@@ -192,10 +216,21 @@ class PumpMonitorGUI:
                 "triggers": triggers_label,
                 "units": units_label
             }
+
+        control_frame = ttk.LabelFrame(self.root, text="Manual Control", padding=10)
+        control_frame.pack(fill="x", padx=10, pady=5)
+
+        # Manual reward buttons for each pump
+        for pump_num in [1, 2, 3]:
+            ttk.Button(
+                control_frame,
+                text=f"Reward Pump {pump_num}",
+                command=lambda p=pump_num: self.manual_reward(p)
+            ).pack(side="left", padx=5)
         
         # Position frame
         position_frame = ttk.LabelFrame(self.root, text="Plunger Positions", padding=10)
-        position_frame.grid(row=3, column=0, columnspan=2, sticky=(tk.W, tk.E), padx=10, pady=5)
+        position_frame.pack(fill="x", padx=10, pady=5)
         
         self.position_labels = {}
         self.position_bars = {}
@@ -219,7 +254,7 @@ class PumpMonitorGUI:
         
         # Control buttons frame
         button_frame = ttk.Frame(self.root)
-        button_frame.grid(row=4, column=0, columnspan=2, pady=10)
+        button_frame.pack(fill="x", padx=10, pady=5)
         
         ttk.Button(button_frame, text="Reset Stats", command=self.reset_stats).pack(side=tk.LEFT, padx=5)
         ttk.Button(button_frame, text="Export CSV", command=self.export_csv).pack(side=tk.LEFT, padx=5)
@@ -227,20 +262,31 @@ class PumpMonitorGUI:
         ttk.Button(button_frame, text="Test Direction Pin", command=self.test_direction_pin).pack(side=tk.LEFT, padx=5)
 
         # Activity log with responsive height
-        log_frame = ttk.LabelFrame(self.root, text="Activity Log", padding=10)
-        log_frame.grid(row=5, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), padx=10, pady=5)
+        # log_frame = ttk.LabelFrame(self.root, text="Activity Log", padding=10)
+        # log_frame.grid(row=5, column=0, columnspan=2, sticky=(tk.W, tk.E, tk.N, tk.S), padx=10, pady=5)
+        log_frame = ttk.LabelFrame(right_frame, text="Activity Log", padding=10)
+        log_frame.pack(fill="both", expand=True, padx=10, pady=5)
         
         # Scale log height based on screen
         log_height = max(8, int(self.screen_height / 100))
         
+        # self.log_text = scrolledtext.ScrolledText(
+        #     log_frame, 
+        #     height=log_height, 
+        #     width=100, 
+        #     state='disabled',
+        #     font=self.font_normal
+        # ) 
+        # self.log_text.pack(fill=tk.BOTH, expand=True)
+
         self.log_text = scrolledtext.ScrolledText(
             log_frame, 
-            height=log_height, 
-            width=100, 
+            height=30, 
+            width=40, 
             state='disabled',
             font=self.font_normal
         )
-        self.log_text.pack(fill=tk.BOTH, expand=True)
+        self.log_text.pack(fill="both", expand=True)
         
         # Configure text tags for colors
         self.log_text.tag_config("trigger", foreground="blue")
@@ -892,6 +938,19 @@ class PumpMonitorGUI:
         # Give focus to the port combobox
         self.root.after(150, lambda: self.port_combo.focus_set())
 
+    def manual_reward(self, pump_num):
+        """Manually trigger one unit delivery for specified pump"""
+        if not self.serial_connection or not self.serial_connection.is_open:
+            self.log_text.insert("❌ Not connected to Arduino", "error")
+            return
+        
+        try:
+            command = f"!ManualReward {pump_num}\r\n"
+            self.serial_connection.write(command.encode())
+            self.log_text.insert(f"▶ Manual reward triggered for Pump {pump_num}", "info")
+        except Exception as e:
+            self.log_text.insert(f"❌ Error: {str(e)}", "error")
+            
 if __name__ == "__main__":
     root = tk.Tk()
     app = PumpMonitorGUI(root)
