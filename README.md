@@ -16,12 +16,29 @@ A Python GUI application for monitoring and logging Arduino-controlled syringe p
 - Hardware trigger support (TDT/Plexon compatible)
 
 ## Hardware Configuration
-```yaml
-Input Pins: 2-9 (GPIO trigger input from external system)
-Pump 2: EN=48, STEP=49, DIR=50
-Pump 3: EN=51, STEP=52, DIR=53
-LED: Pin 13 (built-in)
-```
+### Input (from MonkeyLogic)
+
+Description| ML | MEGA | 
+| --- | --- | --- |
+Amount bit 0 | Dev1 PO.0 | D2
+Amount bit 1 | Dev1 PO.1 | D3
+Amount bit 2 | Dev1 PO.2 | D4
+Amount bit 3 | Dev1 PO.3 | D5
+Reserved  | Dev1 PO.4 | D6
+Pump bit 0 | Dev1 PO.5 | D7
+Pump bit 1 | Dev1 PO.6 | D8
+Trigger bit | Dev1 PO.7 | D9
+
+* conventions the same for the TDT rig except P2.0-7 are used for output to the MEGA
+
+### Output (to stepper motors)
+| Pump | Enable | STEP | DIRECTION |
+| --- | --- | --- | --- |
+Pump 1 | Pin 45 | Pin 46 | Pin 47 |
+Pump 2 | Pin 48 | Pin 49 | Pin 50 |
+Pump 3 | Pin 51 | Pin 52 | Pin 53 |
+- LED: Pin 13 (built-in)
+
 ### Driver Control Logic (IB462H)
 - Enable: LOW = enabled, HIGH = disabled
 - Step: Active LOW falling edge triggers one step
