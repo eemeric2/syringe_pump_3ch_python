@@ -29,7 +29,7 @@ Pump bit 0 | Dev1 PO.5 | D7
 Pump bit 1 | Dev1 PO.6 | D8
 Trigger bit | Dev1 PO.7 | D9
 
-* conventions the same for the TDT rig except P2.0-7 are used for output to the MEGA
+* conventions the same for the TDT rig except Dev 1, `**P2.0-7**` are used for output to the MEGA
 
 ### Output (to stepper motors)
 | Pump | Enable | STEP | DIRECTION |
